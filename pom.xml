@@ -11,7 +11,7 @@
     <developer>
       <id>jahlborn</id>
       <name>James Ahlborn</name>
-      <email>jahlborn@hmsonline.com</email>
+      <email>jahlborn@users.sf.net</email>
       <organization>Health Market Science</organization>
       <organizationUrl> http://www.healthmarketscience.com</organizationUrl>
       <timezone>-5</timezone>
@@ -134,7 +134,6 @@
         <reportSets>
           <reportSet>
             <reports>
-              <report>cim</report>
               <report>dependencies</report>
               <report>scm</report>
               <report>summary</report>
