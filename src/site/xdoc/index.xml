@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <author email="jahlborn@users.sf.net">James Ahlborn</author>
+    <title>Utilities for streaming data over RMI</title>
+  </properties>
+  <body>
+    <section name="RMIIO">
+      <p>
+        The RMIIO library provides classes for robust usage of RMI, primarily
+        for streaming data.  One common usage is streaming files to/from a
+        remote EJB or some other RMI server.  The RMIIO library is licensed
+        under the <a href="license.html">GNU Lesser General Public License</a>
+        and is part of the <a href="http://openhms.sourceforge.net/">OpenHMS</a> project.
+      </p>
+      <p>
+        For a variety of code examples see the snippets in the
+        <a href="apidocs/com/healthmarketscience/rmiio/package-summary.html#package_description">rmiio package javadocs</a>
+        as well as the working examples in the
+        <a href="xref-test/index.html">test directory</a>.
+      </p>
+      <subsection name="RemoteStreamExporter">
+        <p>
+          As of RMIIO release 1.1.0, the streaming implementation classes have
+          been abstracted from the RPC framework infrastructure.  The <a href="apidocs/com/healthmarketscience/rmiio/exporter/package-summary.html#package_description">exporter package</a> has been added to enable the remote
+
+          stream implementations to be utilized within any RPC framework.  The
+          RemoteStreamExporter class can be implemented to tie the remote
+          stream implementations to whatever RPC mechanism is desired, the
+          default being RMI.  There is some proof-of-concept code in the
+          <code>src/corbaExample</code> directory showing CORBA being used as
+          the RPC framework, including a c++ client written using <a href="http://omniorb.sourceforge.net/">omniORB</a> which consumes a
+
+          remote stream from a java server.  Additionally, this should enable
+          the remote streams to eventually be integrated into the <a href="http://labs.jboss.com/jbossremoting/">JBoss Remoting</a> framework.
+        </p>
+      </subsection>
+    </section>
+  </body>
+</document>

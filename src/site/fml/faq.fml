@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+
+<faqs title="Frequently Asked Questions">
+
+  <part id="general">
+    <title>General</title>
+
+    <faq id="tbw">
+      <question>Where can I find sample code?</question>
+      <answer>
+        <p>
+          For a variety of code examples see the snippets in the
+          <a href="apidocs/com/healthmarketscience/rmiio/package-summary.html#package_description">rmiio package javadocs</a>
+          as well as the working examples in the
+          <a href="xref-test/index.html">test directory</a>.
+        </p>
+      </answer>
+    </faq>
+
+
+    <faq id="gzip">
+      <question>Why am I getting an IOException with the message "Corrupt GZIP
+                trailer"?</question>
+      <answer>
+        <p>This is most likely due to a bug in the JDK.  Files greater than
+           2GB in size spuriously cause this exception to be generated.  See
+           Sun bug <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5092263">5092263</a>.
+           This was finally fixed in JDK 1.5.0_08, 1.4.2_12, and should be
+           fixed in JDK 1.6</p>
+      </answer>
+    </faq>
+
+    <faq id="jdk">
+      <question>What version of the JDK does this require?</question>
+      <answer>
+        <p>
+          Requires JDK 1.5 or higher.  However, the only new feature used is
+          generics, so a simple filter on the source code (removing all
+          generics constructs) should make the source JDK 1.4 compatible (most
+          likely, although I have not personally tested this, so YMMV).  One
+          option here may be the
+          <a href="http://labs.jboss.com/jbossretro/">JBoss Retro project</a>.
+        </p>
+      </answer>
+    </faq>
+
+    <faq id="noobject">
+      <question>Why am I getting a NoSuchObjectException (or similar RMI exception)?</question>
+      <answer>
+        <p>
+          This most likely means that the RemoteStream client is trying to use
+          a reference to a RemoteStreamServer which has not been serialized
+          (in other words, the client is trying to use a local handle to the
+          server).  RMI uses a distributed garbage-collection (DGC) strategy
+          to keep server references alive while clients have RemoteStub
+          instances that reference them.  If the RemoteStub is not been
+          serialized/deserialized before usage, it does not trigger the DGC
+          code, so the server instance gets cleaned up soon after creation.
+          Basically, you should never use a RemoteStreamServer reference
+          locally (you should just use a regular Input/OutputStream in this
+          case).  For more information, see the EJB section of the <a href="apidocs/com/healthmarketscience/rmiio/package-summary.html#Usage_Notes">Usage Notes</a>.
+        </p>
+      </answer>
+    </faq>
+
+    <faq id="notserial">
+      <question>Why am I getting a NotSerializableException when trying to send a remote stream?</question>
+      <answer>
+        <p>
+          This happens when you try to send the RemoteStreamServer instance as
+          the serializable value instead of the RemoteStub object returned
+          from the <a href="apidocs/com/healthmarketscience/rmiio/RemoteStreamServer.html#export()">RemoteStreamServer.export()</a>
+          method call.  You <em>must</em> export your RemoteStreamServer in
+          order to use it remotely.
+        </p>
+      </answer>
+    </faq>
+
+    <faq id="usage">
+      <question>Where can I find more information?</question>
+      <answer>
+        <p>
+          More FAQ-like answers can be found in the <a href="apidocs/com/healthmarketscience/rmiio/package-summary.html#Usage_Notes">Usage Notes</a>.
+        </p>
+      </answer>
+    </faq>
+
+    <faq id="hms">
+      <question>Who is Health Market Science?</question>
+      <answer>
+        <p>
+          HMS is a small company located in suburban Philadelphia.
+          Using proprietary matching and consolidation software,
+          HMS scientifically manufactures the most comprehensive
+          and accurate healthcare data sets in the market today.
+          <a href="http://www.healthmarketscience.com/abouthms/careers.php">We're hiring!</a>
+          HMS is always looking for talented individuals, especially Java
+          developers.
+        </p>
+      </answer>
+    </faq>
+
+    
+
+  </part>
+
+</faqs>

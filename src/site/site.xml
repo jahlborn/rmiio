@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<probject name="RMIIO">
+  <bannerLeft>
+    <name>Health Market Science</name>
+    <src>http://www.healthmarketscience.com/images/HMS_logo.gif</src>
+    <href>http://www.healthmarketscience.com/</href>
+  </bannerLeft>
+  <body>
+    <menu name="RMIIO">
+<!-- FIXME
+    <item name="Downloads" href="http://sourceforge.net/project/showfiles.php?group_id=FIXME"/> -->
+      <item name="About" href="index.html"/>
+      <item name="FAQ" href="faq.html"/>
+    </menu>
+
+    ${reports}
+
+  </body>
+</probject>

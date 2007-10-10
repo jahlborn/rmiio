@@ -1,0 +1,411 @@
+<body>
+
+<p>
+Provides classes for robust usage of RMI, primarily for streaming data.  One
+common usage is streaming files to/from a remote EJB or some other RMI server.
+</p>
+
+<h2>Package Specification</h2>
+
+<h3>RemoteRetry</h3>
+
+<p>
+This facility provides a basis for robust communication using RMI.  Any type
+of remote communication has the possibility of intermittent errors.  Naive
+programs using RMI often ignore this possibility, thus creating very fragile
+implementations.  This class makes it easy to add appropriate retry abilility
+to RMI method calls.  Note that calls which are retryable must be idempotent
+(see {@link com.healthmarketscience.rmiio.RemoteRetry} for more details).
+Also included is a base class
+{@link com.healthmarketscience.rmiio.RemoteWrapper} which simplifies wrapping
+remote interfaces for use with the RemoteRetry facility.  This allows code to
+use a remote interface without having to implement the retry code directly
+(see {@link com.healthmarketscience.rmiio.RemoteInputStreamWrapper} for
+example usage).
+</p>
+
+<h3>Remote Streams</h3>
+
+<p>
+The bulk of this package is code to support streaming data over RMI.  There
+are many ways to do this the wrong way.  Let us explore some possibilities.
+(Note, all of these "solutions" were found online when searching for an
+existing solution to this problem).
+<dl>
+<dt><b>Idea:</b> Send a File object over the wire.<dt>
+<dd><b>Problem:</b> A File is only a String which describes the file, so you
+are not actually sending any data, just a reference.</dd>
+<dt><b>Idea:</b> Send a URL/File object, and let the server access the file
+directly</dt>
+<dd><b>Problem:</b> Only works if the server can access the same resources as
+the client, which is very limiting in any enterprise scenario (cannot assume
+common disk access, or even common host access)</dd>
+<dt><b>Idea:</b> Send a byte[] to the server</dt>
+<dd><b>Problem:</b> This is the first scenario that kind of works... at least
+until your files get to 1GB (or some large size which will not fit in memory),
+in which case your client box may run out of memory trying to create the
+byte[].  Again, not a very robust solution.<dd>
+<dt><b>Idea:</b> Open a socket and stream the data to the server</dt>
+<dd><b>Problem:</b> Well, we are getting the right idea, but again, opening a
+socket between an arbitrary client and server can involve negotiating proxies
+and firewalls, which is difficult at best.  Not to mention the additional work
+of implementing socket based streaming, etc.</dd>
+<dt><b>Idea:</b> Why not use the existing RMI connection to stream the data, by
+sending the client chunks of the file at a time?</dt>
+<dd>Finally, the right idea.  But still not trivial to implement.  Hopefully,
+though, this package should fill that need in a way that is accessible for
+anyone who can use java.io based streams.</dd>
+</dl>
+</p>
+<p>
+The {@link com.healthmarketscience.rmiio.RemoteInputStream} and {@link
+com.healthmarketscience.rmiio.RemoteOutputStream} interfaces provide the basis
+of the functionality for streaming data over RMI.  However, most users of this
+package should never have to use or implement these interfaces directly.
+There are wrappers for both the client and server implementations which wrap
+these interfaces as regular java InputStreams or OutputStreams (including
+usage of the RemoteRetry utility to automatically retry certain remote
+exceptions), making them very easy to work with.
+</p>
+<p>
+The examples below assume that the reader has knowledge of how RMI works.
+</p>
+<pre>
+
+  //
+  // The "server" is reading a file from the "client"
+  //
+  
+  // "server" implementation
+
+  public void sendFile(RemoteInputStream inFile) {
+    // wrap RemoteInputStream as InputStream (all compression issues are dealt
+    // with in the wrapper code)
+    InputStream istream = RemoteInputStreamClient.wrap(inFile);
+
+    // ... read file here using normal InputStream code ...
+  }
+
+  // "client" implementation
+
+  // create a RemoteStreamServer which uses compression over the wire (note
+  // the finally block to release RMI resources no matter what happens)
+  RemoteInputStreamServer istream = null;
+  try {
+    istream = new GZIPRemoteInputStream(new BufferedInputStream(
+      new FileInputStream("myFile.txt")));
+    // call server (note export() call to get actual remote interface)
+    server.sendFile(istream.export());
+  } finally {
+    if(istream != null) istream.close();
+  }
+
+
+  //
+  // The "server" is writing a file to the "client"
+  //
+
+  // "server" implementation
+
+  public void getFile(RemoteOutputStream outFile) {
+    // wrap RemoteOutputStream as OutputStream (all compression issues are
+    // dealt with in the wrapper code)
+    OutputStream istream = RemoteOutputStreamClient.wrap(inFile);
+
+    // ... write file here using normal OutputStream code ...
+  }
+
+
+  // "client" implementation
+
+  // create a RemoteStreamServer which uses no compression over the wire (note
+  // the finally block to release RMI resources no matter what happens)
+  RemoteOutputStreamServer ostream = null;
+  try {
+    ostream = new SimpleRemoteOutputStream(new BufferedOutputStream(
+      new FileOutputStream("myResults.txt")));
+    // call server (note export() call to get actual remote interface)
+    server.getFile(ostream.export());
+  } finally {
+    if(ostream != null) ostream.close();
+  }
+
+
+  //
+  // A more complicated example:  The "server" returns data streamed directly
+  // out of a database.  The interesting situation here is that the database
+  // connection lives longer than the initial method call, and will need to be
+  // closed when the stream is closed.  To implement this, we use a
+  // RemoteStreamMonitor which will be notified when the stream is closed
+  // (among other things).
+  //
+
+  // "server" implementation (using jdbc)
+
+  public RemoteInputStream getFile(String fileName) {
+    Connection conn = null;
+    try {
+
+      conn = getConnection();
+      Blob fileBlob = null;
+
+      // ... do db work to get handle to a Blob ...
+      
+      // create RemoteInputStreamMonitor to close db connection when stream is
+      // done
+      final Connection streamConn = conn;
+      RemoteInputStreamMonitor monitor = new RemoteInputStreamMonitor() {
+        public void closed(RemoteInputStreamServer stream, boolean clean) {
+          streamConn.close();
+        }
+      };
+
+      // create server to stream blob bytes back using compression
+      RemoteInputStream istream = new GZIPRemoteInputStream(
+        fileBlob.getBinaryStream(), monitor).export();
+
+      // the monitor has taken control of the db connection (note, we don't
+      // set the conn to null until after the RemoteInputStream has been
+      // exported, in case any exceptions occur in that process)
+      conn = null;
+
+      // return already exported RemoteInputStream
+      return istream;
+
+    } finally {
+      if(conn != null) conn.close();
+    }
+  }
+
+  // "client" implementation
+
+  InputStream istream = null;
+  try {
+
+    istream = RemoteInputStreamClient.wrap(server.getFile("importFile.txt"));
+
+    // ... read file here using normal InputStream code ...
+
+  } finally {
+    // do all we can to close the stream when finished
+    if(istream != null) istream.close();
+  }
+
+</pre>
+
+<h3>Remote Iterators</h3>
+
+<p>
+The {@link com.healthmarketscience.rmiio.RemoteIterator} facility is built on
+top of the remote streams to enable streaming a large collection of objects
+over RMI as easily as streaming a file.  Possible applications of this
+facility might be reading a large collection of objects out of a remote
+database, where the entire collection may not fit in memory at once.  While
+the implementor of the RemoteIterator is free to use whatever method available
+to convert the objects to a stream, the common usage would be to use
+Serializable objects with the
+{@link com.healthmarketscience.rmiio.SerialRemoteIteratorServer} and
+{@link com.healthmarketscience.rmiio.SerialRemoteIteratorClient}.  Note
+that the RemoteIterator interface is not actually a Remote interface.
+Instead, the RemoteIterator implementation is a Serializable object which gets
+copied across the wire.  Internally, it contains a reference to a
+RemoteInputStream, from which it reads the objects being transferred.
+</p>
+<p>
+The examples below assume that the reader has knowledge of how RMI works (as
+well as how the remote streams above work).
+</p>
+<pre>
+
+  //
+  // The "server" returns a RemoteIterator of Strings from a database to the
+  // "client".  We will use a similar trick used in the previous example to
+  // close the db resources when the iterator is closed.
+  //
+
+  // "server" implementation (using jdbc)
+
+  public RemoteIterator&lt;String&gt; getResults(String searchParam) {
+
+    Connection conn = null;
+    Statement stmt = null;
+    ResultSet rs = null;
+    try {
+
+      // ... create ResultSet with relevant results ...
+      
+      // note, this is an *example* ResultSet iterator implementation, not the
+      // cleanest in the world (doesn't handle all close scenarios, left as an
+      // exercise to the reader)...
+      final Connection iterConn = conn;
+      final Statement iterStmt = stmt;
+      final ResultSet iterRs = rs;
+      IOIterator&lt;String&gt; dbIter = new IOIterator&lt;String&gt;() {
+        private boolean _hasNext = iterRs.next();
+        private String _next = (_hasNext ? iterRs.getString(1) : null);
+        private boolean _isClosed = false;
+        public boolean hasNext() throws IOException {
+          if(!_hasNext && !_isClosed) {
+            _isClosed = true;
+            try {
+              try {
+                iterRs.close();
+              } finally {
+                try {
+                  iterStmt.close();
+                } finally {
+                  iterConn.close();
+                }
+              }
+            } catch(SQLException e) {
+              throw new IOException(e);
+            }
+          }
+          return _hasNext;
+        }
+
+        public String next() throws IOException {
+          String cur = _next;
+          try {
+            if(_hasNext = iterRs.next()) {
+              _next = iterRs.getString(1);
+            }
+          } catch(SQLExcepion e) {
+            throw new IOException(e);
+          }
+          return cur;
+        }
+      };
+
+      // create RemoteIterator client/server objects.  Note that the
+      // RemoteInputStream export() call is handled internally to these
+      // objects.
+      SerialRemoteIteratorServer&lt;String&gt; stringServer =
+        new SerialRemoteIteratorServer&lt;String&gt;(dbIter);
+      SerialRemoteIteratorClient&lt;String&gt; stringClient =
+        new SerialRemoteIteratorClient&lt;String&gt;(stringServer);
+
+      // the RemoteIterator now owns the db resources
+      rs = null;
+      stmt = null;
+      conn = null;
+        
+      return stringClient;
+
+    } finally {
+      try {
+        if(rs != null) rs.close();
+      } finally {
+        try {
+          if(stmt != null) stmt.close();
+        } finally {
+          if(conn != null) conn.close();
+        }
+      }
+    }
+  }
+
+  // "client" implementation
+
+  RemoteIterator&lt;String&gt; resultIter = null;
+  try {
+    resultIter = server.getResults("SELECT THE_STRING");
+    while(resultIter.hasNext()) {
+      System.out.println("Got string: " + resultIter.next() +
+                         " from the server");
+    }
+  } finally {
+    // do all we can to close the iterator when finished
+    if(resultIter != null) resultIter.close();
+  }
+  
+</pre>
+
+
+<a name="Usage_Notes"><!-- --></a><h3>Usage Notes</h3>
+
+<p>
+Writing distributed applications is not easy, and adding streaming to the mix
+further complicates things.  These utilities <em>should</em> make life easier,
+if used correctly.  Included below are some recommendations learned through
+the shedding of much blood, sweat, and many tears.
+</p>
+
+<h4>General</h4>
+<ul>
+<li>As the examples above show, you should treat all your remote stream (and
+    iterator) objects like JDBC resources (or other important resources) and
+    <em>always, always</em> consume the remote streams within a try/finally
+    block which closes the streams no matter what happens.  Each remote stream
+    object is consuming resources on the server, so "leaking" a remote stream
+    could have an impact on the overall performance of the server.
+</li>
+<li>Due to RMI's distributed garbage collection, you need to be careful when
+    using a debugger with remote streams (or any other similar transient RMI
+    server object).  If your client code stops on a breakpoint for too long,
+    the server may determine that the server object is unused and close it.
+    When your client continues after the breakpoint, you will then receive
+    some sort of RemoteException, such as "no object found in table".  One
+    technique for debugging remote streams is to implement a remote stream
+    monitor which outputs useful debug messages because this won't otherwise
+    interfere with the normal running of the system (other than the normal
+    overhead for debug messages).
+</li>
+<li>This is a general RMI note, but it's worth repeating here.  The return
+    value from a remote stream server <tt>export()</tt> method call is a
+    remote stub.  A remote stub is just a little serializable object which
+    knows how to access the server remotely.  As such, it can be returned from
+    a remote method call (the normal use case), but can just as easily be
+    embedded within another serializable object which is returned from a
+    remote method call.  (This is actually used by the remote iterators, where
+    the remote iterator client object is a small serializable object which
+    uses a remote stream under the hood.  The reference to the exported remote
+    stream server is serialized along with the rest of the remote iterator
+    client object when returned from a remote method call.)
+</li>
+</ul>
+
+<h4>JDBC</h4>
+<ul>
+<li>As noted in some of the examples above, these utilities can be used to
+    stream data directly out of a database.  While this can be really useful,
+    keep in mind that the database resources will be (generally) used
+    <em>past</em> the end of the method call.  Most importantly, this means
+    that you need to make sure the resources will get cleaned up when the
+    stream server is finished (when the close method is called on the remote
+    stream).  As shown above, the stream monitors can be very handy for
+    implementing the JDBC cleanup on remote stream close.  Additionally, you
+    need to make sure that you are careful when handing-off the JDBC resources
+    to the stream server, so that they get closed <em>even if the method call
+    exits abnormally</em>.
+</li>
+</ul>
+
+<h4>EJB</h4>
+<ul>
+<li>Related to the first point in the JDBC section, any EJB methods which
+    return a remote stream object which uses transacted resources <b>must</b>
+    use bean managed transactions for that method (if any transactions are
+    necessary).  The relevant EJB methods should be marked with transaction
+    type <tt>"Never"</tt>, and any necessary transactional code must be
+    handled when the remote stream server closes, <em>not</em> when the method
+    call returns.  (See first point in the JDBC section).
+</li>
+<li>A particularly insidious gotcha can result from using remote streams
+    returned from a "local" interface.  While this might seem like a
+    reasonable thing to do, the java RMI server code seems to think that there
+    are no references to the server object, and in a short amount of time,
+    removes the server RMI reference (at least when using Sun's JDK 1.5 jvm).
+    Short stream transfers may work, but longer ones will die with a "no
+    object found in table" or similar error message part way through the
+    transfer.  It may have something to do with actually
+    serializing/unserializing the client stub, as using a remote stream which
+    is returned from a "remote" interface even within the same jvm
+    <em>will</em> work correctly.  The cleanest solution, however, is to
+    create the "local" and "remote" interface methods with slightly different
+    interfaces, where the "remote" interface method returns a remote stream,
+    and the "local" interface method returns a simple stream.
+</li>
+</ul>
+
+</body>

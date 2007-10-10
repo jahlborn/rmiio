@@ -1,0 +1,104 @@
+<document>
+  <properties>
+    <title>Release notes</title>
+    <author email="jahlborn@users.sf.net">James Ahlborn</author>
+  </properties>
+  <body>
+    <release version="1.1.1" date="2007-10-10">
+      <action dev="jahlborn" type="add">
+        Incorporated code review changes before open sourcing.
+      </action>
+    </release>
+    <release version="1.1.0" date="2007-08-02">
+      <action dev="jahlborn" type="add">
+        Added corba example for the new custom RPC exporter functionality.
+      </action>
+      <action dev="mdelaurentis" type="add">
+        Add LineIterator, an iterator over lines read from a BufferedReader.
+      </action>
+      <action dev="jahlborn" type="add">
+        Add the RemoteStreamExporter and associated classes which allow the
+        stream servers to be easily utilized within alternative RPC
+        frameworks.
+      </action>
+    </release>
+    <release version="1.0.5" date="2007-07-18">
+      <action dev="jahlborn" type="add">
+        Added convenience IOIterator implementation ConverterIOIterator which
+        is useful for implementing IOIterators which convert from one data
+        type to another.
+      </action>
+    </release>
+    <release version="1.0.4" date="2007-6-6">
+      <action dev="jahlborn" type="update">
+        Add ability to specify chunk size for the underlying streams in remote
+        iterator servers
+      </action>
+      <action dev="jahlborn" type="update">
+        Change RemoteRetry to catch and potentially retry any exception.
+        Change current concrete retry impls to only handle RemoteException (so
+        their behavior will be the same as it was before).  Do not throw
+        RemoteException by default from call() methods.  These changes make
+        RemoteRetry friendlier for use with ejb3 stuff.
+      </action>
+    </release>
+    <release version="1.0.3" date="2007-05-17">
+      <action dev="jahlborn" type="update">
+        add Proxy support to RemoteWrapper for simplified usage.
+      </action>
+      <action dev="jahlborn" type="add">
+        deprecate (Closeable)IOIterator.Adapter and add RmiioUtil.adapt method
+        which returns a subclass of AbstractCloseableIOIterator (which will
+        close the underlying iterator if it is Closeable).
+      </action>
+      <action dev="jahlborn" type="update">
+        make IOIteratorPipe.Source extend RemoteStreamMonitor so that it will
+        get automagically closed if used with a SerialRemoteIteratorServer.
+      </action>
+    </release>
+    <release version="1.0.2" date="2007-02-16">
+      <action dev="jahlborn" type="add">
+        Added example code.
+      </action>
+      <action dev="jahlborn" type="add">
+        Added CloseableIOIterator convenience interface.  Made all IOIterator
+        and Closeable implementations implement this interface instead.  Added
+        AbstractCloseableIOIterator which implements closing using a variety
+        of common mechanisms.
+      </action>
+      <action dev="jahlborn" type="update">
+        Move some utility classes into a utility sub-package.
+      </action>
+      <action dev="jahlborn" type="update">
+        Add noDelay functionality to PacketInputStream.  Change implementation
+        of EncodingInputStream to make it more effective in noDelay mode.  Add
+        addtional constructors to encoding based iterators to allow for
+        noDelay remote iterators.
+      </action>
+      <action dev="jahlborn" type="update">
+        Change SerialRemoteIteratorServer to attempt to use localIterator as
+        the stream monitor if none is explicitly provided and the
+        localIterator implements the relevant interface.
+      </action>
+      <action dev="jahlborn" type="add">
+        InputStreamAdapter and OutputStreamAdapter for customizing stream
+        handling based on whether or not the underlying stream is packet
+        based.
+      </action>
+      <action dev="jahlborn" type="add">
+        Add SimpleRemoteIterator, which is implementation of RemoteIterator
+        suitable for small collections.
+      </action>
+    </release>
+    <release version="1.0.1" date="2006-10-17">
+      <action dev="jahlborn" type="add">
+        Make IOIterator.Adapter more flexible
+      </action>
+    </release>
+    <release version="1.0" date="2006-09-06">
+      <action dev="jahlborn" type="add">
+        Initial release as separate rmiio project.
+      </action>
+    </release>
+  </body>
+</document>
