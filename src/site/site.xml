@@ -1,19 +1,30 @@
 <?xml version="1.0"?>
-<probject name="RMIIO">
+<project name="RMIIO">
   <bannerLeft>
     <name>Health Market Science</name>
     <src>http://www.healthmarketscience.com/images/HMS_logo.gif</src>
     <href>http://www.healthmarketscience.com/</href>
   </bannerLeft>
   <body>
+    <menu ref="parent"/>
+    
     <menu name="RMIIO">
-<!-- FIXME
-    <item name="Downloads" href="http://sourceforge.net/project/showfiles.php?group_id=FIXME"/> -->
       <item name="About" href="index.html"/>
+      <item name="Downloads" href="http://sourceforge.net/project/showfiles.php?group_id=185339"/>
+      <item name="SourceForge Project" href="http://sourceforge.net/projects/openhms/"/>
       <item name="FAQ" href="faq.html"/>
     </menu>
 
-    ${reports}
+    <menu ref="reports"/>
 
   </body>
-</probject>
+
+  <poweredBy>
+    <logo name="Works on Linux" img="../worksonlinux.png"
+          href="http://www.linux.org"/>
+    <logo name="Hosted by SourceForge" img="http://sflogo.sourceforge.net/sflogo.php?group_id=185339&amp;type=1" href="http://sourceforge.net"/>
+    <logo name="Built by Maven" img="./images/logos/maven-feather.png"
+          href="http://maven.apache.org/"/>
+  </poweredBy>
+  
+</project>

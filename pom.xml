@@ -4,14 +4,14 @@
   <artifactId>rmiio</artifactId>
   <name>RMI IO Utilites</name>
   <description>IO related classes for streaming data over RMI</description>
-  <version>1.1.2-SNAPSHOT</version>
-  <url>http://cvs.hmsonline.com/build/rmiio</url>
+  <version>2.0.0</version>
+  <url>http://openhms.sourceforge.net/rmiio</url>
   <inceptionYear>2006</inceptionYear>
   <developers>
     <developer>
       <id>jahlborn</id>
       <name>James Ahlborn</name>
-      <email>jahlborn@hmsonline.com</email>
+      <email>jahlborn@users.sf.net</email>
       <organization>Health Market Science</organization>
       <organizationUrl> http://www.healthmarketscience.com</organizationUrl>
       <timezone>-5</timezone>
@@ -25,24 +25,11 @@
     </license>
   </licenses>
   <scm>
-    <connection>scm:cvs:ext:${hmsMavenUsername}@cvs.hmsonline.com:/home/cvs/:rmiio</connection>
+    <connection>scm:svn:http://openhms.svn.sourceforge.net/svnroot/openhms/rmiio/tags/rel_2_0_0</connection>
     <!-- read/write cvs connection -->
-    <developerConnection>scm:cvs:ext:${hmsMavenUsername}@cvs.hmsonline.com:/home/cvs/:rmiio</developerConnection>
-    <url>https://boar.ws.hmsonline.com/viewcvs/cgi-bin/viewcvs.cgi/rmiio</url>
+    <developerConnection>scm:svn:https://openhms.svn.sourceforge.net/svnroot/openhms/rmiio/tags/rel_2_0_0</developerConnection>
+    <url>http://openhms.svn.sourceforge.net/viewvc/openhms/rmiio/tags/rel_2_0_0</url>
   </scm>
-  <ciManagement>
-    <system>continuum</system>
-    <url>http://build:8080/continuum</url>
-    <notifiers>
-      <notifier>
-        <type>mail</type>
-        <sendOnSuccess>false</sendOnSuccess>
-        <configuration>
-          <address>hmsCommon-build@hmsonline.com</address>
-        </configuration>
-      </notifier>
-    </notifiers>
-  </ciManagement>
   <organization>
     <name>Health Market Science</name>
     <url>http://www.healthmarketscience.com</url>
@@ -80,21 +67,6 @@
     </pluginManagement>    
     <plugins>
       <plugin>
-        <artifactId>maven-one-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>deploy-maven-one-repository</goal>
-              <goal>install-maven-one-repository</goal>
-            </goals>
-            <configuration>
-              <remoteRepositoryId>hms-m1-repository</remoteRepositoryId>
-              <remoteRepositoryUrl>scpexe://cvs.hmsonline.com/var/www/html/maven</remoteRepositoryUrl>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
@@ -117,22 +89,20 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-changes-plugin</artifactId>
-        <version>2.0-beta-2-HMS</version>
-        <configuration>
-          <smtpHost>mail.hmsonline.com</smtpHost>         
-          <toAddresses>
-            <toAddress>hmsCommon-dev@hmsonline.com</toAddress>
-          </toAddresses>
-        </configuration>
-      </plugin>
+<!--       <plugin> -->
+<!--         <groupId>org.apache.maven.plugins</groupId> -->
+<!--         <artifactId>maven-changes-plugin</artifactId> -->
+<!--         <configuration> -->
+<!--           <smtpHost>mail.hmsonline.com</smtpHost>          -->
+<!--           <toAddresses> -->
+<!--             <toAddress>hmsCommon-dev@hmsonline.com</toAddress> -->
+<!--           </toAddresses> -->
+<!--         </configuration> -->
+<!--       </plugin> -->
       <plugin>
         <artifactId>maven-release-plugin</artifactId>
-        <version>2.0-beta-4-hms-1</version>
         <configuration>
-          <goals>deploy,changes:announcement-generate,changes:announcement-mail</goals>
+<!--           <goals>deploy,changes:announcement-generate,changes:announcement-mail</goals> -->
         </configuration>
       </plugin>       
     </plugins>
@@ -164,7 +134,6 @@
         <reportSets>
           <reportSet>
             <reports>
-              <report>cim</report>
               <report>dependencies</report>
               <report>scm</report>
               <report>summary</report>
@@ -176,7 +145,6 @@
       </plugin>
       <plugin>
         <artifactId>maven-changes-plugin</artifactId>
-        <version>2.0-beta-2-HMS</version>
         <configuration> 
           <link_template>%URL%/%ISSUE%</link_template>
         </configuration>        
@@ -243,14 +211,9 @@
     </plugins>
   </reporting>
   <distributionManagement>
-    <repository>
-      <id>hms-repository</id>
-      <name>HMS Repository</name>
-      <url>scpexe://cvs.hmsonline.com/var/www/html/maven2</url>
-    </repository>
     <site>
-      <id>hms-build-site</id>
-      <url>scp://cvs.hmsonline.com/var/www/html/build/rmiio</url>
+      <id>openhms-build-site</id>
+      <url>scp://shell.sourceforge.net/home/groups/o/op/openhms/htdocs/rmiio</url>
     </site>    
   </distributionManagement>
 </project>
