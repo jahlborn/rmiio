@@ -8,10 +8,11 @@
   <body>
     <section name="RMIIO">
       <p>
-        The RMIIO library provides classes for robust usage of RMI, primarily
-        for streaming data.  One common usage is streaming files to/from a
-        remote EJB or some other RMI server.  The RMIIO library is licensed
-        under the <a href="license.html">GNU Lesser General Public License</a>
+        The RMIIO library provides classes for robust usage of RMI (or other
+        RPC framework), primarily for streaming data.  One common usage is
+        streaming files to/from a remote EJB or some other RMI server.  The
+        RMIIO library is licensed under the
+        <a href="license.html">GNU Lesser General Public License</a>
         and is part of the <a href="http://openhms.sourceforge.net/">OpenHMS</a> project.
       </p>
       <p>
