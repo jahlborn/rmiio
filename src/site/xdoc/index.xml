@@ -115,7 +115,9 @@
       <p>
         <ul>
           <li>Extended code examples in the <a href="apidocs/com/healthmarketscience/rmiio/package-summary.html#package_description">rmiio package javadocs</a></li>
-          <li>Working <a href="xref-test/examples/stream/package-summary.html">stream</a> and <a href="xref-test/examples/iterator/package-summary.html">iterator</a> examples</li>
+          <li>Working stream and iterator examples (see the
+              <code>examples.stream</code> and <code>examples.iterator</code>
+              packages in the <a href="xref-test/index.html">test source cross references</a>)</li>
           <li><a href="apidocs/com/healthmarketscience/rmiio/package-summary.html#Usage_Notes">Usage Notes</a></li>
           <li><a href="faq.html">FAQ</a></li>
           <li><a href="apidocs/index.html">Javadoc API documentation</a></li>
