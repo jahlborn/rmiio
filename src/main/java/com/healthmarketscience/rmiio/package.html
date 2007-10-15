@@ -40,6 +40,11 @@ directly</dt>
 <dd><b>Problem:</b> Only works if the server can access the same resources as
 the client, which is very limiting in any enterprise scenario (cannot assume
 common disk access, or even common host access)</dd>
+<dt><b>Idea:</b> Send an InputStream.</dt>
+<dd><b>Problem:</b> Besides the fact that none of the InputStream
+implementatinos in java.io are Serializable, most of them rely on an
+underlying source for the actual bytes, which be lost if the object was copied
+remotely.</dd>
 <dt><b>Idea:</b> Send a byte[] to the server</dt>
 <dd><b>Problem:</b> This is the first scenario that kind of works... at least
 until your files get to 1GB (or some large size which will not fit in memory),
@@ -52,9 +57,9 @@ and firewalls, which is difficult at best.  Not to mention the additional work
 of implementing socket based streaming, etc.</dd>
 <dt><b>Idea:</b> Why not use the existing RMI connection to stream the data, by
 sending the client chunks of the file at a time?</dt>
-<dd>Finally, the right idea.  But still not trivial to implement.  Hopefully,
-though, this package should fill that need in a way that is accessible for
-anyone who can use java.io based streams.</dd>
+<dd><b>Solution:</b> Finally, the right idea.  But still not trivial to
+implement.  Hopefully, though, this package should fill that need in a way
+that is accessible for anyone who can use java.io based streams.</dd>
 </dl>
 </p>
 <p>
