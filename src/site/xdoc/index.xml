@@ -17,7 +17,7 @@
       <p>
         The RMI framework makes it very easy to implement remote communication
         between java programs.  It takes what looks like a simple method call
-        on the client side and manages all the intracacies of data marshalling
+        on the client side and manages all the intricacies of data marshalling
         and data transmission of the request to the server and the subsequent
         response back to the client.  The user need not trouble over the
         underlying transport method, protocol or many of the other myriad of
