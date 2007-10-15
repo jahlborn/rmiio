@@ -50,11 +50,17 @@ import java.util.Iterator;
  * {@link #serializeObject} method can be overriden by a custom subclass to
  * change this behavior.
  * <p>
+ * In the event that a RemoteIterator is being used to return low-latency,
+ * low-bandwidth update data to the client, the noDelay option can be enabled
+ * for the underlying stream which will effectively disable buffering of data
+ * on the server side.  This can be very useful for implementing remote
+ * progress monitors, for example.
+ * <p>
  * Note, since it is a common idiom for the local iterator to implement
  * RemoteStreamMonitor in order to close local resources when the server is
  * shutdown, this implementation will automatically use the local iterator as
  * the monitor if one has not already been explicitly provided and the local
- * iterator implements the relevant interface.
+ * iterator implements the {@link RemoteStreamMonitor} interface.
  * 
  * @see <a href="package-summary.html#Usage_Notes">Usage Notes</a>
  *

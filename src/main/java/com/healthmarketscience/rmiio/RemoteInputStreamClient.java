@@ -48,10 +48,6 @@ import org.apache.commons.logging.Log;
  */
 public class RemoteInputStreamClient
 {
-  /** The default retry policy used by this class's wrappers if none is
-      specified by the caller. */
-  public static final RemoteRetry DEFAULT_RETRY = RemoteRetry.SIMPLE;
-  
   protected static final Log LOG =
     LogFactory.getLog(RemoteInputStreamClient.class);
 
@@ -59,7 +55,7 @@ public class RemoteInputStreamClient
 
   /**
    * Wraps a RemoteInputStream as an InputStream using the
-   * {@link #DEFAULT_RETRY} retry policy.
+   * {@link RemoteClient#DEFAULT_RETRY} retry policy.
    *
    * @param remoteIn a remote input stream interface
    * @return an InputStream which will read from the given RemoteInputStream
@@ -67,7 +63,7 @@ public class RemoteInputStreamClient
   public static InputStream wrap(RemoteInputStream remoteIn)
     throws IOException
   {
-    return wrap(remoteIn, DEFAULT_RETRY);
+    return wrap(remoteIn, RemoteClient.DEFAULT_RETRY);
   }
   
   /**
@@ -76,7 +72,7 @@ public class RemoteInputStreamClient
    *
    * @param remoteIn a remote input stream interface
    * @param retry RemoteException retry policy to use, if <code>null</code>,
-   *              {@link #DEFAULT_RETRY} will be used.
+   *              {@link RemoteClient#DEFAULT_RETRY} will be used.
    * @return an InputStream which will read from the given RemoteInputStream
    */
   public static InputStream wrap(RemoteInputStream remoteIn,
@@ -84,7 +80,7 @@ public class RemoteInputStreamClient
     throws IOException
   {
     if(retry == null) {
-      retry = DEFAULT_RETRY;
+      retry = RemoteClient.DEFAULT_RETRY;
     }
     InputStream retStream = new RemoteInputStreamImpl(remoteIn, retry);
 

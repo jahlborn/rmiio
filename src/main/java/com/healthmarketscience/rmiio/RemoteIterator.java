@@ -52,7 +52,7 @@ import java.io.Serializable;
  * @author James Ahlborn
  */
 public interface RemoteIterator<DataType>
-  extends CloseableIOIterator<DataType>, Serializable
+  extends CloseableIOIterator<DataType>, Serializable, RemoteClient
 {
 
   /**
@@ -63,16 +63,4 @@ public interface RemoteIterator<DataType>
    */
   public void close() throws IOException;
 
-  /**
-   * Sets the client side RemoteRetry policy to use for the underlying remote
-   * communication layer.  This method must be called before any call to
-   * {@link #hasNext} or {@link #next} (any calls to this method after one of
-   * those methods is called will have no affect).
-   *
-   * @param newRemoteRetry the new RemoteRetry policy to use for remote
-   *                    communication.  <code>null</code> causes the
-   *                    {@link RemoteInputStreamClient#DEFAULT_RETRY} policy
-   *                    to be used.
-   */
-  public void setRemoteRetry(RemoteRetry newRemoteRetry);
 }

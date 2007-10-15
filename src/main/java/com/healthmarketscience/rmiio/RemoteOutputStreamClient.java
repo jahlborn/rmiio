@@ -58,7 +58,7 @@ public class RemoteOutputStreamClient
 {
   /** The default retry policy used by this class's wrappers if none is
       specified by the caller. */
-  public static final RemoteRetry DEFAULT_RETRY = RemoteRetry.SIMPLE;
+  public static final RemoteRetry DEFAULT_RETRY = RemoteClient.DEFAULT_RETRY;
   
   protected static final Log LOG =
     LogFactory.getLog(RemoteOutputStreamClient.class);

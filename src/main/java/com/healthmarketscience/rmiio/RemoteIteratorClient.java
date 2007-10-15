@@ -69,8 +69,7 @@ public abstract class RemoteIteratorClient<DataType>
       does not indicate the end of the iteration. */
   private transient DataType _nextObj;
   /** the client-side RemoteRetry policy to use for the remote communication
-      layer.  <code>null</code> will cause the
-      {@link RemoteInputStreamClient#DEFAULT_RETRY} policy to be used. */
+      layer. */
   private transient RemoteRetry _remoteRetry;
 
   protected RemoteIteratorClient(RemoteIteratorServer<DataType> server)

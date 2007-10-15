@@ -54,7 +54,7 @@ import java.lang.reflect.Proxy;
  * @author James Ahlborn
  */
 public class RemoteWrapper<RemoteType>
-  implements InvocationHandler
+  implements InvocationHandler, RemoteClient
 {
 
   /** the handle to the remote interface which will do the real work of the
@@ -111,21 +111,23 @@ public class RemoteWrapper<RemoteType>
     return _log;
   }
   
-  public RemoteRetry getRetry() {
+  public RemoteRetry getRemoteRetry() {
     return _retry;
   }
 
   /**
-   * Sets the retry policy for this wrapper.  This may be useful for
-   * temporarily changing the retry policy for a specific set of calls (e.g. a
-   * startup/discovery sequence may be more forgiving than normal usage).
+   * {@inheritDoc}
+   * <p>
+   * This may be useful for temporarily changing the retry policy for a
+   * specific set of calls (e.g. a startup/discovery sequence may be more
+   * forgiving than normal usage).
    * <p>
    * Note, this method is not thread-safe as this should only be used on a
    * wrapper for which the caller has exclusive ownership (the retry policy
    * will be changed for all users of the wrapper).
    */
-  public void setRetry(RemoteRetry retry) {
-    _retry = retry;
+  public void setRemoteRetry(RemoteRetry retry) {
+    _retry = ((retry != null) ? retry : DEFAULT_RETRY);
   }
 
   public Object invoke(Object proxy, final Method method, final Object[] args)

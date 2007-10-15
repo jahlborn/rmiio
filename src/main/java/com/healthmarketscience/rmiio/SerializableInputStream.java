@@ -44,7 +44,7 @@ import java.io.Serializable;
  * @author James Ahlborn
  */
 public class SerializableInputStream extends InputStream
-  implements Serializable
+  implements Serializable, RemoteClient
 {
   private static final long serialVersionUID = -8922181237767770749L;
 
@@ -61,30 +61,21 @@ public class SerializableInputStream extends InputStream
   }
 
   /**
-   * Initializes the actual client-side InputStream implementation if not
-   * already initialized.  This call synchronizes on this object for the
-   * initialization call only.  All other synchronization of actual stream
-   * calls is handled by the implementation class created here.
+   * @return the the actual client-side InputStream implementation, creating
+   *         if necessary.  This call synchronizes on this object for the
+   *         initialization call only.  All other synchronization of actual
+   *         stream calls is handled by the implementation class created here.
    */
-  private synchronized void initialize()
+  private synchronized InputStream getLocalIn()
     throws IOException
   {
     if(_localIn == null) {
       _localIn = RemoteInputStreamClient.wrap(_remoteIn, _retry);
     }
+    return _localIn;
   }
 
-  /**
-   * May be called on the client-side in order to set the RemoteRetry policy
-   * used by the underlying implementation.  <b>Must</b> be called prior to
-   * any stream method call, as once the underlying stream is initialized, the
-   * RemoteRetry policy cannot be changed.
-   * @param retry the RemoteRetry policy to be used for all remote method
-   *              calls made by this class.  may be <code>null</code>, in
-   *              which case the {@link RemoteInputStreamClient#DEFAULT_RETRY}
-   *              policy will be used.
-   */
-  public synchronized void setRetry(RemoteRetry retry) {
+  public synchronized void setRemoteRetry(RemoteRetry retry) {
     _retry = retry;
   }
 
@@ -92,16 +83,14 @@ public class SerializableInputStream extends InputStream
   public int available()
     throws IOException
   {
-    initialize();
-    return _localIn.available();
+    return getLocalIn().available();
   }
 
   @Override
   public int read()
     throws IOException
   {
-    initialize();
-    return _localIn.read();
+    return getLocalIn().read();
   }
 
   @Override
@@ -115,24 +104,21 @@ public class SerializableInputStream extends InputStream
   public int read(byte[] buf, int pos, int len)
     throws IOException
   {
-    initialize();
-    return _localIn.read(buf, pos, len);
+    return getLocalIn().read(buf, pos, len);
   }
 
   @Override
   public long skip(long len)
     throws IOException
   {
-    initialize();
-    return _localIn.skip(len);
+    return getLocalIn().skip(len);
   }
 
   @Override
   public void close()
     throws IOException
   {
-    initialize();
-    _localIn.close();
+    getLocalIn().close();
   }
   
 }

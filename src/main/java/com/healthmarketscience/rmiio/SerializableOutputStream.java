@@ -44,7 +44,7 @@ import java.io.Serializable;
  * @author James Ahlborn
  */
 public class SerializableOutputStream extends OutputStream
-  implements Serializable
+  implements Serializable, RemoteClient
 {
   private static final long serialVersionUID = 2752774698731338838L;
   
@@ -64,31 +64,22 @@ public class SerializableOutputStream extends OutputStream
   }
 
   /**
-   * Initializes the actual client-side OutputStream implementation if not
-   * already initialized.  This call synchronizes on this object for the
-   * initialization call only.  All other synchronization of actual stream
-   * calls is handled by the implementation class created here.
+   * @return the the actual client-side OutputStream implementation, creating
+   *         if necessary.  This call synchronizes on this object for the
+   *         initialization call only.  All other synchronization of actual
+   *         stream calls is handled by the implementation class created here.
    */
-  private synchronized void initialize()
+  private synchronized OutputStream getLocalOut()
     throws IOException
   {
     if(_localOut == null) {
       _localOut = RemoteOutputStreamClient.wrap(_remoteOut, _retry,
                                                 _chunkSize);
     }
+    return _localOut;
   }
 
-  /**
-   * May be called on the client-side in order to set the RemoteRetry policy
-   * used by the underlying implementation.  <b>Must</b> be called prior to
-   * any stream method call, as once the underlying stream is initialized, the
-   * RemoteRetry policy cannot be changed.
-   * @param retry the RemoteRetry policy to be used for all remote method
-   *              calls made by this class.  if <code>null</code>, 
-   *              {@link RemoteOutputStreamClient#DEFAULT_RETRY}
-   *              policy will be used.
-   */
-  public synchronized void setRetry(RemoteRetry retry) {
+  public synchronized void setRemoteRetry(RemoteRetry retry) {
     _retry = retry;
   }
 
@@ -111,16 +102,14 @@ public class SerializableOutputStream extends OutputStream
   public void flush()
     throws IOException
   {
-    initialize();
-    _localOut.flush();
+    getLocalOut().flush();
   }
     
   @Override
   public void write(int b)
     throws IOException
   {
-    initialize();
-    _localOut.write(b);
+    getLocalOut().write(b);
   }
 
   @Override
@@ -134,15 +123,14 @@ public class SerializableOutputStream extends OutputStream
   public void write(byte[] b, int off, int len)
     throws IOException
   {
-    initialize();
-    _localOut.write(b, off, len);
+    getLocalOut().write(b, off, len);
   }
   
   @Override
   public void close()
     throws IOException
   {
-    initialize();
-    _localOut.close();
-  }  
+    getLocalOut().close();
+  }
+  
 }
