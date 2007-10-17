@@ -590,7 +590,7 @@ public class RemoteStreamServerTest extends BaseRemoteStreamTest {
    * serialize/deserialize cycle on the RemoteStub in the test code before
    * handing it to the client thread.
    *
-   * @param RMI stub to force into "remote" mode
+   * @param obj RMI stub to force into "remote" mode
    */
   @SuppressWarnings("unchecked")
   public static <T> T simulateRemote(T obj)

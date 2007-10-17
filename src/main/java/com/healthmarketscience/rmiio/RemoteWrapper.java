@@ -84,7 +84,7 @@ public class RemoteWrapper<RemoteType>
    * @param retry the retry policy to use for the remote calls
    * @param log the log to use during retry handling
    *
-   * @return 
+   * @return a proxy for the given interface using the given retry strategy
    */
   public static <R> R wrap(Class<R> iface, R stub,
                            RemoteRetry retry, Log log)

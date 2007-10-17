@@ -61,7 +61,7 @@ public abstract class OutputStreamAdapter
   public abstract void writePacket(byte[] packet) throws IOException;
 
   /**
-   * @param ostream stream to wrap and for which the implementation is
+   * @param istream stream to wrap and for which the implementation is
    *                optimized
    * @return an OutputStreamAdapter optimized for the stream type
    */

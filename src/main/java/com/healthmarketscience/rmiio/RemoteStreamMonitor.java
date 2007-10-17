@@ -98,9 +98,6 @@ public interface RemoteStreamMonitor<StreamServerType> {
    *
    * @param stream the stream for which the bytes are being skipped
    * @param numBytes number of actual bytes skipped
-   * @param isReattempt indicates if this is the first attempt
-   *                    (<code>false</code>) or a subsequent attempt
-   *                    (<code>true</code>)
    */
   public void localBytesSkipped(StreamServerType stream, long numBytes);
 

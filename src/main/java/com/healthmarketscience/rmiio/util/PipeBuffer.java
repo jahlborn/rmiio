@@ -600,7 +600,7 @@ public class PipeBuffer {
     }
     
     /**
-     * Calls {@link InputStreamAdapter#connect} on the given
+     * Calls {@link PipeBuffer.InputStreamAdapter#connect} on the given
      * InputStreamAdapter with this OutputStreamAdapter as the parameter.
      */
     public void connect(InputStreamAdapter istream) throws IOException {
