@@ -10,15 +10,13 @@
       <p>
         RMIIO is a library which makes it as simple as possible to stream
         large amounts of data using the RMI framework (or any RPC framework
-        for that matter, see the
-        <a href="#RemoteStreamExporter">RemoteStreamExporter</a> section for
-        details).  Who needs this?  Well, if you have ever needed to send a
-        file from an RMI client to an RMI server, you have faced this problem.
-        And, if you managed to implement a basic solution, it probably threw
-        an OutOfMemoryError the first time someone tried to send a 2GB file.
-        Due to the design of RMI, this common and deceptively simple problem
-        is actually quite difficult to solve in an efficient and robust
-        manner.
+        for that matter).  Who needs this?  Well, if you have ever needed to
+        send a file from an RMI client to an RMI server, you have faced this
+        problem.  And, if you did manage to implement a basic solution, it
+        probably threw an OutOfMemoryError the first time someone tried to
+        send a 2GB file.  Due to the design of RMI, this common and
+        deceptively simple problem is actually quite difficult to solve in an
+        efficient and robust manner.
       </p>
       <p>
         The RMI framework makes it very easy to implement remote communication
@@ -32,7 +30,7 @@
         people have encountered it.  Spend a few moments searching through
         Sun's java forums and you will find many questions and very few useful
         suggestions (seriously, try the search <a href="http://onesearch.sun.com/search/onesearch/index.jsp?qt=rmi+send+file&amp;subCat=&amp;site=dev&amp;dftab=&amp;chooseCat=javaall&amp;col=developer-forums">"rmi send file"</a> for some
-        great reading):
+        fun reading).  Among the suggestions:
         <ul>
           <li>Send a File object</li>
           <li>Send a URL</li>
@@ -136,7 +134,7 @@
         <li>Serializable <a href="apidocs/com/healthmarketscience/rmiio/SerializableInputStream.html">InputStream</a> and <a href="apidocs/com/healthmarketscience/rmiio/SerializableOutputStream.html">OutputStream</a> wrappers for remote
         input and output streams</li>
         <li>Pluggable RPC integration which can be used to integrate with
-        frameworks other than RMI (<a href="apidocs/com/healthmarketscience/rmiio/exporter/package-summary.html#package_description">exporter package</a>)</li>
+        frameworks other than RMI (see the <a href="#RemoteStreamExporter">RemoteStreamExporter</a> section below for details)</li>
         <li>Utilities to facilitate robust RMI usage (<a href="apidocs/com/healthmarketscience/rmiio/RemoteRetry.html">RemoteRetry</a>)</li>
       </ul>
     </section>
@@ -150,7 +148,7 @@
         stream implementations to whatever RPC mechanism is desired, the
         default being RMI.  There is some proof-of-concept code in the
         <code>src/corbaExample</code> directory showing CORBA being used as
-        the RPC framework, including a c++ client written using <a href="http://omniorb.sourceforge.net/">omniORB</a> which consumes a
+        the RPC framework, including a C++ client written using <a href="http://omniorb.sourceforge.net/">omniORB</a> which consumes a
 
         remote stream from a java server.  Additionally, this should enable
         the remote streams to eventually be integrated into the <a href="http://labs.jboss.com/jbossremoting/">JBoss Remoting</a> framework.

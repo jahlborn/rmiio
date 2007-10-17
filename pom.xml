@@ -17,6 +17,29 @@
       <timezone>-5</timezone>
     </developer>
   </developers>
+  <contributors>
+    <contributor>
+      <name>Eric Bernstein</name>
+      <email>ebernstein@users.sf.net</email>
+      <organization>Health Market Science</organization>
+      <organizationUrl> http://www.healthmarketscience.com</organizationUrl>
+      <timezone>-5</timezone>
+    </contributor>
+    <contributor>
+      <name>Mike DeLaurentis</name>
+      <organization>Health Market Science</organization>
+      <organizationUrl> http://www.healthmarketscience.com</organizationUrl>
+      <timezone>-5</timezone>
+    </contributor>
+    <contributor>
+      <name>Tim McCune</name>
+      <email>javajedi@users.sf.net</email>
+    </contributor>
+    <contributor>
+      <name>Rob Di Marco</name>
+      <email>robdimarco@users.sf.net</email>
+    </contributor>
+  </contributors>
   <licenses>
     <license>
       <name>GNU Lesser General Public License, 2.1</name>
