@@ -94,6 +94,7 @@ public class GZIPRemoteInputStream extends RemoteInputStreamServer
     }
   }
 
+  @SuppressWarnings("PMD.UselessOverridingMethod")
   @Override
   protected void closeImpl(boolean readSuccess)
     throws IOException

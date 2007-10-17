@@ -186,6 +186,8 @@
         <configuration>
           <aggregate>true</aggregate>
           <targetJdk>1.5</targetJdk>
+          <!-- Use csv reports because unneeded and xml causes failures (bug in pmd 3.9 with SuppressWarnings in source code) -->
+          <format>csv</format>
         </configuration>
       </plugin>
       <plugin>

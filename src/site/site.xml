@@ -21,7 +21,7 @@
   </body>
 
   <poweredBy>
-    <logo name="Works on Linux" img="../worksonlinux.png"
+    <logo name="Works on Linux" img="../images/worksonlinux.png"
           href="http://www.linux.org"/>
     <logo name="Hosted by SourceForge" img="http://sflogo.sourceforge.net/sflogo.php?group_id=185339&amp;type=1" href="http://sourceforge.net"/>
     <logo name="Built by Maven" img="./images/logos/maven-feather.png"
