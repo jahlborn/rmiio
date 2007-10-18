@@ -6,8 +6,6 @@
     <href>http://www.healthmarketscience.com/</href>
   </bannerLeft>
   <body>
-    <menu ref="parent"/>
-    
     <menu name="RMIIO">
       <item name="About" href="index.html"/>
       <item name="OpenHMS" href="http://openhms.sourceforge.net/"/>
