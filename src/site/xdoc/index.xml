@@ -49,7 +49,7 @@
         powerful classes which enable a client to stream data to the server
         using only a few extra lines of code.
       </p>
-      <subsection name="RemoteStreamExample">
+      <subsection name="RemoteStream Example">
         <p>
           How simple?  Well, how about some example code (note, examples omit
           normal exception handling for the sake of brevity).  The obvious
