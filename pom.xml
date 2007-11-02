@@ -185,8 +185,7 @@
         </reportSets>
       </plugin>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>changelog-maven-plugin</artifactId>      
+        <artifactId>maven-changelog-plugin</artifactId>
       </plugin>      
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
