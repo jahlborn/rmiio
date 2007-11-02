@@ -47,9 +47,13 @@
       <distribution>manual</distribution>
     </license>
   </licenses>
+  <issueManagement>
+    <system>SourceForge</system>
+    <url>http://sourceforge.net/tracker/?group_id=185339&amp;atid=912876</url>
+  </issueManagement>
   <scm>
     <connection>scm:svn:http://openhms.svn.sourceforge.net/svnroot/openhms/rmiio/trunk/</connection>
-    <!-- read/write cvs connection -->
+    <!-- read/write svn connection -->
     <developerConnection>scm:svn:https://openhms.svn.sourceforge.net/svnroot/openhms/rmiio/trunk/</developerConnection>
     <url>http://openhms.svn.sourceforge.net/viewvc/openhms/rmiio/trunk/</url>
   </scm>
@@ -168,8 +172,8 @@
       </plugin>
       <plugin>
         <artifactId>maven-changes-plugin</artifactId>
-        <configuration> 
-          <link_template>%URL%/%ISSUE%</link_template>
+        <configuration>
+          <issueLinkTemplate>%URL%/index.php?func=detail&amp;aid=%ISSUE%&amp;group_id=185339&amp;atid=912876</issueLinkTemplate>
         </configuration>        
         <reportSets>
           <reportSet>
