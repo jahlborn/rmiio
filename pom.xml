@@ -166,6 +166,7 @@
               <report>summary</report>
               <report>project-team</report>
               <report>license</report>
+              <report>issue-tracking</report>
             </reports>
           </reportSet>
         </reportSets>
