@@ -251,5 +251,10 @@
       <name>OpenHMS public repository</name>
       <url>scp://open.hmsonline.com/home/repo/html/maven2</url>
     </repository>
+    <snapshotRepository>
+      <id>openhms-deploy-site</id>
+      <name>OpenHMS public repository</name>
+      <url>scp://open.hmsonline.com/home/repo/html/maven2-snapshot</url>
+    </snapshotRepository>
   </distributionManagement>
 </project>
