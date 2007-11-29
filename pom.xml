@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.healthmarketscience</groupId>
     <artifactId>openhms-parent</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
   </parent>
   <groupId>com.healthmarketscience.rmiio</groupId>
   <artifactId>rmiio</artifactId>
@@ -105,26 +105,6 @@
   </dependencies>
   <reporting>
     <plugins>
-      <plugin>
-        <groupId>net.sf</groupId>
-        <artifactId>stat-scm</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>dependencies</report>
-              <report>scm</report>
-              <report>summary</report>
-              <report>project-team</report>
-              <report>license</report>
-              <report>issue-tracking</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
