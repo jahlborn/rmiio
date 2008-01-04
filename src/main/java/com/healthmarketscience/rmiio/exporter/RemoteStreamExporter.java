@@ -40,11 +40,14 @@ import org.apache.commons.logging.LogFactory;
  * utilities to be used with any RPC framework by separating the server
  * implementation from the RPC integration.
  * <p>
+ * See the {@link #getInstance} method for details on how the default exporter
+ * can be specified as a system property.
+ * <p>
  * RemoteStreamExporter implementations are expected to be thread-safe and
  * reentrant after construction.
  * <p>
  * For some helper classes which may be useful for alternative RPC
- * frameworks see {@link RemoteStreamServerInvokerHelper},
+ * frameworks, see {@link RemoteStreamServerInvokerHelper},
  * {@link RemoteInputStreamClientProxy}, and
  * {@link RemoteOutputStreamClientProxy}.
  *
@@ -62,7 +65,7 @@ public abstract class RemoteStreamExporter
   /** name of the default exporter implementation returned by
       {@link #getInstance} if none is specified via system property */
   public static final String DEFAULT_EXPORTER_CLASS_NAME =
-    "com.healthmarketscience.rmiio.exporter.DefaultRemoteStreamExporter";
+    DefaultRemoteStreamExporter.class.getName();
 
   /** RemoteStreamExporter instance returned by {@link #getInstance}, created
       once, on demand */
@@ -72,6 +75,7 @@ public abstract class RemoteStreamExporter
   }
 
   /**
+   * Returns the default RemoteStreamExporter to use.
    * @return the default RemoteStreamExporter to use, either specified by the
    *         system property {@link #EXPORTER_PROPERTY} or an instance of
    *         {@link #DEFAULT_EXPORTER_CLASS_NAME}.  The exporter is
@@ -83,6 +87,7 @@ public abstract class RemoteStreamExporter
       if(exporterClassName == null) {
         exporterClassName = DEFAULT_EXPORTER_CLASS_NAME;
       }
+      LOG.info("Using stream exporter " + exporterClassName);
       try {
         _INSTANCE = (RemoteStreamExporter)
           Class.forName(exporterClassName).newInstance();

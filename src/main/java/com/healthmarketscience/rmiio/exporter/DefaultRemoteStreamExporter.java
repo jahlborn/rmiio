@@ -31,24 +31,36 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 import com.healthmarketscience.rmiio.RemoteStreamServer;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Default concrete implementation of RemoteStreamExporter which exports the
  * object for use with with standard RMI, via {@link UnicastRemoteObject}.
+ * <p>
+ * The default constructor will use a port configured by the system property
+ * {@link #PORT_PROPERTY} if one is found, otherwise {@link #ANY_PORT} will be
+ * used.
  *
  * @author James Ahlborn
  */
 public class DefaultRemoteStreamExporter extends RemoteStreamExporter
 {
-
+  private static final Log LOG = LogFactory.getLog(DefaultRemoteStreamExporter.class);
+  
   /** constant indicating that export can use any port */
   public static final int ANY_PORT = 0;
+
+  /** system property used to determine the port to use for the default
+      constructor.  if not given, {@link #ANY_PORT} is used. */
+  public static final String PORT_PROPERTY =
+    "com.healthmarketscience.rmiio.exporter.port";
 
   /** port number to use when exporting streams */
   private final int _port;
   
   public DefaultRemoteStreamExporter() {
-    this(ANY_PORT);
+    this(getDefaultPort());
   }
 
   public DefaultRemoteStreamExporter(int port) {
@@ -71,6 +83,31 @@ public class DefaultRemoteStreamExporter extends RemoteStreamExporter
     throws Exception
   {
     UnicastRemoteObject.unexportObject(server, true);
+  }
+
+  /**
+   * Determines the port to use for the default constructor.  If the system
+   * property {@link #PORT_PROPERTY} has a valid integer it will be returned,
+   * otherwise {@link #ANY_PORT} will be returned.
+   * @return a port number
+   */
+  private static int getDefaultPort()
+  {
+    String defaultPortStr = System.getProperty(PORT_PROPERTY);
+    if(defaultPortStr != null) {
+      try {
+        return Integer.parseInt(defaultPortStr);
+      } catch(Exception e) {
+        if(LOG.isDebugEnabled()) {
+          LOG.debug("Failed parsing configured port '" + defaultPortStr + "' "
+                    + e);
+        }
+        // fall through to default value
+      }
+    }
+    
+    // if all else fails, use any port
+    return ANY_PORT;
   }
   
 }
