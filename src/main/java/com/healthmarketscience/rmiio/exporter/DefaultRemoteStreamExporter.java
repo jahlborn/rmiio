@@ -93,21 +93,7 @@ public class DefaultRemoteStreamExporter extends RemoteStreamExporter
    */
   private static int getDefaultPort()
   {
-    String defaultPortStr = System.getProperty(PORT_PROPERTY);
-    if(defaultPortStr != null) {
-      try {
-        return Integer.parseInt(defaultPortStr);
-      } catch(Exception e) {
-        if(LOG.isDebugEnabled()) {
-          LOG.debug("Failed parsing configured port '" + defaultPortStr + "' "
-                    + e);
-        }
-        // fall through to default value
-      }
-    }
-    
-    // if all else fails, use any port
-    return ANY_PORT;
+    return Integer.getInteger(PORT_PROPERTY, ANY_PORT);
   }
   
 }

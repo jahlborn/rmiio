@@ -83,10 +83,8 @@ public abstract class RemoteStreamExporter
    */
   public static synchronized RemoteStreamExporter getInstance() {
     if(_INSTANCE == null) {
-      String exporterClassName = System.getProperty(EXPORTER_PROPERTY);
-      if(exporterClassName == null) {
-        exporterClassName = DEFAULT_EXPORTER_CLASS_NAME;
-      }
+      String exporterClassName = System.getProperty(
+          EXPORTER_PROPERTY, DEFAULT_EXPORTER_CLASS_NAME);
       LOG.info("Using stream exporter " + exporterClassName);
       try {
         _INSTANCE = (RemoteStreamExporter)
