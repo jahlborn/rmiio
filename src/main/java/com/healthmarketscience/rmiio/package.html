@@ -32,7 +32,7 @@ are many ways to do this the wrong way.  Let us explore some possibilities.
 (Note, all of these "solutions" were found online when searching for an
 existing solution to this problem).
 <dl>
-<dt><b>Idea:</b> Send a File object over the wire.<dt>
+<dt><b>Idea:</b> Send a File object over the wire.</dt>
 <dd><b>Problem:</b> A File is only a String which describes the file, so you
 are not actually sending any data, just a reference.</dd>
 <dt><b>Idea:</b> Send a URL/File object, and let the server access the file
@@ -49,7 +49,7 @@ remotely.</dd>
 <dd><b>Problem:</b> This is the first scenario that kind of works... at least
 until your files get to 1GB (or some large size which will not fit in memory),
 in which case your client box may run out of memory trying to create the
-byte[].  Again, not a very robust solution.<dd>
+byte[].  Again, not a very robust solution.</dd>
 <dt><b>Idea:</b> Open a socket and stream the data to the server</dt>
 <dd><b>Problem:</b> Well, we are getting the right idea, but again, opening a
 socket between an arbitrary client and server can involve negotiating proxies

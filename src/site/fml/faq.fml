@@ -76,6 +76,51 @@
       </answer>
     </faq>
 
+    <faq id="firewall">
+      <question>How can I fix firewall issues?</question>
+      <answer>
+        <p>
+          This is a big question.  First, make sure you have dealt with the <a href="http://java.sun.com/j2se/1.5.0/docs/guide/rmi/faq.html#firewall">basic
+          firewall related issues for RMI</a>.
+        </p>
+        <p>
+          Next, assuming you have normal RMI working from client to server,
+          you may need to reverse the RMIIO client/server roles (as they may
+          be the reverse of the conceptual client/server roles).  This
+          happens, for example, when you send a RemoteInputStream from the
+          client to the server (because the client acts as the server for the
+          RMIIO stream).  You may be able to fix any firewall related problems
+          by using a RemoteOutputStream returned from the server instead of a
+          RemoteInputStream passed from the client (so the client pushes data
+          to the server instead of the server pulling it from the client).
+        </p>
+        <p>
+          Additionally, you may need to control the port that the RMIIO server
+          objects are exported on.  This can be done setting the
+          <code>com.healthmarketscience.rmiio.exporter.port</code> system
+          property to the desired port, assuming you are using the <a href="apidocs/com/healthmarketscience/rmiio/exporter/DefaultRemoteStreamExporter.html">default RemoteStreamExporter</a>.
+        </p>
+        <p>
+          Note, this answer is still a work in progress.
+        </p>
+      </answer>
+    </faq>
+
+    <faq id="appserver">
+      <question>With which Application Servers has this been used?</question>
+      <answer>
+        <p>
+          <dl>
+            <dt><b>JBoss (4.0.x):</b></dt>
+            <dd>Used extensively as-is on JBoss.</dd>
+            <dt><b>WebLogic:</b></dt>
+            <dd>Needs a <a href="http://sourceforge.net/forum/message.php?msg_id=4712250">custom RemoteStreamExporter</a> in order to work with WebLogic's custom
+            RMI implementation.</dd>
+          </dl>
+        </p>
+      </answer>
+    </faq>
+    
     <faq id="usage">
       <question>Where can I find more information?</question>
       <answer>
