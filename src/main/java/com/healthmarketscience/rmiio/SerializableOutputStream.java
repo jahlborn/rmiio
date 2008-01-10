@@ -39,7 +39,7 @@ import java.io.Serializable;
  * OutputStream, this class can be useful.  This is basically just a wrapper
  * around a call to {@link RemoteOutputStreamClient#wrap}.
  *
- * @see <a href="package-summary.html#Usage_Notes">Usage Notes</a>
+ * @see <a href="{@docRoot}/overview-summary.html#Usage_Notes">Usage Notes</a>
  *
  * @author James Ahlborn
  */

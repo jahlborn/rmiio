@@ -62,7 +62,7 @@ import java.util.Iterator;
  * the monitor if one has not already been explicitly provided and the local
  * iterator implements the {@link RemoteStreamMonitor} interface.
  * 
- * @see <a href="package-summary.html#Usage_Notes">Usage Notes</a>
+ * @see <a href="{@docRoot}/overview-summary.html#Usage_Notes">Usage Notes</a>
  *
  * @author James Ahlborn
  */

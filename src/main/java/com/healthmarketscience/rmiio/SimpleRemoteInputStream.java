@@ -37,7 +37,7 @@ import com.healthmarketscience.rmiio.util.InputStreamAdapter;
  * uncompressed data, which it will read directly from the underlying
  * InputStream.
  *
- * @see <a href="package-summary.html#Usage_Notes">Usage Notes</a>
+ * @see <a href="{@docRoot}/overview-summary.html#Usage_Notes">Usage Notes</a>
  *
  * @author James Ahlborn
  */

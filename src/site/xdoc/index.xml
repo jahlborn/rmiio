@@ -39,7 +39,7 @@
         </ul>
         The last is the first suggestion actually approaching usefulness--it
         solves the first problem but not the second (for more detailed
-        rebuttals read the <a href="apidocs/com/healthmarketscience/rmiio/package-summary.html#package_description">package javadocs</a>).
+        rebuttals read the <a href="apidocs/overview-summary.html#overview_description">overview javadocs</a>).
       </p>
       <p>
         What you really want to do is stream data from the client to the
@@ -111,11 +111,11 @@
     <section name="Getting Started">
       <p>
         <ul>
-          <li>Extended code examples in the <a href="apidocs/com/healthmarketscience/rmiio/package-summary.html#package_description">rmiio package javadocs</a></li>
+          <li>Extended code examples in the <a href="apidocs/overview-summary.html#overview_description">rmiio overview javadocs</a></li>
           <li>Working stream and iterator examples (see the
               <code>examples.stream</code> and <code>examples.iterator</code>
               packages in the <a href="xref-test/index.html">test source cross references</a>)</li>
-          <li><a href="apidocs/com/healthmarketscience/rmiio/package-summary.html#Usage_Notes">Usage Notes</a></li>
+          <li><a href="apidocs/overview-summary.html#Usage_Notes">Usage Notes</a></li>
           <li><a href="faq.html">FAQ</a></li>
           <li><a href="apidocs/index.html">Javadoc API documentation</a></li>
           <li><a href="xref/index.html">Complete source code (with cross references)</a></li>

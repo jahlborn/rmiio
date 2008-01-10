@@ -38,7 +38,7 @@ import com.healthmarketscience.rmiio.util.OutputStreamAdapter;
  * receive uncompressed data, which it will write directly to the underlying
  * OutputStream.
  *
- * @see <a href="package-summary.html#Usage_Notes">Usage Notes</a>
+ * @see <a href="{@docRoot}/overview-summary.html#Usage_Notes">Usage Notes</a>
  *
  * @author James Ahlborn
  */

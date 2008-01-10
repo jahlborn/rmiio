@@ -10,7 +10,7 @@
       <answer>
         <p>
           For a variety of code examples see the snippets in the
-          <a href="apidocs/com/healthmarketscience/rmiio/package-summary.html#package_description">rmiio package javadocs</a>
+          <a href="apidocs/overview-summary.html#overview_description">rmiio overview javadocs</a>
           as well as the working examples in the
           <a href="xref-test/index.html">test directory</a>.
         </p>
@@ -58,7 +58,8 @@
           code, so the server instance gets cleaned up soon after creation.
           Basically, you should never use a RemoteStreamServer reference
           locally (you should just use a regular Input/OutputStream in this
-          case).  For more information, see the EJB section of the <a href="apidocs/com/healthmarketscience/rmiio/package-summary.html#Usage_Notes">Usage Notes</a>.
+          case).  For more information, see the EJB section of the
+          <a href="apidocs/overview-summary.html#Usage_Notes">Usage Notes</a>.
         </p>
       </answer>
     </faq>
@@ -125,7 +126,8 @@
       <question>Where can I find more information?</question>
       <answer>
         <p>
-          More FAQ-like answers can be found in the <a href="apidocs/com/healthmarketscience/rmiio/package-summary.html#Usage_Notes">Usage Notes</a>.
+          More FAQ-like answers can be found in the
+          <a href="apidocs/overview-summary.html#Usage_Notes">Usage Notes</a>.
         </p>
       </answer>
     </faq>
