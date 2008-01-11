@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <author email="jahlborn@users.sf.net">James Ahlborn</author>
+    <title>RMIIO Class Reference</title>
+  </properties>
+  <body>
+    <section name="RMIIO Class Reference">
+      <p>
+        The large number of classes in the RMIIO package may initially be a
+        bit daunting.  The reference below describes the primary classes that
+        users of this library will likely use.
+      </p>
+
+      <subsection name="RemoteInputStream">
+
+        <p>
+          Probably the first class anyone will use from RMIIO is a
+          RemoteInputStream.  When a RemoteInputStream is utilized to move
+          data across the network, it is essentially using a pull based
+          approach, as the consumer of the stream pulls the data from the
+          producer.  The actual implementations are:
+        </p>
+        <ul>
+          <li><a href="apidocs/com/healthmarketscience/rmiio/SimpleRemoteInputStream.html">SimpleRemoteInputStream</a>
+              - RemoteInputStream implementation which does not use any
+              compression on the wire.  This may be useful if the client and
+              server are on the same box, or network bandwidth is not an
+              issue.
+          </li>
+          <li><a href="apidocs/com/healthmarketscience/rmiio/GZIPRemoteInputStream.html">GZIPRemoteInputStream</a>
+              - RemoteInputStream implementation which uses GZIP compression
+              over the wire.  For moving data of any non-trivial size, this
+              is probably the preferred implementation.  Note that it does
+              trade off some extra CPU usage on the client and server for
+              the reduction in network bandwidth.
+          </li>
+        </ul>
+        <p>
+          <b>Example Scenario:</b>
+        </p>
+        <p>
+          This sequence diagram shows the major interactions between a client
+          and server when the client initiates a call
+          (<code>sendStream</code>) to the server which includes a
+          RemoteInputStream.  Note that the "Client" and "Server" objects are
+          named based on who initiates the RPC interaction, but that the
+          actual RPC calls go both ways.
+        </p>
+        <div align="center">
+          <img src="images/RemoteInputStream1.png" alt="RemoteInputStream Sequence Diagram"/>
+          <br/>
+          <p>
+            Figure 1: Client initiated usage of RemoteInputStream
+          </p>
+        </div>
+        
+      </subsection>
+
+      <subsection name="RemoteOutputStream">
+
+        <p>
+          A RemoteOutputStream turns the tables with respect to a
+          RemoteInputStream, as it is essentially uses a push based approach.
+          The producer of the data pushes the data to the consumer.  The
+          actual implementations are:
+        </p>
+        <ul>
+          <li><a href="apidocs/com/healthmarketscience/rmiio/SimpleRemoteOutputStream.html">SimpleRemoteOutputStream</a>
+              - RemoteOutputStream implementation which does not use any
+              compression on the wire.  This may be useful if the client and
+              server are on the same box, or network bandwidth is not an
+              issue.
+          </li>
+          <li><a
+                  href="apidocs/com/healthmarketscience/rmiio/GZIPRemoteOutputStream.html">GZIPRemoteOutputStream</a>
+              - RemoteOutputStream implementation which uses GZIP compression
+              over the wire.  For moving data of any non-trivial size, this
+              is probably the preferred implementation.  Note that it does
+              trade off some extra CPU usage on the client and server for
+              the reduction in network bandwidth.
+          </li>
+        </ul>
+        <p>
+          <b>Example Scenario:</b>
+        </p>
+        <p>
+          This sequence diagram shows the major interactions between a client
+          and server when the client initiates a call (<code>getStream</code>)
+          to the server which returns a RemoteOutputStream.  Note that the
+          "Client" and "Server" objects are named based on who initiates the
+          RPC interaction.
+        </p>
+        <table>
+          <tr>
+            <td>
+              <img src="images/RemoteOutputStream1.png" alt="RemoteOutputStream Sequence Diagram"/>
+            </td>
+            <td>
+              <img src="images/RemoteOutputStream2.png" alt="RemoteOutputStream Sequence Diagram"/>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              Figure 3: Client instantiated RemoteOutputStream
+            </td>
+            <td>
+              Figure 4: Server instantiated RemoteOutputStream
+            </td>
+          </tr>
+        </table>
+        
+      </subsection>
+
+      <subsection name="RemoteIterator">
+      
+        <div align="center">
+          <img src="images/RemoteIterator1.png" alt="RemoteIterator Sequence Diagram"/>
+        </div>
+        
+      </subsection>
+
+      <subsection name="RemoteStreamMonitor">
+      </subsection>
+      <subsection name="IOIteratorPipe">
+      </subsection>
+      <subsection name="RemoteRetry">
+      </subsection>
+      <subsection name="RmiioUtil">
+      </subsection>
+      <subsection name="SerializableStreams">
+        SerializableInputStream
+        SerializableOutputStream
+      </subsection>
+      <subsection name="RemoteStream Clients">
+        RemoteInputStreamClient
+        RemoteOutputStreamClient
+      </subsection>
+      <subsection name="RemoteStreamExporter">
+      </subsection>
+      
+    </section>
+  </body>
+</document>

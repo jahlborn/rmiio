@@ -31,12 +31,14 @@
         Sun's java forums and you will find many questions and very few useful
         suggestions (seriously, try the search <a href="http://onesearch.sun.com/search/onesearch/index.jsp?qt=rmi+send+file&amp;subCat=&amp;site=dev&amp;dftab=&amp;chooseCat=javaall&amp;col=developer-forums">"rmi send file"</a> for some
         fun reading).  Among the suggestions:
-        <ul>
-          <li>Send a File object</li>
-          <li>Send a URL</li>
-          <li>Send an InputStream</li>
-          <li>Send an byte[]</li>
-        </ul>
+      </p>
+      <ul>
+        <li>Send a File object</li>
+        <li>Send a URL</li>
+        <li>Send an InputStream</li>
+        <li>Send an byte[]</li>
+      </ul>
+      <p>
         The last is the first suggestion actually approaching usefulness--it
         solves the first problem but not the second (for more detailed
         rebuttals read the <a href="apidocs/overview-summary.html#overview_description">overview javadocs</a>).
@@ -56,39 +58,43 @@
           example, of course, is a simple file upload service.  If the client
           and server were running in the same JVM, you would probably create a
           server implementation like this:
-          <pre>
-            // A simple local file upload service
-            public class LocalFileUploadService {
-              public void uploadFile(String fileName, InputStream fileData) {
-                // ... copy fileData to local storage ...
-              }
-            }
-          </pre>
+        </p>
+        <source>
+// A simple local file upload service
+public class LocalFileUploadService {
+  public void uploadFile(String fileName, InputStream fileData) {
+    // ... copy fileData to local storage ...
+  }
+} </source>
+        <p>
           Easy, right?  Now, to actually turn this into a remote interface,
           the <code>fileData</code> type needs to be changed, as an
           InputStream will not work remotely.  Using RMIIO, this
           implementation becomes:
-          <pre>
-            // A simple remote file upload service
-            public class RemoteFileUploadService {
-              public void uploadFile(String fileName, RemoteInputStream remoteFileData) {
-                InputStream fileData = RemoteInputStreamClient.wrap(remoteFileData);
-                // ... copy fileData to local storage ...                
-            }
-          </pre>
+        </p>
+        <source>
+// A simple remote file upload service
+public class RemoteFileUploadService {
+  public void uploadFile(String fileName, RemoteInputStream remoteFileData) {
+    InputStream fileData = RemoteInputStreamClient.wrap(remoteFileData);
+    // ... copy fileData to local storage ...
+  }
+} </source>
+        <p>
           That's it, one extra line on the server to wrap the RMIIO
           RemoteInputStream as an InputStream (yes, it is confusing that the
           server uses a method with "client" in the name, but in this
           situation, the server is acting as the client with respect to the
           RemoteInputStream).  Fine, so the server changes are easy, how does
           the client create a RemoteInputStream?
-          <pre>
-            // a client call to a RemoteFileUploadService
-            RemoteFileUploadService service = ...;
-            InputStream fileData = ...;
-            RemoteInputStreamServer remoteFileData = new SimpleRemoteInputStream(fileData);
-            service.uploadFile("MyFile", remoteFileData.export());
-          </pre>
+        </p>
+        <source>
+// a client call to a RemoteFileUploadService
+RemoteFileUploadService service = ...;
+InputStream fileData = ...;
+RemoteInputStreamServer remoteFileData = new SimpleRemoteInputStream(fileData);
+service.uploadFile("MyFile", remoteFileData.export()); </source>
+        <p>
           And there you have a working client which can stream a file to a
           remote server (again, note that the standard try/catch/finally
           blocks necessary in actual production code have been omitted from
@@ -109,18 +115,16 @@
       </subsection>
     </section>
     <section name="Getting Started">
-      <p>
-        <ul>
-          <li>Extended code examples in the <a href="apidocs/overview-summary.html#overview_description">rmiio overview javadocs</a></li>
-          <li>Working stream and iterator examples (see the
-              <code>examples.stream</code> and <code>examples.iterator</code>
-              packages in the <a href="xref-test/index.html">test source cross references</a>)</li>
-          <li><a href="apidocs/overview-summary.html#Usage_Notes">Usage Notes</a></li>
-          <li><a href="faq.html">FAQ</a></li>
-          <li><a href="apidocs/index.html">Javadoc API documentation</a></li>
-          <li><a href="xref/index.html">Complete source code (with cross references)</a></li>
-        </ul>
-      </p>
+      <ul>
+        <li>Extended code examples in the <a href="apidocs/overview-summary.html#overview_description">rmiio overview javadocs</a></li>
+        <li>Working stream and iterator examples (see the
+        <code>examples.stream</code> and <code>examples.iterator</code>
+        packages in the <a href="xref-test/index.html">test source cross references</a>)</li>
+        <li><a href="apidocs/overview-summary.html#Usage_Notes">Usage Notes</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="apidocs/index.html">Javadoc API documentation</a></li>
+        <li><a href="xref/index.html">Complete source code (with cross references)</a></li>
+      </ul>
     </section>
     <section name="Features">
       <ul>
