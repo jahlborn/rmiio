@@ -38,23 +38,42 @@
           </li>
         </ul>
         <p>
-          <b>Example Scenario:</b>
+          <b>Example Scenarios:</b>
         </p>
         <p>
-          This sequence diagram shows the major interactions between a client
-          and server when the client initiates a call
-          (<code>sendStream</code>) to the server which includes a
-          RemoteInputStream.  Note that the "Client" and "Server" objects are
-          named based on who initiates the RPC interaction, but that the
-          actual RPC calls go both ways.
+          These sequence diagrams show the major interactions between a client
+          and server when the client initiates a call to the server involving
+          a RemoteInputStream. Notice that the "Client" and "Server" objects
+          are named purely based on who initiates the RPC interaction, but
+          that the actual RPC calls may go both ways.  "Figure 2" may be the
+          desired scenario when dealing with firewall issues.
         </p>
-        <div align="center">
-          <img src="images/RemoteInputStream1.png" alt="RemoteInputStream Sequence Diagram"/>
-          <br/>
-          <p>
-            Figure 1: Client initiated usage of RemoteInputStream
-          </p>
-        </div>
+        <table>
+          <tr>
+            <td>
+              <div align="center">
+                <img src="images/RemoteInputStream1.png" alt="RemoteInputStream Sequence Diagram"/>
+              </div>
+            </td>
+            <td>
+              <div align="center">
+                <img src="images/RemoteInputStream2.png" alt="RemoteInputStream Sequence Diagram"/>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div align="center">
+                Figure 1. Client instantiated RemoteInputStream
+              </div>
+            </td>
+            <td>
+              <div align="center">
+                Figure 2. Server instantiated RemoteInputStream
+              </div>
+            </td>
+          </tr>
+        </table>
         
       </subsection>
 
@@ -83,31 +102,39 @@
           </li>
         </ul>
         <p>
-          <b>Example Scenario:</b>
+          <b>Example Scenarios:</b>
         </p>
         <p>
-          This sequence diagram shows the major interactions between a client
-          and server when the client initiates a call (<code>getStream</code>)
-          to the server which returns a RemoteOutputStream.  Note that the
-          "Client" and "Server" objects are named based on who initiates the
-          RPC interaction.
+          These sequence diagrams show the major interactions between a client
+          and server when the client initiates a call to the server involving
+          a RemoteOutputStream. Notice that the "Client" and "Server" objects
+          are named purely based on who initiates the RPC interaction, but
+          that the actual RPC calls may go both ways.  "Figure 3" may be the
+          desired scenario when dealing with firewall issues.
         </p>
         <table>
           <tr>
             <td>
-              <img src="images/RemoteOutputStream1.png" alt="RemoteOutputStream Sequence Diagram"/>
+              <div align="center">
+                <img src="images/RemoteOutputStream1.png" alt="RemoteOutputStream Sequence Diagram"/>
+              </div>
             </td>
             <td>
-              <img src="images/RemoteOutputStream2.png" alt="RemoteOutputStream Sequence Diagram"/>
+              <div align="center">
+                <img src="images/RemoteOutputStream2.png" alt="RemoteOutputStream Sequence Diagram"/>
+              </div>
             </td>
           </tr>
-
           <tr>
             <td>
-              Figure 3: Client instantiated RemoteOutputStream
+              <div align="center">
+                Figure 3: Server instantiated RemoteOutputStream
+              </div>
             </td>
             <td>
-              Figure 4: Server instantiated RemoteOutputStream
+              <div align="center">
+                Figure 4: Client instantiated RemoteOutputStream
+              </div>
             </td>
           </tr>
         </table>
