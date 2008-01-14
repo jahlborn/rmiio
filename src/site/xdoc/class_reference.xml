@@ -9,8 +9,8 @@
     <section name="RMIIO Class Reference">
       <p>
         The large number of classes in the RMIIO package may initially be a
-        bit daunting.  The reference below describes the primary classes that
-        users of this library will likely use.
+        bit daunting.  The reference below describes the primary classes in
+        this library in which developers will likely be interested.
       </p>
       <ul>
         <li><a href="#Remote_Streaming"><b>Remote Streaming</b></a></li>
@@ -36,9 +36,21 @@
           <li><a href="#EncodingRemoteIteratorServer">EncodingRemoteIteratorServer</a></li>
           <li><a href="#RemoteIteratorClient">RemoteIteratorClient</a></li>
         </ul>
-        <li><a href="#RemoteStreamMonitor">RemoteStreamMonitor</a></li>
-        <li><a href="#RemoteRetry">RemoteRetry</a></li>
-        <li><a href="#RemoteStreamExporter">RemoteStreamExporter</a></li>
+        <li><a href="#Monitoring"><b>Monitoring</b></a></li>
+        <ul>
+          <li><a href="#Monitoring">RemoteStreamMonitor</a></li>
+          <li><a href="#Monitoring">RemoteInputStreamMonitor</a></li>
+          <li><a href="#Monitoring">RemoteOutputStreamMonitor</a></li>
+        </ul>
+        <li><a href="#Custom_Server_Exporting"><b>Custom Server Exporting</b></a></li>
+        <ul>
+          <li><a href="#Custom_Server_Exporting">RemoteStreamExporter</a></li>
+          <li><a href="#Custom_Server_Exporting">DefaultRemoteStreamExporter</a></li>
+        </ul>
+        <li><a href="#RPC_Robustness_Utilities"><b>RPC Robustness Utilities</b></a></li>
+        <ul>
+          <li><a href="#RPC_Robustness_Utilities">RemoteRetry</a></li>
+        </ul>
       </ul>
 
       <subsection name="Remote Streaming">
@@ -96,7 +108,7 @@
               <a href="apidocs/com/healthmarketscience/rmiio/RemoteOutputStreamClient.html#wrap(com.healthmarketscience.rmiio.RemoteOutputStream)">RemoteOutputStreamClient.wrap</a> will turn a RemoteOutputStream into an OutputStream.</li>
         </ul>
 
-        <h4>Example RemoteInputStream Scenarios:</h4>
+        <h4>Example RemoteInputStream Scenarios</h4>
         <p>
           These sequence diagrams show the major interactions between a client
           and server when the client initiates a call to the server involving
@@ -132,7 +144,7 @@
           </tr>
         </table>
 
-        <h4>Example RemoteOutputStream Scenarios:</h4>
+        <h4>Example RemoteOutputStream Scenarios</h4>
         <p>
           Similar sequence diagrams for the RemoteOutputStream. Notice again
           that the "Client" and "Server" objects are named purely based on who
@@ -167,7 +179,7 @@
           </tr>
         </table>
 
-        <h4>Serializable InputStream and OutputStream:</h4>
+        <h4>Serializable InputStream and OutputStream</h4>
         <p>
           It is also possible to send something remotely which already is an
           InputStream or an OutputStream.  While this is not usually necessary
@@ -197,12 +209,12 @@
         </p>
         <p>
           While the RemoteIterator implementations allow for custom object
-          serialization, most users will be able to simply use the concrete
-          implementations which utilize standard Java Serialization.  Because
-          of this added flexibility, however, RemoteIterators are slightly
-          more complicated to use than remote streams.  The user needs to
-          instantiate both a server object (which serializes objects and
-          pushes them into the underlying RemoteInputStream) and a client
+          serialization, most developers will be able to simply use the
+          concrete implementations which utilize standard Java Serialization.
+          Because of this added flexibility, however, RemoteIterators are
+          slightly more complicated to use than remote streams.  The developer
+          needs to instantiate both a server object (which serializes objects
+          and pushes them into the underlying RemoteInputStream) and a client
           object (which deserializes the objects on the other end).
         </p>
         <p>
@@ -263,20 +275,28 @@
 
         <h4><a name="IOIterator">IOIterator</a></h4>
         <p>
-          The local source for a RemoteIterator is always an IOIterator.  This
-          is similar to an Iterator, except that the methods throw
-          IOException.  There are a variety of useful methods and classes for
-          creating IOIterators:
+          The local source for a SerialRemoteIteratorServer is always an
+          IOIterator.  This is similar to an Iterator, except that the methods
+          throw IOException.  There are a variety of useful methods and
+          classes for creating IOIterators:
         </p>
         <ul>
           <li><a href="apidocs/com/healthmarketscience/rmiio/RmiioUtil.html#adapt(java.util.Iterator)">RmiioUtil.adapt</a> will turn any Iterator into an IOIterator.</li>
           <li><a name="AbstractCloseableIOIterator"/>
               <a href="apidocs/com/healthmarketscience/rmiio/AbstractCloseableIOIterator.html">AbstractCloseableIOIterator</a>
               - Any non-trivial IOIterator implementation should generally
-                extend this class.  This abstract class makes a best effort to
-                close any local resources as soon as possible.
+                extend this class.  This abstract class manages the complexity
+                around ensuring that local resources are closed in a timely
+                manner.
           </li>
-          FIXME
+          <li><a name="IOIteratorPipe"/>
+              <a href="apidocs/com/healthmarketscience/rmiio/IOIteratorPipe.html">IOIteratorPipe</a>
+              - In more advanced applications, it may become necessary to
+                generate the data for an IOIterator in a separate thread or
+                threads.  An IOIteratorPipe takes much of the pain out of
+                moving the data from the the threads producing the data to the
+                thread consuming the data via an IOIterator.
+          </li>
         </ul>
         
         <h4>No-Delay Iteration</h4>
@@ -295,7 +315,7 @@
         <h4>Custom Serialization</h4>
         <p>
           The base RemoteIterator implementations are built in such a way as
-          to allow the user to implement custom serialization of the data
+          to allow the developer to implement custom serialization of the data
           being sent over the wire.
         </p>
         <p>
@@ -312,19 +332,86 @@
         
       </subsection>
 
-      <subsection name="RemoteStreamMonitor">
+      <subsection name="Monitoring">
+        <p>
+          The RemoteStreamMonitor provides hooks for monitoring most of
+          interesting events that occur in the life of a remote stream.  One
+          example use of a RemoteStreamMonitor could be monitoring the
+          progress of a remote stream in order to provide feedback in a UI.
+          In general, implementors of a RemoteStreamMonitor will want to
+          extend either <a href="apidocs/com/healthmarketscience/rmiio/RemoteInputStreamMonitor.html">RemoteInputStreamMonitor</a>
+          or <a href="apidocs/com/healthmarketscience/rmiio/RemoteOutputStreamMonitor.html">RemoteOutputStreamMonitor</a>
+          depending on the type of stream being monitored (note that a
+          RemoteInputStreamMonitor can also be used to monitor a
+          RemoteIterator).
+        </p>
+        <h4>Closing Additional Server Resources</h4>
+        <p>
+          RemoteStreamMonitors also provide a means for cleaning up additional
+          server resources when a remote stream is finished.  This is very
+          useful for handling things like database resources or transactions
+          which may need to be kept open for the life of the remote stream.
+        </p>
       </subsection>
-      <subsection name="RemoteStreamExporter">
+      <subsection name="Custom Server Exporting">
+        <p>
+          The remote stream servers utilize an instance of a
+          RemoteStreamExporter in order to export themselves for use remotely.
+          "Exporting" a remote stream server is the act of making it available
+          for use externally via an RPC framework and generating a stub object
+          which can be used remotely to access the server.  The
+          DefaultRemoteStreamExporter manages this process for standard Java
+          RMI.  However, there may be times when it is necessary to change how
+          the remote stream servers are exported.
+        </p>
+        <p>
+          One reason for customizing remote stream exporting may be when
+          dealing with firewall or security issues.  It may be necessary to
+          control on which port or transport layer (e.g. SSL) the remote
+          streams are exported.
+        </p>
+        <p>
+          Additionally, it may be necessary to customize remote stream
+          exporting in order to use an entirely different RPC framework.
+          While the RMIIO package was designed for use with standard Java RMI,
+          it can be utilized on other similar RPC frameworks simply by
+          replacing the RemoteStreamExporter.  There is example code in this
+          project showing Java to C++ streaming using CORBA.  Other developers
+          have written custom RemoteStreamExporters in order to use remote
+          streams on Application Servers with alternate RMI implementations.
+        </p>
       </subsection>
-      <subsection name="Utilities">
-      </subsection>
-      <subsection name="RemoteRetry">
-      </subsection>
-      <subsection name="IOIteratorPipe">
-      </subsection>
-      <subsection name="AbstractCloseableIOIterator">
-      </subsection>
-      <subsection name="RmiioUtil">
+      <subsection name="RPC Robustness Utilities">
+        <p>
+          Programming using distributed processing is difficult.  "Anyone
+          telling you differently is selling you something."  While the RMI
+          framework removes some of the unnecessary pain of distributed
+          programming, it sometimes lulls developers into thinking distributed
+          programming is easy.  Remote method calls which look like local
+          method calls may be treated similarly by the programmer when they
+          really should not be.  But enough of my ranting.  Long story short,
+          one facet of writing robust distributed system is dealing with the
+          inevitable remote method call failure.  The best way to do this is
+          to write idempotent remote method calls and utilize automatic retry
+          policies.
+        </p>
+        <p>
+          Enter RemoteRetry, a key "assembly level", distributed programming
+          utility.  The RemoteRetry class is an extensible base class for
+          building custom retry policies including custom exception handling
+          and backoff strategies.  Additionally, there are a variety of
+          methods in the class for applying a RemoteRetry strategy to a remote
+          method call.  Finally, there are a few simple implementations to
+          cover the common cases.
+        </p>
+        <p>
+          All of the remote stream server implementations in the RMIIO package
+          are built on top of the RemoteRetry facility and they all allow a
+          developer to plugin custom policies.  Tailoring the RemoteRetry
+          policies for each application as well as applying them to all remote
+          method calls is the first step in writing a robust distributed
+          system.
+        </p>
       </subsection>
       
     </section>
