@@ -116,6 +116,7 @@ service.uploadFile("MyFile", remoteFileData.export()); </source>
     </section>
     <section name="Getting Started">
       <ul>
+        <li>Introduction to the major classes in the <a href="class_reference.html">Class Reference</a></li>
         <li>Extended code examples in the <a href="apidocs/overview-summary.html#overview_description">rmiio overview javadocs</a></li>
         <li>Working stream and iterator examples (see the
         <code>examples.stream</code> and <code>examples.iterator</code>
@@ -154,8 +155,8 @@ service.uploadFile("MyFile", remoteFileData.export()); </source>
         <code>src/corbaExample</code> directory showing CORBA being used as
         the RPC framework, including a C++ client written using <a href="http://omniorb.sourceforge.net/">omniORB</a> which consumes a
 
-        remote stream from a java server.  Additionally, this should enable
-        the remote streams to eventually be integrated into the <a href="http://labs.jboss.com/jbossremoting/">JBoss Remoting</a> framework.
+        remote stream from a java server.  Another feasible example would be
+        integrating RMIIO into the <a href="http://labs.jboss.com/jbossremoting/">JBoss Remoting</a> framework.
       </p>
     </section>
   </body>
