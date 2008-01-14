@@ -9,6 +9,10 @@
         Allow the default port for the DefaultRemoteStreamExporter to be
         configured via a system property.
       </action>
+      <action dev="jahlborn" type="update">
+        Make closing of local resources by a RemoteIteratorServer less prone
+        to surprises.
+      </action>
     </release>
     <release version="2.0.0" date="2007-10-10">
       <action dev="jahlborn" type="add">
