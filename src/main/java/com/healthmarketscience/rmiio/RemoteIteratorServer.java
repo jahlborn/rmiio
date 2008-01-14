@@ -85,10 +85,33 @@ public class RemoteIteratorServer<DataType> implements Closeable
     _localIStream = localIStream;
     if(useCompression) {
       _remoteIStream = new GZIPRemoteInputStream(_localIStream, monitor,
-                                                 chunkSize);
+                                                 chunkSize) {
+          @Override
+          protected void closeImpl(boolean readSuccess)
+            throws IOException {
+            // hook into any remote/Unreferenced close calls
+            try {
+              super.closeImpl(readSuccess);
+            } finally {
+              RemoteIteratorServer.this.closeImpl(readSuccess);
+            }
+          }
+        };
+          
     } else {
       _remoteIStream = new SimpleRemoteInputStream(_localIStream, monitor,
-                                                   chunkSize);
+                                                   chunkSize) {
+          @Override
+          protected void closeImpl(boolean readSuccess)
+            throws IOException {
+            // hook into any remote/Unreferenced close calls
+            try {
+              super.closeImpl(readSuccess);
+            } finally {
+              RemoteIteratorServer.this.closeImpl(readSuccess);
+            }
+          }
+        };
     }
   }
 
@@ -110,7 +133,7 @@ public class RemoteIteratorServer<DataType> implements Closeable
    * @return <code>true</code> iff this iterator server has been closed (one
    *         way or another), <code>false</code> otherwise.
    */
-  public boolean isClosed() {
+  public final boolean isClosed() {
     return _remoteIStream.isClosed();
   }
 
@@ -121,7 +144,11 @@ public class RemoteIteratorServer<DataType> implements Closeable
    * <code>unreferenced</code> method if the server object must live beyond
    * the creation method call).
    */
-  public void close() {
+  public final void close() {
+    // note, this will eventually call our closeImpl method below due to the
+    // override on creation.  this method is final because we do not want to
+    // add additional behavior here which might not get invoked on remote
+    // close (whereas closeImpl will get invoked on remote close).
     _remoteIStream.close();
   }
   
@@ -138,30 +165,20 @@ public class RemoteIteratorServer<DataType> implements Closeable
   {
     _remoteIStream.abort();
   }
-
+  
   /**
-   * Utility method to choose a RemoteStreamMonitor.  If none is explicitly
-   * provided and the localIterator implements RemoteStreamMonitor, use it
-   * instead.
-   * @param monitor the monitor provided in the constrctor
-   * @param localSource the actual source of information for the iterator
-   * @return an appropriate RemoteStreamMonitor for use with the underlying
-   *         stream
+   * Cleans up any local resources after the underlying stream server is
+   * closed.  Since this method is called by the close() method on the
+   * underlying remote stream, <i>it will be invoked on a successful remote
+   * close</i>.
+   *
+   * @param readSuccess <code>true</code> iff all data was successfully
+   *                    transferred, <code>false</code> otherwise
    */
-  @SuppressWarnings("unchecked")
-  public static RemoteStreamMonitor<RemoteInputStreamServer> chooseMonitor(
-      RemoteStreamMonitor<RemoteInputStreamServer> monitor,
-      Object localSource)
+  protected void closeImpl(boolean readSuccess)
+    throws IOException
   {
-    // a common idiom is for the localSource to implement RemoteStreamMonitor
-    // if it needs to manage local resources.  check for this if no monitor
-    // (or the DUMMY_MONITOR) was explicitly provided.
-    if(((monitor == null) ||
-        (monitor == RemoteInputStreamServer.DUMMY_MONITOR)) &&
-       (localSource instanceof RemoteStreamMonitor)) {
-      monitor = (RemoteStreamMonitor<RemoteInputStreamServer>)localSource;
-    }
-    return monitor;
+    // base class does nothing
   }
-    
+  
 }

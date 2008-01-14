@@ -27,6 +27,7 @@ King of Prussia, PA 19406
 
 package com.healthmarketscience.rmiio;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.Iterator;
@@ -57,10 +58,9 @@ import java.util.Iterator;
  * progress monitors, for example.
  * <p>
  * Note, since it is a common idiom for the local iterator to implement
- * RemoteStreamMonitor in order to close local resources when the server is
- * shutdown, this implementation will automatically use the local iterator as
- * the monitor if one has not already been explicitly provided and the local
- * iterator implements the {@link RemoteStreamMonitor} interface.
+ * Closeable in order to close local resources, this implementation will
+ * automatically close a Closeable local iterator after the underlying server
+ * is shutdown.
  * 
  * @see <a href="{@docRoot}/overview-summary.html#Usage_Notes">Usage Notes</a>
  *
@@ -202,8 +202,7 @@ public class SerialRemoteIteratorServer<DataType>
       int resetNumObjects)
     throws IOException
   {
-    super(useCompression, noDelay, chooseMonitor(monitor, localIterator),
-          chunkSize);
+    super(useCompression, noDelay, monitor, chunkSize);
     _localIterator = localIterator;
     _resetNumObjects = resetNumObjects;
   }
@@ -240,6 +239,18 @@ public class SerialRemoteIteratorServer<DataType>
     super.closeIterator();
   }
 
+  @Override
+  protected void closeImpl(boolean readSuccess)
+    throws IOException
+  {
+    // close our local iterator if it is Closeable.  Swallow exceptions
+    // because at this point, they do not matter.
+    if(_localIterator instanceof Closeable) {
+      RmiioUtil.closeQuietly((Closeable)_localIterator);
+    }
+    super.closeImpl(readSuccess);
+  }
+  
   /**
    * Writes the given object to the given output stream.  The default
    * implementation uses {@link java.io.ObjectOutputStream#writeUnshared} as

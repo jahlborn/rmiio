@@ -13,25 +13,35 @@
         users of this library will likely use.
       </p>
       <ul>
-        <li><a href="#Remote_Streams">Remote Streams</a></li>
+        <li><a href="#Remote_Streaming"><b>Remote Streaming</b></a></li>
         <ul>
           <li><a href="#Remote_Streams">RemoteInputStream</a></li>
           <li><a href="#SimpleRemoteInputStream">SimpleRemoteInputStream</a></li>
           <li><a href="#GZIPRemoteInputStream">GZIPRemoteInputStream</a></li>
+          <li><a href="#RemoteInputStreamClient">RemoteInputStreamClient</a></li>
           <li><a href="#Remote_Streams">RemoteOutputStream</a></li>
           <li><a href="#SimpleRemoteOutputStream">SimpleRemoteOutputStream</a></li>
           <li><a href="#GZIPRemoteOutputStream">GZIPRemoteOutputStream</a></li>
+          <li><a href="#RemoteOutputStreamClient">RemoteOutputStreamClient</a></li>
         </ul>
-        <li><a href="#RemoteIterator">RemoteIterator</a></li>
+        <li><a href="#Remote_Iteration"><b>Remote Iteration</b></a></li>
+        <ul>
+          <li><a href="#Remote_Iteration">Remote Iterator</a></li>
+          <li><a href="#SerialRemoteIteratorServer">SerialRemoteIteratorServer</a></li>
+          <li><a href="#SerialRemoteIteratorClient">SerialRemoteIteratorClient</a></li>
+          <li><a href="#SimpleRemoteIterator">SimpleRemoteIterator</a></li>
+          <li><a href="#IOIterator">IOIterator</a></li>
+          <li><a href="#AbstractCloseableIOIterator">AbstractCloseableIOIterator</a></li>
+          <li><a href="#IOIteratorPipe">IOIteratorPipe</a></li>
+          <li><a href="#EncodingRemoteIteratorServer">EncodingRemoteIteratorServer</a></li>
+          <li><a href="#RemoteIteratorClient">RemoteIteratorClient</a></li>
+        </ul>
         <li><a href="#RemoteStreamMonitor">RemoteStreamMonitor</a></li>
         <li><a href="#RemoteRetry">RemoteRetry</a></li>
-        <li><a href="#IOIteratorPipe">IOIteratorPipe</a></li>
-        <li><a href="#AbstractCloseableIOIterator">AbstractCloseableIOIterator</a></li>
-        <li><a href="#RmiioUtil">RmiioUtil</a></li>
         <li><a href="#RemoteStreamExporter">RemoteStreamExporter</a></li>
       </ul>
 
-      <subsection name="Remote Streams">
+      <subsection name="Remote Streaming">
 
         <p>
           Probably the first classes anyone will use from RMIIO are the remote
@@ -80,8 +90,10 @@
          methods to wrap the remote streams:
         </p>
         <ul>
-          <li><a href="apidocs/com/healthmarketscience/rmiio/RemoteInputStreamClient.html#wrap(com.healthmarketscience.rmiio.RemoteInputStream)">RemoteInputStreamClient.wrap</a> will turn a RemoteInputStream into an InputStream.</li>
-          <li><a href="apidocs/com/healthmarketscience/rmiio/RemoteOutputStreamClient.html#wrap(com.healthmarketscience.rmiio.RemoteOutputStream)">RemoteOutputStreamClient.wrap</a> will turn a RemoteOutputStream into an OutputStream.</li>
+          <li><a name="RemoteInputStreamClient"/>
+              <a href="apidocs/com/healthmarketscience/rmiio/RemoteInputStreamClient.html#wrap(com.healthmarketscience.rmiio.RemoteInputStream)">RemoteInputStreamClient.wrap</a> will turn a RemoteInputStream into an InputStream.</li>
+          <li><a name="RemoteOutputStreamClient"/>
+              <a href="apidocs/com/healthmarketscience/rmiio/RemoteOutputStreamClient.html#wrap(com.healthmarketscience.rmiio.RemoteOutputStream)">RemoteOutputStreamClient.wrap</a> will turn a RemoteOutputStream into an OutputStream.</li>
         </ul>
 
         <h4>Example RemoteInputStream Scenarios:</h4>
@@ -174,7 +186,7 @@
         
       </subsection>
 
-      <subsection name="RemoteIterator">
+      <subsection name="Remote Iteration">
 
         <p>
           The RemoteIterator classes are built on top of the
@@ -197,11 +209,21 @@
           The server/client implementations are:
         </p>
         <ul>
-          <li><a href="apidocs/com/healthmarketscience/rmiio/SerialRemoteIteratorServer.html">SerialRemoteIteratorServer</a>
+          <li><a name="SerialRemoteIteratorServer"/>
+              <a href="apidocs/com/healthmarketscience/rmiio/SerialRemoteIteratorServer.html">SerialRemoteIteratorServer</a>
               - serializes objects using standarad Java Serialization.
           </li>
-          <li><a href="apidocs/com/healthmarketscience/rmiio/SerialRemoteIteratorClient.html">SerialRemoteIteratorClient</a>
+          <li><a name="SerialRemoteIteratorClient"/>
+              <a href="apidocs/com/healthmarketscience/rmiio/SerialRemoteIteratorClient.html">SerialRemoteIteratorClient</a>
               - deserializes objects using standard Java Serialization
+          </li>
+          <li><a name="Simpleremoteiterator"/>
+              <a href="apidocs/com/healthmarketscience/rmiio/Simpleremoteiterator.html">Simpleremoteiterator</a>
+              - wraps a simple Java collection as a RemoteIterator.  This is
+                useful for passing a small collection of objects to a method
+                which expects a RemoteIterator.  Instead of streaming the
+                data, the entire collection is merely serialized as part of
+                the "client" object using normal Java Serialization.
           </li>
         </ul>
         
@@ -239,6 +261,24 @@
           </tr>          
         </table>
 
+        <h4><a name="IOIterator">IOIterator</a></h4>
+        <p>
+          The local source for a RemoteIterator is always an IOIterator.  This
+          is similar to an Iterator, except that the methods throw
+          IOException.  There are a variety of useful methods and classes for
+          creating IOIterators:
+        </p>
+        <ul>
+          <li><a href="apidocs/com/healthmarketscience/rmiio/RmiioUtil.html#adapt(java.util.Iterator)">RmiioUtil.adapt</a> will turn any Iterator into an IOIterator.</li>
+          <li><a name="AbstractCloseableIOIterator"/>
+              <a href="apidocs/com/healthmarketscience/rmiio/AbstractCloseableIOIterator.html">AbstractCloseableIOIterator</a>
+              - Any non-trivial IOIterator implementation should generally
+                extend this class.  This abstract class makes a best effort to
+                close any local resources as soon as possible.
+          </li>
+          FIXME
+        </ul>
+        
         <h4>No-Delay Iteration</h4>
         <p>
           By default, RemoteIterators batch objects together to reduce network
@@ -262,9 +302,11 @@
           The most likely server/client choices for extension are:
         </p>
         <ul>
-          <li><a href="apidocs/com/healthmarketscience/rmiio/EncodingRemoteIteratorServer.html">EncodingRemoteIteratorServer</a>
+          <li><a name="EncodingRemoteIteratorServer"/>
+              <a href="apidocs/com/healthmarketscience/rmiio/EncodingRemoteIteratorServer.html">EncodingRemoteIteratorServer</a>
           </li>
-          <li><a href="apidocs/com/healthmarketscience/rmiio/RemoteIteratorClient.html">RemoteIteratorClient</a>
+          <li><a name="RemoteIteratorClient"/>
+              <a href="apidocs/com/healthmarketscience/rmiio/RemoteIteratorClient.html">RemoteIteratorClient</a>
           </li>
         </ul>
         

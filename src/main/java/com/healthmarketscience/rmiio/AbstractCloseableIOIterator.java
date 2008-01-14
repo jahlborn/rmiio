@@ -33,7 +33,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Convenience base class for CloseableIOIterator implementations, especially
- * suited for use as the local iterator for a RemoteInputStreamServer
+ * suited for use as the local iterator for a RemoteIteratorServer
  * instance.  This implementation manages the closing of the local resources
  * through three separate mechanisms.  The {@link #close} method will be
  * called:
@@ -41,8 +41,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * <li>by the {@link #next} method when the {@link #hasNext} method starts
  *     returning {@code false}</li>
  * <li>when the close method is called directly (duh)</li>
- * <li>if used with a RemoteInputStreamServer, when the server is
- *     shutdown</li>
+ * <li>if used with a RemoteIteratorServer, when the server is shutdown</li>
  * </ul>
  * This three-pronged attack provides a pretty strong guarantee that the local
  * resources will be closed at some point in time.  Note that the
@@ -53,7 +52,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author James Ahlborn
  */
 public abstract class AbstractCloseableIOIterator<DataType>
-  extends RemoteInputStreamMonitor
   implements CloseableIOIterator<DataType>
 {
 
@@ -86,12 +84,6 @@ public abstract class AbstractCloseableIOIterator<DataType>
     if(_closed.compareAndSet(false, true)) {
       closeImpl();
     }
-  }
-
-  @Override
-  public void closed(RemoteInputStreamServer stream, boolean clean)
-  {
-    close();
   }
 
   /**

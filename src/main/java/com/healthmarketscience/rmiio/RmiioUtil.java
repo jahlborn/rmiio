@@ -51,8 +51,7 @@ public class RmiioUtil
    * If the given iterator implements {@link Closeable}, it will be closed by
    * a close call on the wrapper.  The wrapper implementation is a subclass of
    * {@link AbstractCloseableIOIterator}, so the iterator will automagically
-   * be closed if used with a SerialRemoteIteratorServer (and no alternate
-   * RemoteInputStreamMonitor is given).
+   * be closed if used with a SerialRemoteIteratorServer.
    */
   public static <T> CloseableIOIterator<T> adapt(Iterator<? extends T> iter)
   {
