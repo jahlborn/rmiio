@@ -6,7 +6,8 @@
     <title>Utilities for streaming data over RMI</title>
   </properties>
   <body>
-    <section name="RMIIO">
+    <section name="RMIIO"
+             id="RMIIO">
       <p>
         RMIIO is a library which makes it as simple as possible to stream
         large amounts of data using the RMI framework (or any RPC framework
@@ -51,7 +52,8 @@
         powerful classes which enable a client to stream data to the server
         using only a few extra lines of code.
       </p>
-      <subsection name="RemoteStream Example">
+      <subsection name="RemoteStream Example"
+                  id="RemoteStream_Example">
         <p>
           How simple?  Well, how about some example code (note, examples omit
           normal exception handling for the sake of brevity).  The obvious
@@ -114,7 +116,8 @@ service.uploadFile("MyFile", remoteFileData.export()); </source>
         </p>
       </subsection>
     </section>
-    <section name="Getting Started">
+    <section name="Getting Started"
+             id="Getting_Started">
       <ul>
         <li>Introduction to the major classes in the <a href="class_reference.html">Class Reference</a></li>
         <li>Extended code examples in the <a href="apidocs/overview-summary.html#overview_description">rmiio overview javadocs</a></li>
@@ -127,7 +130,8 @@ service.uploadFile("MyFile", remoteFileData.export()); </source>
         <li><a href="xref/index.html">Complete source code (with cross references)</a></li>
       </ul>
     </section>
-    <section name="Features">
+    <section name="Features"
+             id="Features">
       <ul>
         <li>Remote <a href="apidocs/com/healthmarketscience/rmiio/RemoteInputStreamServer.html">input</a> and <a href="apidocs/com/healthmarketscience/rmiio/RemoteOutputStreamServer.html">output</a> streams</li>
         <li>Remote Iterator implementation for streaming collections of
@@ -143,7 +147,8 @@ service.uploadFile("MyFile", remoteFileData.export()); </source>
         <li>Utilities to facilitate robust RMI usage (<a href="apidocs/com/healthmarketscience/rmiio/RemoteRetry.html">RemoteRetry</a>)</li>
       </ul>
     </section>
-    <section name="RemoteStreamExporter">
+    <section name="RemoteStreamExporter"
+             id="RemoteStreamExporter">
       <p>
         As of RMIIO release 1.1.0, the streaming implementation classes have
         been abstracted from the RPC framework infrastructure.  The <a href="apidocs/com/healthmarketscience/rmiio/exporter/package-summary.html#package_description">exporter package</a> has been added to enable the remote

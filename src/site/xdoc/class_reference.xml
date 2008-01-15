@@ -6,7 +6,8 @@
     <title>RMIIO Class Reference</title>
   </properties>
   <body>
-    <section name="RMIIO Class Reference">
+    <section name="RMIIO Class Reference"
+             id="RMIIO_Class_Reference">
       <p>
         The large number of classes in the RMIIO package may initially be a
         bit daunting.  The reference below describes the primary classes in
@@ -76,7 +77,8 @@
       </ul>
     </section>
     
-    <section name="Remote Streaming">
+    <section name="Remote Streaming"
+             id="Remote_Streaming">
 
       <p>
         Probably the first classes anyone will use from RMIIO are the remote
@@ -132,7 +134,8 @@
         <a href="apidocs/com/healthmarketscience/rmiio/RemoteOutputStreamClient.html#wrap(com.healthmarketscience.rmiio.RemoteOutputStream)">RemoteOutputStreamClient.wrap</a> will turn a RemoteOutputStream into an OutputStream.</li>
       </ul>
 
-      <subsection name="RemoteInputStream Sequence Diagrams">
+      <subsection name="RemoteInputStream Sequence Diagrams"
+                  id="RemoteInputStream_Sequence_Diagrams">
         <p>
           These sequence diagrams show the major interactions between a client
           and server when the client initiates a call to the server involving
@@ -169,7 +172,8 @@
         </table>
       </subsection>
       
-      <subsection name="RemoteOutputStream Sequence Diagrams">
+      <subsection name="RemoteOutputStream Sequence Diagrams"
+                  id="RemoteOutputStream_Sequence_Diagrams">
         <p>
           Similar sequence diagrams for the RemoteOutputStream. Notice again
           that the "Client" and "Server" objects are named purely based on who
@@ -205,7 +209,8 @@
         </table>
       </subsection>
       
-      <subsection name="Serializable InputStream and OutputStream">
+      <subsection name="Serializable InputStream and OutputStream"
+                  id="Serializable_InputStream_and_OutputStream">
         <p>
           It is also possible to send something remotely which already is an
           InputStream or an OutputStream.  While this is not usually necessary
@@ -224,7 +229,8 @@
       </subsection>
     </section>
 
-    <section name="Remote Iteration">
+    <section name="Remote Iteration"
+             id="Remote_Iteration">
 
       <p>
         The <a href="apidocs/com/healthmarketscience/rmiio/RemoteIterator.html">RemoteIterator</a>
@@ -266,7 +272,8 @@
         </li>
       </ul>
       
-      <subsection name="RemoteIterator Sequence Diagrams">
+      <subsection name="RemoteIterator Sequence Diagrams"
+                  id="RemoteIterator_Sequence_Diagrams">
         <p>
           These sequence diagrams show the major interactions between a client
           and server when the client initiates a call to the server involving
@@ -309,7 +316,8 @@
         </table>
       </subsection>
       
-      <subsection name="Local Iterators">
+      <subsection name="Local Iterators"
+                  id="Local_Iterators">
       <p>
         The local source for a SerialRemoteIteratorServer is always an <a href="apidocs/com/healthmarketscience/rmiio/IOIterator.html">IOIterator</a>.
         This is similar to an Iterator, except that the methods throw
@@ -336,7 +344,8 @@
       </ul>
       </subsection>
       
-      <subsection name="No-Delay Iteration">
+      <subsection name="No-Delay Iteration"
+                  id="No-Delay_Iteration">
         <p>
           By default, RemoteIterators batch objects together to reduce network
           overhead, however certain scenarios may call for lower latency at
@@ -350,7 +359,8 @@
         </p>
       </subsection>
       
-      <subsection name="Custom Serialization">
+      <subsection name="Custom Serialization"
+                  id="Custom_Serialization">
         <p>
           The base RemoteIterator implementations are built in such a way as
           to allow the developer to implement custom serialization of the data
@@ -370,7 +380,8 @@
       </subsection>
     </section>
 
-    <section name="Monitoring">
+    <section name="Monitoring"
+             id="Monitoring">
       <p>
         The <a href="apidocs/com/healthmarketscience/rmiio/RemoteStreamMonitor.html">RemoteStreamMonitor</a>
         provides hooks for monitoring most of interesting events that occur
@@ -384,7 +395,8 @@
         RemoteIterator).
       </p>
       
-      <subsection name="Closing Additional Server Resources">
+      <subsection name="Closing Additional Server Resources"
+                  id="Closing_Additional_Server_Resources">
         <p>
           RemoteStreamMonitors also provide a means for cleaning up additional
           server resources when a remote stream is finished.  This is very
@@ -394,7 +406,8 @@
       </subsection>
     </section>
     
-    <section name="Custom Server Exporting">
+    <section name="Custom Server Exporting"
+             id="Custom_Server_Exporting">
       <p>
         The remote stream servers utilize an instance of a <a href="apidocs/com/healthmarketscience/rmiio/exporter/RemoteStreamExporter.html">RemoteStreamExporter</a>
         in order to export themselves for use remotely.  "Exporting" a
@@ -423,7 +436,8 @@
       </p>
     </section>
     
-    <section name="RPC Robustness Utilities">
+    <section name="RPC Robustness Utilities"
+             id="RPC_Robustness_Utilities">
       <p>
         Programming using distributed processing is difficult.  "Anyone
         telling you differently is selling you something."  While the RMI
