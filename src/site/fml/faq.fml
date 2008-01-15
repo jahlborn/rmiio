@@ -93,7 +93,9 @@
           RMIIO stream).  You may be able to fix any firewall related problems
           by using a RemoteOutputStream returned from the server instead of a
           RemoteInputStream passed from the client (so the client pushes data
-          to the server instead of the server pulling it from the client).
+          to the server instead of the server pulling it from the client).  A
+          similar solution can be applied to a RemoteOutputStream (see the
+          <a href="class_reference.html#RemoteInputStream_Sequence_Diagrams">sequence diagrams</a> for more details).
         </p>
         <p>
           Additionally, you may need to control the port that the RMIIO server
