@@ -67,7 +67,8 @@ public class LocalFileUploadService {
   public void uploadFile(String fileName, InputStream fileData) {
     // ... copy fileData to local storage ...
   }
-} </source>
+}
+</source>
         <p>
           Easy, right?  Now, to actually turn this into a remote interface,
           the <code>fileData</code> type needs to be changed, as an
@@ -81,7 +82,8 @@ public class RemoteFileUploadService {
     InputStream fileData = RemoteInputStreamClient.wrap(remoteFileData);
     // ... copy fileData to local storage ...
   }
-} </source>
+}
+</source>
         <p>
           That's it, one extra line on the server to wrap the RMIIO
           RemoteInputStream as an InputStream (yes, it is confusing that the
@@ -95,7 +97,8 @@ public class RemoteFileUploadService {
 RemoteFileUploadService service = ...;
 InputStream fileData = ...;
 RemoteInputStreamServer remoteFileData = new SimpleRemoteInputStream(fileData);
-service.uploadFile("MyFile", remoteFileData.export()); </source>
+service.uploadFile("MyFile", remoteFileData.export());
+</source>
         <p>
           And there you have a working client which can stream a file to a
           remote server (again, note that the standard try/catch/finally
