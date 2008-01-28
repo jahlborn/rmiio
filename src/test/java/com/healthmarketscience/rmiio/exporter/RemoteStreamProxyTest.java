@@ -126,7 +126,7 @@ public class RemoteStreamProxyTest extends TestCase
     RemoteInputStreamServer inServer = new SimpleRemoteInputStream(
         new ByteArrayInputStream(testBytes));
     try {
-      RemoteStreamServerInvokerHelper.invoke(inServer, "bogusMethod",
+      RemoteStreamServerInvokerHelper.invoke(inServer, 42,
                                              new Object[0]);
       fail("IllegalArgumentException should have been thrown");
     } catch(IllegalArgumentException e) {
@@ -136,7 +136,7 @@ public class RemoteStreamProxyTest extends TestCase
     RemoteOutputStreamServer outServer = new SimpleRemoteOutputStream(
         new ByteArrayOutputStream());
     try {
-      RemoteStreamServerInvokerHelper.invoke(outServer, "bogusMethod",
+      RemoteStreamServerInvokerHelper.invoke(outServer, 42,
                                              new Object[0]);
       fail("IllegalArgumentException should have been thrown");
     } catch(IllegalArgumentException e) {
@@ -160,11 +160,11 @@ public class RemoteStreamProxyTest extends TestCase
     }
     
     @Override
-    protected Object invoke(String methodName, Object... parameters)
+    protected Object invoke(int methodCode, Object... parameters)
       throws IOException
     {
       return RemoteStreamServerInvokerHelper.invoke(
-          _server, methodName, parameters);
+          _server, methodCode, parameters);
     }
 
   }
@@ -179,11 +179,11 @@ public class RemoteStreamProxyTest extends TestCase
     }
     
     @Override
-    protected Object invoke(String methodName, Object... parameters)
+    protected Object invoke(int methodCode, Object... parameters)
       throws IOException
     {
       return RemoteStreamServerInvokerHelper.invoke(
-          _server, methodName, parameters);
+          _server, methodCode, parameters);
     }
 
   }

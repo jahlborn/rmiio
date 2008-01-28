@@ -77,7 +77,7 @@ public abstract class RemoteOutputStreamClientProxy
   /**
    * Invokes the given method name with the given parameters on the remote
    * RemoteInputStreamServer and returns the results.
-   * @param methodName the name of the method to invoke, one of the
+   * @param methodCode the name of the method to invoke, one of the
    *                   {@code RemoteStreamServerInvokerHelper.IN_*_METHOD}
    *                   constants
    * @param parameters parameters for the method invocation (may be
@@ -86,7 +86,7 @@ public abstract class RemoteOutputStreamClientProxy
    * @throws IOException if the remote server throws or there is a
    *         communication failure.
    */
-  protected abstract Object invoke(String methodName, Object... parameters)
+  protected abstract Object invoke(int methodCode, Object... parameters)
     throws IOException;
   
 }

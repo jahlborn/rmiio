@@ -44,16 +44,16 @@ import com.healthmarketscience.rmiio.RemoteStreamServer;
  */
 public class RemoteStreamServerInvokerHelper
 {
-  public static final String OUT_USING_COMPRESSION_METHOD = "usingGZIPCompression";
-  public static final String OUT_CLOSE_METHOD = "close(boolean)";
-  public static final String OUT_FLUSH_METHOD = "flush";
-  public static final String OUT_WRITE_PACKET_METHOD = "writePacket(byte[],int)";
+  public static final int OUT_USING_COMPRESSION_METHOD = 1301; // "usingGZIPCompression";
+  public static final int OUT_CLOSE_METHOD = 1302; // "close(boolean)";
+  public static final int OUT_FLUSH_METHOD = 1303; // "flush";
+  public static final int OUT_WRITE_PACKET_METHOD = 1304; // "writePacket(byte[],int)";
   
-  public static final String IN_USING_COMPRESSION_METHOD = "usingGZIPCompression";
-  public static final String IN_AVAILABLE_METHOD = "available";
-  public static final String IN_CLOSE_METHOD = "close(boolean)";
-  public static final String IN_READ_PACKET_METHOD = "readPacket(int)";
-  public static final String IN_SKIP_METHOD = "skip(long,int)";
+  public static final int IN_USING_COMPRESSION_METHOD = 1351; // "usingGZIPCompression";
+  public static final int IN_AVAILABLE_METHOD = 1352; // "available";
+  public static final int IN_CLOSE_METHOD = 1353; // "close(boolean)";
+  public static final int IN_READ_PACKET_METHOD = 1354; // "readPacket(int)";
+  public static final int IN_SKIP_METHOD = 1355; // "skip(long,int)";
   
 
   private RemoteStreamServerInvokerHelper() {}
@@ -62,7 +62,7 @@ public class RemoteStreamServerInvokerHelper
    * Invokes the method with the given name and the given parameters on the
    * given RemoteOutputStreamServer instance, returning the result.
    * @param server the server on which to invoke the method
-   * @param methodName the name of the method to invoke, one of the
+   * @param methodCode the code of the method to invoke, one of the
    *                   {@code OUT_*_METHOD} constants
    * @param parameters parameters for the method invocation (may be
    *                   {@code null} if the method takes no parameters)
@@ -70,36 +70,40 @@ public class RemoteStreamServerInvokerHelper
    * @throws IOException if the method call throws
    */
   public static Object invoke(RemoteOutputStreamServer server,
-                              String methodName, Object[] parameters)
+                              int methodCode, Object[] parameters)
     throws IOException
   {
-    if(OUT_WRITE_PACKET_METHOD.equals(methodName)) {
+    switch(methodCode) {
+    case OUT_WRITE_PACKET_METHOD:
       byte[] packet = (byte[])parameters[0];
       int packetId = (Integer)parameters[1];
       server.writePacket(packet, packetId);
       return null;
-    } else if(OUT_USING_COMPRESSION_METHOD.equals(methodName)) {
+
+    case OUT_USING_COMPRESSION_METHOD:
       return server.usingGZIPCompression();
-    } else if(OUT_FLUSH_METHOD.equals(methodName)) {
+
+    case OUT_FLUSH_METHOD:
       server.flush();
       return null;
-    } else if(OUT_CLOSE_METHOD.equals(methodName)) {
+
+    case OUT_CLOSE_METHOD:
       boolean success = (Boolean)parameters[0];
       server.close(success);
       return null;
     }
 
-    // invalid method name
+    // invalid method code
     throw new IllegalArgumentException(
         "Unknown invocation on " +
-        invocationToString(server, methodName, parameters));
+        invocationToString(server, methodCode, parameters));
   }
   
   /**
    * Invokes the method with the given name and the given parameters on the
    * given RemoteInputStreamServer instance, returning the result.
    * @param server the server on which to invoke the method
-   * @param methodName the name of the method to invoke, one of the
+   * @param methodCode the code of the method to invoke, one of the
    *                   {@code IN_*_METHOD} constants
    * @param parameters parameters for the method invocation (may be
    *                   {@code null} if the method takes no parameters)
@@ -107,40 +111,45 @@ public class RemoteStreamServerInvokerHelper
    * @throws IOException if the method call throws
    */
   public static Object invoke(RemoteInputStreamServer server,
-                              String methodName, Object[] parameters)
+                              int methodCode, Object[] parameters)
     throws IOException
   {
-    if(IN_READ_PACKET_METHOD.equals(methodName)) {
+    switch(methodCode) {
+    case IN_READ_PACKET_METHOD:
       int packetId = (Integer)parameters[0];
       return server.readPacket(packetId);
-    } else if(IN_AVAILABLE_METHOD.equals(methodName)) {
+
+    case IN_AVAILABLE_METHOD:
       return server.available();
-    } else if(IN_SKIP_METHOD.equals(methodName)) {
+
+    case IN_SKIP_METHOD:
       long numBytes = (Long)parameters[0];
       int skipId = (Integer)parameters[1];
       return server.skip(numBytes, skipId);
-    } else if(IN_USING_COMPRESSION_METHOD.equals(methodName)) {
+
+    case IN_USING_COMPRESSION_METHOD:
       return server.usingGZIPCompression();
-    } else if(IN_CLOSE_METHOD.equals(methodName)) {
+
+    case IN_CLOSE_METHOD:
       boolean success = (Boolean)parameters[0];
       server.close(success);
       return null;
     }
 
-    // invalid method name
+    // invalid method code
     throw new IllegalArgumentException(
         "Unknown invocation on " +
-        invocationToString(server, methodName, parameters));
+        invocationToString(server, methodCode, parameters));
   }
 
   /**
-   * Creates a string with the given server, method name, and parameters.
+   * Creates a string with the given server, method code, and parameters.
    */
   private static final String invocationToString(
-      RemoteStreamServer<?,?> server, String methodName,
+      RemoteStreamServer<?,?> server, int methodCode,
       Object[] parameters)
   {
-    return "server " + server + ": " + methodName + " " +
+    return "server " + server + ": " + methodCode + " " +
       Arrays.deepToString(parameters);
   }
   
