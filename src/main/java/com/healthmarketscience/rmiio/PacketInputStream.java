@@ -111,5 +111,38 @@ public abstract class PacketInputStream extends InputStream
    */
   public abstract int packetsAvailable()
     throws IOException;
+
+  
+  /**
+   * Reads a packet of data from the given input stream.  The given packet is
+   * filled and returned if possible.  If not enough bytes are available, a
+   * new packet will be created and returned.  If the stream is empty, {@code
+   * null} will be returned.
+   * 
+   * @param in the InputStream from which to read data
+   * @param packet the potential output packet (if enough data is available)
+   * @return a filled packet of data if any available, {@code null} if the
+   *         stream is empty
+   */
+  public static byte[] readPacket(InputStream in, byte[] packet)
+    throws IOException
+  {
+    int readLen = in.read(packet, 0, packet.length);
+    if(readLen > 0) {
+      
+      if(readLen < packet.length) {
+        // shrink buffer for output
+        byte[] tmpPacket = new byte[readLen];
+        System.arraycopy(packet, 0, tmpPacket, 0, readLen);
+        packet = tmpPacket;
+      }
+      return packet;
+      
+    } else if(readLen == 0) {
+      
+      return PacketInputStream.EMPTY_PACKET;
+    }
+    return null;
+  }
   
 }

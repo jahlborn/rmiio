@@ -25,13 +25,14 @@ Suite 200
 King of Prussia, PA 19406
 */
 
-package com.healthmarketscience.rmiio;
+package com.healthmarketscience.rmiio.util;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import com.healthmarketscience.rmiio.util.SingleByteAdapter;
-import com.healthmarketscience.rmiio.util.PipeBuffer;
+import com.healthmarketscience.rmiio.PacketInputStream;
+import com.healthmarketscience.rmiio.PacketOutputStream;
+
 
 /**
  * InputStream which facilitates generating a stream of data on demand through

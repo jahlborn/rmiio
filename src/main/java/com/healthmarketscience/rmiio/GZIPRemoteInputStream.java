@@ -32,6 +32,7 @@ import java.io.InputStream;
 import java.util.zip.GZIPOutputStream;
 
 import com.healthmarketscience.rmiio.util.InputStreamAdapter;
+import com.healthmarketscience.rmiio.util.EncodingInputStream;
 
 
 /**

@@ -13,6 +13,12 @@
         Make closing of local resources by a RemoteIteratorServer less prone
         to surprises.
       </action>
+      <action dev="jahlborn" type="update">
+        Change proxy utilities to use method code instead of string.
+      </action>
+      <action dev="jahlborn" type="update">
+        Move EncodingInputStream to util package.
+      </action>
     </release>
     <release version="2.0.0" date="2007-10-10">
       <action dev="jahlborn" type="add">

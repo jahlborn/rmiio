@@ -72,7 +72,7 @@ public class RmiioUtil
       } catch(IOException e) {
         // optionally log the exception, but otherwise ignore
         if(LOG.isDebugEnabled()) {
-          LOG.debug("Failed closing iterator", e);
+          LOG.debug("Failed closing closeable", e);
         }
       }
     }

@@ -144,18 +144,7 @@ public abstract class InputStreamAdapter
     
     @Override
     public byte[] readPacket() throws IOException {
-      // read another packet of data
-      int readLen = _istream.read(_temp, 0, _temp.length);
-      if(readLen > 0) {
-        byte[] retPacket = _temp;
-        if(readLen < _temp.length) {
-          // shrink buffer for output
-          retPacket = new byte[readLen];
-          System.arraycopy(_temp, 0, retPacket, 0, readLen);
-        }
-        return retPacket;
-      }
-      return null;
+      return PacketInputStream.readPacket(_istream, _temp);
     }
 
     @Override
@@ -169,5 +158,5 @@ public abstract class InputStreamAdapter
     }
     
   }  
-  
+
 }

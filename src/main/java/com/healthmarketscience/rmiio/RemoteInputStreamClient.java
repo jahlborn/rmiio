@@ -33,6 +33,8 @@ import java.util.zip.GZIPInputStream;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
 
+import com.healthmarketscience.rmiio.util.EncodingInputStream;
+
 
 /**
  * Utility which provides a wrapper InputStream for the client of a

@@ -25,13 +25,15 @@ Suite 200
 King of Prussia, PA 19406
 */
 
-package com.healthmarketscience.rmiio;
+package com.healthmarketscience.rmiio.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Arrays;
 
+import com.healthmarketscience.rmiio.BaseRemoteStreamTest;
+import com.healthmarketscience.rmiio.PacketOutputStream;
 import junit.framework.TestCase;
 
 /**

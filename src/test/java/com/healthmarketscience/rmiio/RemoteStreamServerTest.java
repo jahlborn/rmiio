@@ -65,7 +65,7 @@ public class RemoteStreamServerTest extends BaseRemoteStreamTest {
 
   private static final Log LOG = LogFactory.getLog(RemoteStreamServerTest.class);
 
-  private static final String TEST_FILE = "./src/test/data/file_transfer.data";
+  static final String TEST_FILE = "./src/test/data/file_transfer.data";
   private static final int FILE_SIZE = 277672;
   private static final int PARTIAL_SIZE = 3000;
   
@@ -227,7 +227,7 @@ public class RemoteStreamServerTest extends BaseRemoteStreamTest {
   }
 
 
-  private static int compare(File file1, File file2, boolean file2IsPartial)
+  public static int compare(File file1, File file2, boolean file2IsPartial)
     throws IOException
   {
     LOG.debug("Comparing " + file1 + " and " + file2);
@@ -442,8 +442,8 @@ public class RemoteStreamServerTest extends BaseRemoteStreamTest {
     LOG.debug("Sent file stream");
   }
 
-  private static void copy(InputStream in, OutputStream out,
-                           boolean doPartial, boolean doSkip)
+  public static void copy(InputStream in, OutputStream out,
+                          boolean doPartial, boolean doSkip)
     throws IOException
   {
     final int BUF_SIZE = 1024;

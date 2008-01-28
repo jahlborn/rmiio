@@ -30,6 +30,8 @@ package com.healthmarketscience.rmiio;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import com.healthmarketscience.rmiio.util.EncodingInputStream;
+
 
 /**
  * Base class for implementing the server side of a RemoteIterator where the
