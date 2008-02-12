@@ -50,7 +50,7 @@ public abstract class RemoteOutputStreamServer
   /** the real output stream to which we are writing data */
   protected final OutputStream _out;
   /** id of the last packet passed into a writePacket() call */
-  private int _lastPacketId = -1;
+  private int _lastPacketId = INITIAL_INVALID_SEQUENCE_ID;
 
   public RemoteOutputStreamServer(OutputStream out) {
     this(out, DUMMY_MONITOR);

@@ -54,11 +54,11 @@ public abstract class RemoteInputStreamServer
   /** the target chunk size for data packets sent over the wire */
   protected int _chunkSize;
   /** id of the last packet sent from a readPacket() call */
-  private int _lastPacketId = -1;
+  private int _lastPacketId = INITIAL_INVALID_SEQUENCE_ID;
   /** the last packet sent from readPacket(), corresponds to _lastPacketId */
   private byte[] _lastPacket;
   /** id of the last skip call */
-  private int _lastSkipId = -1;
+  private int _lastSkipId = INITIAL_INVALID_SEQUENCE_ID;
   /** the results of the last skip() call, corresponds to _lastSkipId */
   private long _lastSkip;
 
