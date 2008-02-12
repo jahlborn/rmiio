@@ -54,6 +54,13 @@ public abstract class RemoteStreamServer<StreamServerType, StreamType>
   implements Remote, Unreferenced, Closeable
 {
   protected static final Log LOG = LogFactory.getLog(RemoteStreamServer.class);
+
+  /** the initial sequence id for server methods which have not yet been
+      invoked */
+  protected static final int INITIAL_INVALID_SEQUENCE_ID = -1;
+  /** the initial sequence id for client code which has not yet invoked any
+      remote methods */
+  protected static final int INITIAL_VALID_SEQUENCE_ID = 0;
   
   /** this set will temporarily maintain a hard reference to a newly created
       RemoteStreamServer (via a HardRefMonitor) so that the stream remote stub
