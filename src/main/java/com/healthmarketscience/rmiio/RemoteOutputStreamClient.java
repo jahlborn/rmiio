@@ -154,7 +154,7 @@ public class RemoteOutputStreamClient
         data */
     private final PipeBuffer _byteBuffer;
     /** the next sequence id to use for a remote call */
-    private int nextActionId = 0;
+    private int nextActionId = RemoteStreamServer.INITIAL_VALID_SEQUENCE_ID;
     /** keep track of successful remote close calls, so that double closing
         the stream does not cause spurious errors (in the normal case) */
     private volatile boolean _remoteCloseSuccessful;
