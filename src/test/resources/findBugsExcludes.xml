@@ -10,4 +10,20 @@
     <Class name="com.healthmarketscience.rmiio.SerializableOutputStream" />
     <Bug pattern="SE_BAD_FIELD" />
   </Match>
+  <Match>
+    <Class name="com.healthmarketscience.rmiio.GZIPRemoteInputStream" />
+    <Bug pattern="SE_BAD_FIELD" />
+  </Match>
+  <Match>
+    <Class name="com.healthmarketscience.rmiio.GZIPRemoteOutputStream" />
+    <Bug pattern="SE_BAD_FIELD" />
+  </Match>
+  <Match>
+    <Class name="com.healthmarketscience.rmiio.SimpleRemoteInputStream" />
+    <Bug pattern="SE_BAD_FIELD" />
+  </Match>
+  <Match>
+    <Class name="com.healthmarketscience.rmiio.SimpleRemoteOutputStream" />
+    <Bug pattern="SE_BAD_FIELD" />
+  </Match>
 </FindBugsFilter>
