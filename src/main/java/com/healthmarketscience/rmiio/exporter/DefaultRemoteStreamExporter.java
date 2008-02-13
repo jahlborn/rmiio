@@ -31,8 +31,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 import com.healthmarketscience.rmiio.RemoteStreamServer;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
 
 /**
  * Default concrete implementation of RemoteStreamExporter which exports the
@@ -46,8 +45,6 @@ import org.apache.commons.logging.LogFactory;
  */
 public class DefaultRemoteStreamExporter extends RemoteStreamExporter
 {
-  private static final Log LOG = LogFactory.getLog(DefaultRemoteStreamExporter.class);
-  
   /** constant indicating that export can use any port */
   public static final int ANY_PORT = 0;
 
