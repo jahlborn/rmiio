@@ -56,6 +56,15 @@ public class SerializableInputStream extends InputStream
       by a call to any one of the InputStream methods. */
   private transient InputStream _localIn;
   
+  public SerializableInputStream(InputStream localIn)
+    throws IOException
+  {
+    // note, we do not need to export here, as it will be handled
+    // automagically when the _remoteIn field is serialized.  this makes it
+    // very easy to consume this input stream locally or remotely.
+    this(new GZIPRemoteInputStream(localIn));
+  }
+
   public SerializableInputStream(RemoteInputStream remoteIn) {
     _remoteIn = remoteIn;
   }

@@ -59,6 +59,13 @@ public class SerializableOutputStream extends OutputStream
       data sent over the wire */
   private transient Integer _chunkSize;
   
+  public SerializableOutputStream(OutputStream localIn) {
+    // note, we do not need to export here, as it will be handled
+    // automagically when the _remoteOut field is serialized.  this makes it
+    // very easy to consume this output stream locally or remotely.
+    this(new GZIPRemoteOutputStream(localIn));
+  }
+
   public SerializableOutputStream(RemoteOutputStream remoteOut) {
     _remoteOut = remoteOut;
   }
