@@ -193,16 +193,20 @@ public class BaseRemoteStreamTest extends TestCase
     {
       _closed = true;
       _closedClean = clean;
-      LOG.debug("Transfer for " + stream + " finished: " +
-                "clean " + clean +
-                "; numWireBytes " + _numWireBytes +
-                " in numPackets " + _numWirePackets +
-                " (skipped " + _numSkippedWireBytes +
-                "; reattempted " +
-                _numReattempts + "); actual local bytes " +
-                (_numLocalBytes + _numSkippedLocalBytes));
+      LOG.debug("Transfer for " + stream + " finished: " + this);
     }
-    
+
+    @Override
+    public String toString() {
+      return "closed " + _closed +
+        "; clean " + _closedClean +
+        "; numWireBytes " + _numWireBytes +
+        " in numPackets " + _numWirePackets +
+        " (skipped " + _numSkippedWireBytes +
+        "; reattempted " +
+        _numReattempts + "); actual local bytes " +
+        (_numLocalBytes + _numSkippedLocalBytes);
+    }
   }
   
   

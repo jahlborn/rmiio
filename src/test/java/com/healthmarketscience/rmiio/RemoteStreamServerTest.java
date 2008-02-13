@@ -66,7 +66,7 @@ public class RemoteStreamServerTest extends BaseRemoteStreamTest {
   private static final Log LOG = LogFactory.getLog(RemoteStreamServerTest.class);
 
   static final String TEST_FILE = "./src/test/data/file_transfer.data";
-  private static final int FILE_SIZE = 277672;
+  static final int FILE_SIZE = 277672;
   private static final int PARTIAL_SIZE = 3000;
   
   private static boolean _deleteOnExit = true;
