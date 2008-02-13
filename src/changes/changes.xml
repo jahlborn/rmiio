@@ -24,6 +24,10 @@
         writeReplace to automagically export the object and return the remote
         stub.
       </action>
+      <action dev="jahlborn" type="add">
+        Add the DirectRemoteInputStream as a last-ditch alternative for
+        dealing with certain problematic scenarios.
+      </action>
     </release>
     <release version="2.0.0" date="2007-10-10">
       <action dev="jahlborn" type="add">

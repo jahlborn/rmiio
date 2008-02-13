@@ -20,6 +20,7 @@
           <li><a href="#Remote_Streaming"><code>RemoteInputStream</code></a></li>
           <li><a href="#SimpleRemoteInputStream"><code>SimpleRemoteInputStream</code></a></li>
           <li><a href="#GZIPRemoteInputStream"><code>GZIPRemoteInputStream</code></a></li>
+          <li><a href="#DirectRemoteInputStream"><code>DirectRemoteInputStream</code></a></li>
           <li><a href="#RemoteInputStreamClient"><code>RemoteInputStreamClient</code></a></li>
           <li><a href="#Remote_Streaming"><code>RemoteOutputStream</code></a></li>
           <li><a href="#SimpleRemoteOutputStream"><code>SimpleRemoteOutputStream</code></a></li>
@@ -94,31 +95,49 @@
         The actual remote stream implementations are:
       </p>
       <ul>
-        <li><a name="SimpleRemoteInputStream"/>
-        <a href="apidocs/com/healthmarketscience/rmiio/SimpleRemoteInputStream.html">SimpleRemoteInputStream</a>
-        - RemoteInputStream implementation which does not use any
-        compression on the wire.  This may be useful if the client and
-        server are on the same box, or network bandwidth is not an
-        issue.
-        </li>
-        <li><a name="GZIPRemoteInputStream"/>
-        <a href="apidocs/com/healthmarketscience/rmiio/GZIPRemoteInputStream.html">GZIPRemoteInputStream</a>
-        - RemoteInputStream implementation which uses GZIP compression
-        over the wire.  For moving data of any non-trivial size, this
-        is probably the preferred implementation.  Note that it does
-        trade off some extra CPU usage on the client and server for
-        the reduction in network bandwidth.
-        </li>
-        <li><a name="SimpleRemoteOutputStream"/>
-        <a href="apidocs/com/healthmarketscience/rmiio/SimpleRemoteOutputStream.html">SimpleRemoteOutputStream</a>
-        - RemoteOutputStream implementation similar to
-        SimpleRemoteInputStream.
-        </li>
-        <li><a name="GZIPRemoteOutputStream"/>
-        <a href="apidocs/com/healthmarketscience/rmiio/GZIPRemoteOutputStream.html">GZIPRemoteOutputStream</a>
-        - RemoteOutputStream implementation similar to
-        GZIPRemoteInputStream.
-        </li>
+        <li>Input</li>
+        <ul>
+          <li><a name="SimpleRemoteInputStream"/>
+          <a href="apidocs/com/healthmarketscience/rmiio/SimpleRemoteInputStream.html">SimpleRemoteInputStream</a>
+          - RemoteInputStream implementation which does not use any
+          compression on the wire.  This may be useful if the client and
+          server are on the same box, or if network bandwidth is not an
+          issue.
+          </li>
+          <li><a name="GZIPRemoteInputStream"/>
+          <a href="apidocs/com/healthmarketscience/rmiio/GZIPRemoteInputStream.html">GZIPRemoteInputStream</a>
+          - RemoteInputStream implementation which uses GZIP compression
+          over the wire.  For moving data of any non-trivial size, this
+          is probably the preferred implementation.  Note that it does
+          trade off some extra CPU usage on the client and server for
+          the reduction in network bandwidth.
+          </li>
+          <li><a name="DirectRemoteInputStream"/>
+          <a href="apidocs/com/healthmarketscience/rmiio/DirectRemoteInputStream.html">DirectRemoteInputStream</a>
+          - RemoteInputStream implementation which can be used as a last-ditch
+          alternative for certain problematic scenarios.  This implementation
+          is RMI specific and <i>not recommended for general use</i>.
+          However, it will not have any problems with firewalls, and therefore
+          may be useful when no other alternatives are viable.  Note that the
+          sequence diagrams below do not apply to this class (there are no
+          additional RMI invocations other than the initial call).  Please see
+          the class documentation for a complete list of pros and cons before
+          using this implementation.
+          </li>
+        </ul>
+        <li>Output</li>
+        <ul>
+          <li><a name="SimpleRemoteOutputStream"/>
+          <a href="apidocs/com/healthmarketscience/rmiio/SimpleRemoteOutputStream.html">SimpleRemoteOutputStream</a>
+          - RemoteOutputStream implementation similar to
+          SimpleRemoteInputStream.
+          </li>
+          <li><a name="GZIPRemoteOutputStream"/>
+          <a href="apidocs/com/healthmarketscience/rmiio/GZIPRemoteOutputStream.html">GZIPRemoteOutputStream</a>
+          - RemoteOutputStream implementation similar to
+          GZIPRemoteInputStream.
+          </li>
+        </ul>
       </ul>
       <p>
         The receiver of a remote stream will generally want to interact with
@@ -433,6 +452,12 @@
         project showing Java to C++ streaming using CORBA.  Other developers
         have written custom RemoteStreamExporters in order to use remote
         streams on Application Servers with alternate RMI implementations.
+      </p>
+      <p>
+        Please note, however, that while the remote streams may be used on
+        different RPC frameworks, the remote iterators are restricted to RMI
+        compatible frameworks only, as they involve Java serialization in
+        addition to the standard RPC interactions.
       </p>
     </section>
     
