@@ -42,6 +42,7 @@ public abstract class RemoteOutputStreamServer
   extends RemoteStreamServer<RemoteOutputStreamServer, RemoteOutputStream>
   implements RemoteOutputStream
 {
+  private static final long serialVersionUID = 20080212L;
 
   /** Default monitor for operations done by RemoteOutputStreamServer which
       does nothing. */

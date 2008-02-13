@@ -30,6 +30,9 @@ package com.healthmarketscience.rmiio;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InterruptedIOException;
+import java.io.NotSerializableException;
+import java.io.ObjectStreamException;
+import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.Unreferenced;
@@ -51,9 +54,11 @@ import org.apache.commons.logging.LogFactory;
  * @author James Ahlborn
  */
 public abstract class RemoteStreamServer<StreamServerType, StreamType>
-  implements Remote, Unreferenced, Closeable
+  implements Remote, Unreferenced, Closeable, Serializable
 {
   protected static final Log LOG = LogFactory.getLog(RemoteStreamServer.class);
+
+  private static final long serialVersionUID = 20080212L;  
 
   /** the initial sequence id for server methods which have not yet been
       invoked */
@@ -256,6 +261,27 @@ public abstract class RemoteStreamServer<StreamServerType, StreamType>
   {
     if(_state.get() == State.ABORTED) {
       throw new InterruptedIOException("stream server was aborted");
+    }
+  }
+
+  /**
+   * Returns the result of a call to {@link #export} on this instance as a
+   * serializable replacement for an instance of this class.  While generally
+   * the developer should be managing the call to export, implementing this
+   * method in a useful way makes the simple things simple.
+   * @return an exported remote stub for this instance
+   * @throws NotSerializableException if the export attempt fails
+   */
+  protected final Object writeReplace() 
+    throws ObjectStreamException
+  {
+    try {
+      return export();
+    } catch(RemoteException e) {
+      throw (NotSerializableException)
+        (new NotSerializableException(
+             getClass().getName() + ": Could not export stream server"))
+        .initCause(e);
     }
   }
 

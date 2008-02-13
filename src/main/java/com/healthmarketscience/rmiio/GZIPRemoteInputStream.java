@@ -46,6 +46,8 @@ import com.healthmarketscience.rmiio.util.EncodingInputStream;
  */
 public class GZIPRemoteInputStream extends RemoteInputStreamServer
 {
+  private static final long serialVersionUID = 20080212L;  
+
   /** input stream from which this class retrieves the gzip compressed data
       written to _packetOStream.  The OutputStream linked to this object will
       be used as the sink for the GZIPOutputStream. */

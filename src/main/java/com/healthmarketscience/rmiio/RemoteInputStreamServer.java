@@ -42,6 +42,8 @@ public abstract class RemoteInputStreamServer
   extends RemoteStreamServer<RemoteInputStreamServer, RemoteInputStream>
   implements RemoteInputStream
 {
+  private static final long serialVersionUID = 20080212L;
+
   /** default chunk size for shuffling data over the wire. */
   public static final int DEFAULT_CHUNK_SIZE = 7 * 1024;
 

@@ -42,7 +42,9 @@ import com.healthmarketscience.rmiio.util.PipeBuffer;
  *
  * @author James Ahlborn
  */
-public class GZIPRemoteOutputStream extends RemoteOutputStreamServer {
+public class GZIPRemoteOutputStream extends RemoteOutputStreamServer 
+{
+  private static final long serialVersionUID = 20080212L;
 
   /** input stream from which GZIPInputStream reads compressed data */
   private final PipeBuffer.InputStreamAdapter _packetIStream;

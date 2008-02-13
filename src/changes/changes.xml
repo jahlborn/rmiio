@@ -19,6 +19,11 @@
       <action dev="jahlborn" type="update">
         Move EncodingInputStream to util package.
       </action>
+      <action dev="jahlborn" type="update">
+        Make RemoteStreamServer implementations Serializable by implementing
+        writeReplace to automagically export the object and return the remote
+        stub.
+      </action>
     </release>
     <release version="2.0.0" date="2007-10-10">
       <action dev="jahlborn" type="add">

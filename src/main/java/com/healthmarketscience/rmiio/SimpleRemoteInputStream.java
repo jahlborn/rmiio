@@ -43,6 +43,8 @@ import com.healthmarketscience.rmiio.util.InputStreamAdapter;
  */
 public class SimpleRemoteInputStream extends RemoteInputStreamServer
 {
+  private static final long serialVersionUID = 20080212L;  
+
   /** manages reading from the given stream in a packet-like manner */
   private final InputStreamAdapter _inAdapter;
   

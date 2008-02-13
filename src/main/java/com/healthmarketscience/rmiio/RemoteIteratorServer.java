@@ -86,6 +86,7 @@ public class RemoteIteratorServer<DataType> implements Closeable
     if(useCompression) {
       _remoteIStream = new GZIPRemoteInputStream(_localIStream, monitor,
                                                  chunkSize) {
+          private static final long serialVersionUID = 0L;
           @Override
           protected void closeImpl(boolean readSuccess)
             throws IOException {
@@ -101,6 +102,7 @@ public class RemoteIteratorServer<DataType> implements Closeable
     } else {
       _remoteIStream = new SimpleRemoteInputStream(_localIStream, monitor,
                                                    chunkSize) {
+          private static final long serialVersionUID = 0L;
           @Override
           protected void closeImpl(boolean readSuccess)
             throws IOException {

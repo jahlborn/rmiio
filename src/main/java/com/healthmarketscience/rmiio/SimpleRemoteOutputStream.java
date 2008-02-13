@@ -42,7 +42,9 @@ import com.healthmarketscience.rmiio.util.OutputStreamAdapter;
  *
  * @author James Ahlborn
  */
-public class SimpleRemoteOutputStream extends RemoteOutputStreamServer {
+public class SimpleRemoteOutputStream extends RemoteOutputStreamServer 
+{
+  private static final long serialVersionUID = 20080212L;
 
   /** manages writing to the given stream in a packet-like manner */
   private final OutputStreamAdapter _outAdapter;

@@ -284,13 +284,13 @@ public class RemoteStreamServerTest extends BaseRemoteStreamTest {
                  monitor)))
               .export());
       } else {
+        // test writeReplace by *not* exporting explicitly here
         istream =
-          simulateRemote(
+          simulateRemote((RemoteInputStream)
               (server = 
                (new SimpleRemoteInputStream(
                  new BufferedInputStream(new FileInputStream(fileName)),
-                 monitor)))
-              .export());
+                 monitor))));
       }
     } else {
       if(useCompression) {
@@ -347,13 +347,13 @@ public class RemoteStreamServerTest extends BaseRemoteStreamTest {
     }
     if(!unreliable) {
       if(useCompression) {
+        // test writeReplace by *not* exporting explicitly here
         ostream =
-          simulateRemote(
+          simulateRemote((RemoteOutputStream)
               (server = 
                (new GZIPRemoteOutputStream(
                  new BufferedOutputStream(new FileOutputStream(tempFile)),
-                 monitor)))
-              .export());
+                 monitor))));
       } else {
         ostream =
           simulateRemote(
@@ -1115,6 +1115,8 @@ public class RemoteStreamServerTest extends BaseRemoteStreamTest {
     extends RemoteStreamServer<RemoteInputStreamServer, RemoteInputStream>
     implements RemoteInputStream
   {
+    private static final long serialVersionUID = 0L;
+
     private int _lastExPre = 1;
     private int _lastExPost = 1;
     private RemoteInputStreamServer _in;
@@ -1222,6 +1224,8 @@ public class RemoteStreamServerTest extends BaseRemoteStreamTest {
     extends RemoteStreamServer<RemoteOutputStreamServer, RemoteOutputStream>
     implements RemoteOutputStream
   {
+    private static final long serialVersionUID = 0L;
+
     private int _lastExPre = 1;
     private int _lastExPost = 1;
     private RemoteOutputStreamServer _out;
