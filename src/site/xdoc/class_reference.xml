@@ -16,16 +16,20 @@
       <ul>
         <li><a href="#Remote_Streaming"><b>Remote Streaming</b></a></li>
         <ul>
+          <li>Input</li>
           <ul>
-          <li><a href="#Remote_Streaming"><code>RemoteInputStream</code></a></li>
-          <li><a href="#SimpleRemoteInputStream"><code>SimpleRemoteInputStream</code></a></li>
-          <li><a href="#GZIPRemoteInputStream"><code>GZIPRemoteInputStream</code></a></li>
-          <li><a href="#DirectRemoteInputStream"><code>DirectRemoteInputStream</code></a></li>
-          <li><a href="#RemoteInputStreamClient"><code>RemoteInputStreamClient</code></a></li>
-          <li><a href="#Remote_Streaming"><code>RemoteOutputStream</code></a></li>
-          <li><a href="#SimpleRemoteOutputStream"><code>SimpleRemoteOutputStream</code></a></li>
-          <li><a href="#GZIPRemoteOutputStream"><code>GZIPRemoteOutputStream</code></a></li>
-          <li><a href="#RemoteOutputStreamClient"><code>RemoteOutputStreamClient</code></a></li>
+            <li><a href="#Remote_Streaming"><code>RemoteInputStream</code></a></li>
+            <li><a href="#SimpleRemoteInputStream"><code>SimpleRemoteInputStream</code></a></li>
+            <li><a href="#GZIPRemoteInputStream"><code>GZIPRemoteInputStream</code></a></li>
+            <li><a href="#DirectRemoteInputStream"><code>DirectRemoteInputStream</code></a></li>
+            <li><a href="#RemoteInputStreamClient"><code>RemoteInputStreamClient</code></a></li>
+          </ul>
+          <li>Output</li>
+          <ul>
+            <li><a href="#Remote_Streaming"><code>RemoteOutputStream</code></a></li>
+            <li><a href="#SimpleRemoteOutputStream"><code>SimpleRemoteOutputStream</code></a></li>
+            <li><a href="#GZIPRemoteOutputStream"><code>GZIPRemoteOutputStream</code></a></li>
+            <li><a href="#RemoteOutputStreamClient"><code>RemoteOutputStreamClient</code></a></li>
           </ul>
           <li><a href="#RemoteInputStream_Sequence_Diagrams">RemoteInputStream Sequence Diagrams</a></li>
           <li><a href="#RemoteOutputStream_Sequence_Diagrams">RemoteOutputStream Sequence Diagrams</a></li>
@@ -34,10 +38,10 @@
         <li><a href="#Remote_Iteration"><b>Remote Iteration</b></a></li>
         <ul>
           <ul>
-          <li><a href="#Remote_Iteration"><code>RemoteIterator</code></a></li>
-          <li><a href="#SerialRemoteIteratorServer"><code>SerialRemoteIteratorServer</code></a></li>
-          <li><a href="#SerialRemoteIteratorClient"><code>SerialRemoteIteratorClient</code></a></li>
-          <li><a href="#SimpleRemoteIterator"><code>SimpleRemoteIterator</code></a></li>
+            <li><a href="#Remote_Iteration"><code>RemoteIterator</code></a></li>
+            <li><a href="#SerialRemoteIteratorServer"><code>SerialRemoteIteratorServer</code></a></li>
+            <li><a href="#SerialRemoteIteratorClient"><code>SerialRemoteIteratorClient</code></a></li>
+            <li><a href="#SimpleRemoteIterator"><code>SimpleRemoteIterator</code></a></li>
           </ul>
           <li><a href="#RemoteIterator_Sequence_Diagrams">RemoteIterator Sequence Diagrams</a></li>
           <li><a href="#Local_Iterators">Local Iterators</a></li>
@@ -56,24 +60,24 @@
         <li><a href="#Monitoring"><b>Monitoring</b></a></li>
         <ul>
           <ul>
-          <li><a href="#Monitoring"><code>RemoteStreamMonitor</code></a></li>
-          <li><a href="#Monitoring"><code>RemoteInputStreamMonitor</code></a></li>
-          <li><a href="#Monitoring"><code>RemoteOutputStreamMonitor</code></a></li>
+            <li><a href="#Monitoring"><code>RemoteStreamMonitor</code></a></li>
+            <li><a href="#Monitoring"><code>RemoteInputStreamMonitor</code></a></li>
+            <li><a href="#Monitoring"><code>RemoteOutputStreamMonitor</code></a></li>
           </ul>
           <li><a href="#Closing_Additional_Server_Resources">Closing Additional Server Resources</a></li>
         </ul>
         <li><a href="#Custom_Server_Exporting"><b>Custom Server Exporting</b></a></li>
         <ul>
-        <ul>
-          <li><a href="#Custom_Server_Exporting"><code>RemoteStreamExporter</code></a></li>
-          <li><a href="#Custom_Server_Exporting"><code>DefaultRemoteStreamExporter</code></a></li>
-        </ul>
+          <ul>
+            <li><a href="#Custom_Server_Exporting"><code>RemoteStreamExporter</code></a></li>
+            <li><a href="#Custom_Server_Exporting"><code>DefaultRemoteStreamExporter</code></a></li>
+          </ul>
         </ul>
         <li><a href="#RPC_Robustness_Utilities"><b>RPC Robustness Utilities</b></a></li>
         <ul>
-        <ul>
-          <li><a href="#RPC_Robustness_Utilities"><code>RemoteRetry</code></a></li>
-        </ul>
+          <ul>
+            <li><a href="#RPC_Robustness_Utilities"><code>RemoteRetry</code></a></li>
+          </ul>
         </ul>
       </ul>
     </section>

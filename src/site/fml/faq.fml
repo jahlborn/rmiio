@@ -104,6 +104,17 @@
           property to the desired port, assuming you are using the <a href="apidocs/com/healthmarketscience/rmiio/exporter/DefaultRemoteStreamExporter.html">default RemoteStreamExporter</a>.
         </p>
         <p>
+          If all else fails, and you are only attempting to use a
+          RemoteInputStream, then the <a href="apidocs/com/healthmarketscience/rmiio/DirectRemoteInputStream.html">DirectRemoteInputStream</a> may be the
+          answer to your problems (as of 2.0.1 release).  This class is an
+          RMI-only RemoteInputStream implementation which actually embeds the
+          stream data directly into the ObjectOutputStream. It is not
+          recommended for normal use, but can be a last ditch tool if nothing
+          else seems to work. Please read the javadocs <i>carefully</i> in
+          order to understand the pros and cons of the implementation before
+          using the class.
+        </p>
+        <p>
           Note, this answer is still a work in progress.
         </p>
       </answer>
