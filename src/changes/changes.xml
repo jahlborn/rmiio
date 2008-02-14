@@ -4,7 +4,7 @@
     <author email="jahlborn@users.sf.net">James Ahlborn</author>
   </properties>
   <body>
-    <release version="2.0.1" date="TBD">
+    <release version="2.0.1" date="2008-02-13">
       <action dev="jahlborn" type="update">
         Allow the default port for the DefaultRemoteStreamExporter to be
         configured via a system property.
