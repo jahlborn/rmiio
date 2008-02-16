@@ -85,6 +85,9 @@ public abstract class RemoteStreamServer<StreamServerType, StreamType>
   protected RemoteStreamMonitor<StreamServerType> _monitor;
   /** the exporter used to export this stream */
   private RemoteStreamExporter _exporter;
+  /** the implicitly exported stub for this object, created by a call to
+      writeReplace, if any */
+  private volatile StreamType _writeReplacement;
 
   public RemoteStreamServer(RemoteStreamMonitor<StreamServerType> monitor) {
     _monitor = monitor;
@@ -132,6 +135,7 @@ public abstract class RemoteStreamServer<StreamServerType, StreamType>
    */
   private synchronized void unexport()
   {
+    _writeReplacement = null;
     try {
       if(HardRefMonitor.class.isInstance(_monitor)) {
         // premature unexport, make sure to ditch local hard reference
@@ -275,14 +279,22 @@ public abstract class RemoteStreamServer<StreamServerType, StreamType>
   protected final Object writeReplace() 
     throws ObjectStreamException
   {
-    try {
-      return export();
-    } catch(RemoteException e) {
-      throw (NotSerializableException)
-        (new NotSerializableException(
-             getClass().getName() + ": Could not export stream server"))
-        .initCause(e);
+    // note, we only want to do implicit export once.  it's possible that a
+    // remote invocation failed and needs to be re-attempted, in which case we
+    // don't want to re-export this instance, cause that will fail.
+    StreamType replacement = _writeReplacement;
+    if(replacement == null) {
+      try {
+        replacement = export();
+        _writeReplacement = replacement;
+      } catch(RemoteException e) {
+        throw (NotSerializableException)
+          (new NotSerializableException(
+            getClass().getName() + ": Could not export stream server"))
+          .initCause(e);
+      }
     }
+    return replacement;
   }
 
   /**

@@ -52,6 +52,7 @@ import java.util.List;
 import com.healthmarketscience.rmiio.util.PipeBuffer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import java.lang.reflect.Field;
 
 
 /**
@@ -190,7 +191,37 @@ public class RemoteStreamServerTest extends BaseRemoteStreamTest {
     checkFiles(testFile, tempFiles);
 
     checkMonitors(4, true);
-  }  
+  }
+
+  public void testReserialize() throws Exception
+  {
+    SerializableInputStream istream =
+      new SerializableInputStream(new FileInputStream(TEST_FILE));
+    Field inField = istream.getClass().getDeclaredField("_remoteIn");
+    inField.setAccessible(true);
+    assertTrue(inField.get(istream) instanceof GZIPRemoteInputStream);
+
+    SerializableInputStream istreamRem = simulateRemote(istream);
+
+    Object istreamRemIn = inField.get(istreamRem);
+    assertFalse(istreamRemIn instanceof GZIPRemoteInputStream);
+     
+    istreamRem = simulateRemote(istream);
+
+    Object istreamRemInAlt = inField.get(istreamRem);
+    assertFalse(istreamRemInAlt instanceof GZIPRemoteInputStream);
+    assertNotSame(istreamRemIn, istreamRemInAlt);
+    assertEquals(istreamRemIn, istreamRemInAlt);
+
+    istreamRem = simulateRemote(istreamRem);
+
+    istreamRemInAlt = inField.get(istreamRem);
+    assertFalse(istreamRemInAlt instanceof GZIPRemoteInputStream);
+    assertNotSame(istreamRemIn, istreamRemInAlt);
+    assertEquals(istreamRemIn, istreamRemInAlt);
+    
+    istream.close();
+  }
 
   private void checkFiles(File srcFile, List<List<File>> tempFiles)
     throws IOException
