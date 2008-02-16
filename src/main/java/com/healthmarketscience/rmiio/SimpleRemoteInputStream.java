@@ -38,6 +38,7 @@ import com.healthmarketscience.rmiio.util.InputStreamAdapter;
  * InputStream.
  *
  * @see <a href="{@docRoot}/overview-summary.html#Usage_Notes">Usage Notes</a>
+ * @see #writeReplace
  *
  * @author James Ahlborn
  */
@@ -46,7 +47,7 @@ public class SimpleRemoteInputStream extends RemoteInputStreamServer
   private static final long serialVersionUID = 20080212L;  
 
   /** manages reading from the given stream in a packet-like manner */
-  private final InputStreamAdapter _inAdapter;
+  private transient final InputStreamAdapter _inAdapter;
   
   public SimpleRemoteInputStream(InputStream in) {
     this(in, DUMMY_MONITOR, DEFAULT_CHUNK_SIZE);

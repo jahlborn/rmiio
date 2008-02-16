@@ -39,6 +39,7 @@ import com.healthmarketscience.rmiio.util.OutputStreamAdapter;
  * OutputStream.
  *
  * @see <a href="{@docRoot}/overview-summary.html#Usage_Notes">Usage Notes</a>
+ * @see #writeReplace
  *
  * @author James Ahlborn
  */
@@ -47,7 +48,7 @@ public class SimpleRemoteOutputStream extends RemoteOutputStreamServer
   private static final long serialVersionUID = 20080212L;
 
   /** manages writing to the given stream in a packet-like manner */
-  private final OutputStreamAdapter _outAdapter;
+  private transient final OutputStreamAdapter _outAdapter;
   
   public SimpleRemoteOutputStream(OutputStream out) {
     this(out, DUMMY_MONITOR);

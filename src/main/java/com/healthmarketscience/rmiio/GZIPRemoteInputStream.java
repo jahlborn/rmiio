@@ -41,6 +41,7 @@ import com.healthmarketscience.rmiio.util.EncodingInputStream;
  * InputStream.
  *
  * @see <a href="{@docRoot}/overview-summary.html#Usage_Notes">Usage Notes</a>
+ * @see #writeReplace
  *
  * @author James Ahlborn
  */
@@ -51,12 +52,12 @@ public class GZIPRemoteInputStream extends RemoteInputStreamServer
   /** input stream from which this class retrieves the gzip compressed data
       written to _packetOStream.  The OutputStream linked to this object will
       be used as the sink for the GZIPOutputStream. */
-  private final GZIPEncodingInputStream _packetIStream;
+  private transient final GZIPEncodingInputStream _packetIStream;
   /** output stream which is used to compress the underlying data from the
       InputStream */
-  private GZIPOutputStream _gzipOStream;
+  private transient GZIPOutputStream _gzipOStream;
   /** manages reading from the underlying stream in a packet-like manner */
-  private final InputStreamAdapter _inAdapter;
+  private transient final InputStreamAdapter _inAdapter;
   
   public GZIPRemoteInputStream(InputStream in)
     throws IOException

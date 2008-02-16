@@ -242,6 +242,16 @@ public class DirectRemoteInputStream
     }
   }
 
+  /**
+   * Serializes this object and all of the underlying stream's data directly
+   * to the given ObjectOutputStream.
+   * @serialData the compression status of the stream, followed by the default
+   *             chunk size for the serialized stream data (int), followed by
+   *             chunks of the underlying stream.  each chunk has a chunk code
+   *             which indicates how to handle it's length (either default,
+   *             explicit as int, or EOF), and then the specified number of
+   *             bytes if not EOF.
+   */
   private void writeObject(ObjectOutputStream out)
      throws IOException
   {
@@ -326,7 +336,13 @@ public class DirectRemoteInputStream
       RmiioUtil.closeQuietly(this);
     }
   }
-  
+
+  /**
+   * Reads the state of this object and all of the underlying stream's data
+   * directly from the given ObjectInputStream.  The stream data is stored in
+   * a temporary file in the default java temp directory with the name
+   * {@code "stream_<num>.dat"}.
+   */
   private void readObject(ObjectInputStream in)
     throws IOException, ClassNotFoundException
   {

@@ -36,6 +36,8 @@ import java.io.OutputStream;
  * retry logic (the sequence ids) and the RemoteStreamMonitor updates for the
  * server.  Subclasses must implement the actual data handling methods.
  *
+ * @see #writeReplace
+ * 
  * @author James Ahlborn
  */
 public abstract class RemoteOutputStreamServer
@@ -49,9 +51,9 @@ public abstract class RemoteOutputStreamServer
   public static final RemoteStreamMonitor<RemoteOutputStreamServer> DUMMY_MONITOR = new RemoteOutputStreamMonitor();
 
   /** the real output stream to which we are writing data */
-  protected final OutputStream _out;
+  protected transient final OutputStream _out;
   /** id of the last packet passed into a writePacket() call */
-  private int _lastPacketId = INITIAL_INVALID_SEQUENCE_ID;
+  private transient int _lastPacketId = INITIAL_INVALID_SEQUENCE_ID;
 
   public RemoteOutputStreamServer(OutputStream out) {
     this(out, DUMMY_MONITOR);

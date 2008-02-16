@@ -39,6 +39,7 @@ import com.healthmarketscience.rmiio.util.PipeBuffer;
  * OutputStream.
  *
  * @see <a href="{@docRoot}/overview-summary.html#Usage_Notes">Usage Notes</a>
+ * @see #writeReplace
  *
  * @author James Ahlborn
  */
@@ -47,16 +48,16 @@ public class GZIPRemoteOutputStream extends RemoteOutputStreamServer
   private static final long serialVersionUID = 20080212L;
 
   /** input stream from which GZIPInputStream reads compressed data */
-  private final PipeBuffer.InputStreamAdapter _packetIStream;
+  private transient final PipeBuffer.InputStreamAdapter _packetIStream;
   /** input stream which is used to uncompress data before writing to the
       underlying OutputStream */
-  private GZIPInputStream _gzipIStream;
+  private transient GZIPInputStream _gzipIStream;
   /** temporary buffer used to copy data from the GZIPInputStream to the
       underlying OutputStream */
-  private final byte[] _transferBuf;
+  private transient final byte[] _transferBuf;
   /** <code>true</code> iff the underlying OutputStream has reached EOF,
       <code>false</code> otherwise. */
-  private boolean _outEOF = false;
+  private transient boolean _outEOF = false;
 
   
   public GZIPRemoteOutputStream(OutputStream out) {

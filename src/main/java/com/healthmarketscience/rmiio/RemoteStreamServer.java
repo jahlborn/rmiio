@@ -79,15 +79,15 @@ public abstract class RemoteStreamServer<StreamServerType, StreamType>
   }
   
   /** whether or not this stream has been closed yet */
-  private final AtomicReference<State> _state =
+  private transient final AtomicReference<State> _state =
     new AtomicReference<State>(State.OPEN);
   /** the monitor which is following our progress */
-  protected RemoteStreamMonitor<StreamServerType> _monitor;
+  protected transient RemoteStreamMonitor<StreamServerType> _monitor;
   /** the exporter used to export this stream */
-  private RemoteStreamExporter _exporter;
+  private transient RemoteStreamExporter _exporter;
   /** the implicitly exported stub for this object, created by a call to
       writeReplace, if any */
-  private volatile StreamType _writeReplacement;
+  private transient volatile StreamType _writeReplacement;
 
   public RemoteStreamServer(RemoteStreamMonitor<StreamServerType> monitor) {
     _monitor = monitor;
@@ -269,12 +269,19 @@ public abstract class RemoteStreamServer<StreamServerType, StreamType>
   }
 
   /**
-   * Returns the result of a call to {@link #export} on this instance as a
-   * serializable replacement for an instance of this class.  While generally
-   * the developer should be managing the call to export, implementing this
-   * method in a useful way makes the simple things simple.
+   * Manages serialization for all remote stream instances by returning the
+   * result of a call to {@link #export} on this instance as a Serializable
+   * replacement for an instance of this class.  While generally the developer
+   * should be managing the call to export, implementing this method in a
+   * useful way makes the simple things simple (passing a reference to a
+   * server implementation in a remote method call will "do the right thing",
+   * replacing the actual reference to this instance with a reference to an
+   * automagically generated remote reference to this server instance).
+   * 
    * @return an exported remote stub for this instance
    * @throws NotSerializableException if the export attempt fails
+   * @serialData the serialized data is the object returned by the
+   *             {@link #export} method
    */
   protected final Object writeReplace() 
     throws ObjectStreamException

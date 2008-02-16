@@ -36,6 +36,8 @@ import java.io.InputStream;
  * retry logic (the sequence ids) and the RemoteStreamMonitor updates for the
  * server.  Subclasses must implement the actual data handling methods.
  *
+ * @see #writeReplace
+ * 
  * @author James Ahlborn
  */
 public abstract class RemoteInputStreamServer
@@ -52,17 +54,17 @@ public abstract class RemoteInputStreamServer
   public static final RemoteStreamMonitor<RemoteInputStreamServer> DUMMY_MONITOR = new RemoteInputStreamMonitor();
 
   /** the real input stream from which we are reading data */
-  protected final InputStream _in;
+  protected transient final InputStream _in;
   /** the target chunk size for data packets sent over the wire */
-  protected int _chunkSize;
+  protected transient final int _chunkSize;
   /** id of the last packet sent from a readPacket() call */
-  private int _lastPacketId = INITIAL_INVALID_SEQUENCE_ID;
+  private transient int _lastPacketId = INITIAL_INVALID_SEQUENCE_ID;
   /** the last packet sent from readPacket(), corresponds to _lastPacketId */
-  private byte[] _lastPacket;
+  private transient byte[] _lastPacket;
   /** id of the last skip call */
-  private int _lastSkipId = INITIAL_INVALID_SEQUENCE_ID;
+  private transient int _lastSkipId = INITIAL_INVALID_SEQUENCE_ID;
   /** the results of the last skip() call, corresponds to _lastSkipId */
-  private long _lastSkip;
+  private transient long _lastSkip;
 
   
   protected RemoteInputStreamServer(InputStream in) {
