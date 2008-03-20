@@ -4,7 +4,7 @@
     <author email="jahlborn@users.sf.net">James Ahlborn</author>
   </properties>
   <body>
-    <release version="2.0.2" date="TBD">
+    <release version="2.0.2" date="2008-03-20">
       <action dev="jahlborn" type="fix">
         Allow reserialization of RemoteStreamServer.
       </action>
