@@ -135,6 +135,20 @@
       </answer>
     </faq>
     
+    <faq id="dependencies">
+      <question>Why do I get a NoClassDefFoundError?</question>
+      <answer>
+        <p>
+          Probably because you're missing a jar that RMIIO depends on from
+          your classpath.  Take a look at the <a href="dependencies.html">dependencies list</a>.  The "compile" and
+          "runtime" dependencies are necessary for using RMIIO in your
+          application.  One great place to track down these dependencies is in
+          the <a href="http://www.ibiblio.org/maven">Ibiblio Maven
+          Repository</a>.
+        </p>
+      </answer>
+    </faq>
+
     <faq id="usage">
       <question>Where can I find more information?</question>
       <answer>
