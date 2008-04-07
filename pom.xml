@@ -63,6 +63,8 @@
               <property>
                 <name>log4j.configuration</name>
                 <value>log4j.properties</value>
+              </property>
+              <property>
                 <name>rmiio.fastTest</name>
                 <value>${rmiio.fastTest}</value>
               </property>
