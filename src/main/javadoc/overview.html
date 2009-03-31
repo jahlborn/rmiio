@@ -77,7 +77,7 @@ The examples below assume that the reader has knowledge of how RMI works.
 </p>
 <pre>
 
-  //
+  //////
   // The "server" is reading a file from the "client"
   //
   
@@ -102,11 +102,44 @@ The examples below assume that the reader has knowledge of how RMI works.
     // call server (note export() call to get actual remote interface)
     server.sendFile(istream.export());
   } finally {
+    // since the server should have consumed the stream in the sendFile()
+    // call, we always want to close the stream
     if(istream != null) istream.close();
   }
 
 
+  //////
+  // The "client" is reading a file from the "server"
   //
+  
+  // "server" implementation
+
+  public RemoteInputStream getFile(String fileName) {
+    // create a RemoteStreamServer (note the finally block which <i>only releases
+    // the RMI resources if the method fails before returning.</i>)
+    RemoteInputStreamServer istream = null;
+    try {
+      istream = new GZIPRemoteInputStream(new BufferedInputStream(
+        new FileInputStream(fileName)));
+      // export the final stream for returning to the client
+      RemoteInputStream result = istream.export();
+      // after all the hard work, discard the local reference (we are passing
+      // responsibility to the client)
+      istream = null;
+      return result;
+    } finally {
+      // we will only close the stream here if the server fails before
+      // returning an exported stream
+      if(istream != null) istream.close();
+    }
+  }
+
+  // "client" implementation
+
+  // same as "server" part of previous example
+
+
+  //////
   // The "server" is writing a file to the "client"
   //
 
@@ -132,11 +165,13 @@ The examples below assume that the reader has knowledge of how RMI works.
     // call server (note export() call to get actual remote interface)
     server.getFile(ostream.export());
   } finally {
+    // since the server should have done all the work in the getFile()
+    // call, we always want to close the stream
     if(ostream != null) ostream.close();
   }
 
 
-  //
+  //////
   // A more complicated example:  The "server" returns data streamed directly
   // out of a database.  The interesting situation here is that the database
   // connection lives longer than the initial method call, and will need to be

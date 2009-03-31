@@ -130,6 +130,14 @@
             <dt><b>WebLogic:</b></dt>
             <dd>Needs a <a href="http://sourceforge.net/forum/message.php?msg_id=4712250">custom RemoteStreamExporter</a> in order to work with WebLogic's custom
             RMI implementation.</dd>
+            <dt><b>Glassfish:</b></dt>
+            <dd>Glassfish uses RMI-IIOP (Corba) for the transport layer, thus a
+            a <a href="http://forums.sun.com/thread.jspa?messageID=10660702#10660702">custom RemoteStreamExporter</a> using
+            PortableRemoteObject is necessary.  This should work for any
+            Application Server using RMI-IIOP.  And, since glassfish supports
+            dynamic stub generation, no additional work is necessary.  For
+            situations where stubs need to be statically generated, the
+            <a href="http://java.sun.com/j2se/1.5.0/docs/guide/rmi-iiop/rmi_iiop_pg.html">RMI-IIOP Programmer's Guide</a> is a good place to start.</dd>
           </dl>
         </p>
       </answer>
