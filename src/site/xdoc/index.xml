@@ -167,5 +167,15 @@ service.uploadFile("MyFile", remoteFileData.export());
         integrating RMIIO into the <a href="http://labs.jboss.com/jbossremoting/">JBoss Remoting</a> framework.
       </p>
     </section>
+    <section name="In The News"
+             id="InTheNews">
+      <p>
+        Some interesting articles about RMIIO:
+        <ul>
+          <li><a href="http://www.jroller.com/DhavalDalal/entry/rmi_and_streaming">RMI and Streaming?</a></li>
+          <li><a href="http://blog.krecan.net/2009/02/27/streaming-a-stream/">Streaming a stream</a></li>
+        </ul>
+      </p>
+    </section>
   </body>
 </document>
