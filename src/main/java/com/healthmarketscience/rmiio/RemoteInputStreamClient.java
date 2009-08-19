@@ -191,6 +191,7 @@ public class RemoteInputStreamClient
 
       // close the remote stream
       _remoteIn.close(_readSuccess);
+      super.close();
 
       // only set this if the close call is successful (does not throw)
       _remoteCloseSuccessful = true;
