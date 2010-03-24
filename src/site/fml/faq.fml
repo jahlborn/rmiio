@@ -121,7 +121,7 @@
     </faq>
 
     <faq id="appserver">
-      <question>With which Application Servers has this been used?</question>
+      <question>With which Application Servers/Frameworks has this been used?</question>
       <answer>
         <p>
           <dl>
@@ -138,6 +138,10 @@
             dynamic stub generation, no additional work is necessary.  For
             situations where stubs need to be statically generated, the
             <a href="http://java.sun.com/j2se/1.5.0/docs/guide/rmi-iiop/rmi_iiop_pg.html">RMI-IIOP Programmer's Guide</a> is a good place to start.</dd>
+            <dt><b>Spring (2.5)</b></dt>
+            <dd>Works as-is with the RMI invoker.  To use with the
+            HttpInvoker, you need to setup a singleton service which manages
+            all the RMIIO servers.  See <a href="https://sourceforge.net/projects/openhms/forums/forum/743949/topic/3452358">this forum thread</a> for details.</dd>
           </dl>
         </p>
       </answer>
