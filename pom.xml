@@ -17,8 +17,7 @@
       <id>jahlborn</id>
       <name>James Ahlborn</name>
       <email>jahlborn@users.sf.net</email>
-      <organization>Health Market Science</organization>
-      <organizationUrl> http://www.healthmarketscience.com</organizationUrl>
+      <organization>Dell Boomi</organization>
       <timezone>-5</timezone>
     </developer>
   </developers>
@@ -26,14 +25,10 @@
     <contributor>
       <name>Eric Bernstein</name>
       <email>ebernstein@users.sf.net</email>
-      <organization>Health Market Science</organization>
-      <organizationUrl> http://www.healthmarketscience.com</organizationUrl>
       <timezone>-5</timezone>
     </contributor>
     <contributor>
       <name>Mike DeLaurentis</name>
-      <organization>Health Market Science</organization>
-      <organizationUrl> http://www.healthmarketscience.com</organizationUrl>
       <timezone>-5</timezone>
     </contributor>
     <contributor>
