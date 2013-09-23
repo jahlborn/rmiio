@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.healthmarketscience</groupId>
     <artifactId>openhms-parent</artifactId>
-    <version>1.0.10</version>
+    <version>1.0.16</version>
   </parent>
   <groupId>com.healthmarketscience.rmiio</groupId>
   <artifactId>rmiio</artifactId>
@@ -41,10 +41,10 @@
     </contributor>
   </contributors>
   <scm>
-    <connection>scm:svn:http://openhms.svn.sourceforge.net/svnroot/openhms/rmiio/trunk/</connection>
+    <connection>scm:svn:svn://svn.code.sf.net/p/openhms/code/rmiio/trunk/</connection>
     <!-- read/write svn connection -->
-    <developerConnection>scm:svn:https://openhms.svn.sourceforge.net/svnroot/openhms/rmiio/trunk/</developerConnection>
-    <url>http://openhms.svn.sourceforge.net/viewvc/openhms/rmiio/trunk/</url>
+    <developerConnection>scm:svn:svn+ssh://jahlborn@svn.code.sf.net/p/openhms/code/rmiio/trunk/</developerConnection>
+    <url>http://sourceforge.net/p/openhms/code/HEAD/tree/rmiio/trunk/</url>
   </scm>
   <build>
     <pluginManagement>
