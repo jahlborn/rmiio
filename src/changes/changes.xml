@@ -4,6 +4,12 @@
     <author email="jahlborn@users.sf.net">James Ahlborn</author>
   </properties>
   <body>
+    <release version="2.0.4" date="2012-07-11">
+      <action dev="jahlborn" type="add">
+        Added the RMISocket utility for simulating a socket-like connection
+        over RMI (using RemoteOutputStreams under the hood).
+      </action>
+    </release>
     <release version="2.0.3" date="2012-01-10">
       <action dev="jahlborn" type="fix">
         Fix closing of RemoteInputStreamClient.
