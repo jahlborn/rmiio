@@ -77,8 +77,7 @@ public class GZIPRemoteOutputStream extends RemoteOutputStreamServer
     // (uncompressed) to roughly correspond to the output buffer size
     // (compressed).  since this is all highly dependent on the data, we'll
     // just pull a number out of the air (doubling the output buffer size).
-    _transferBuf = new byte[(int)(RemoteOutputStreamClient.DEFAULT_CHUNK_SIZE
-                                  * 2)];
+    _transferBuf = new byte[(RemoteOutputStreamClient.DEFAULT_CHUNK_SIZE * 2)];
   }
 
   public boolean usingGZIPCompression()
