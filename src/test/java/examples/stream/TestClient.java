@@ -51,7 +51,7 @@ public class TestClient {
     String fileName = args[0];
     
     // get a handle to the remote service to which we want to send the file
-    Registry registry = LocateRegistry.getRegistry();
+    Registry registry = LocateRegistry.getRegistry(TestServer.REGISTRY_PORT);
     RemoteFileServer stub = (RemoteFileServer)
       registry.lookup("RemoteFileServer");
 
@@ -73,8 +73,7 @@ public class TestClient {
       istream.close();
     }
 
-    System.out.println("Finished sending file " + fileName);
-    
+    System.out.println("Finished sending file " + fileName);    
   }
 
 }

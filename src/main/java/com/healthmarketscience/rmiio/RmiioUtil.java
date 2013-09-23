@@ -62,7 +62,7 @@ public class RmiioUtil
    * Closes the given Closeable if non-{@code null}, swallowing any
    * IOExceptions generated.
    */
-  static void closeQuietly(Closeable closeable)
+  public static void closeQuietly(Closeable closeable)
   {
     // yes, this has been written many times before and elsewhere, but i did
     // not want to add a dependency just for one method

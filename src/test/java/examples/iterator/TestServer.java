@@ -45,6 +45,8 @@ import com.healthmarketscience.rmiio.RemoteIterator;
  */
 public class TestServer {
 
+  public static final int REGISTRY_PORT = Registry.REGISTRY_PORT;
+
   public static class StringServer
     implements RemoteStringServer
   {
@@ -88,11 +90,10 @@ public class TestServer {
       UnicastRemoteObject.exportObject(server, 0);
 
     // bind to registry
-    Registry registry = LocateRegistry.getRegistry(2013);
+    Registry registry = LocateRegistry.createRegistry(REGISTRY_PORT);
     registry.bind("RemoteStringServer", stub);
 
-    System.out.println("Server ready");
-    
+    System.out.println("Server ready");    
   }
   
 }

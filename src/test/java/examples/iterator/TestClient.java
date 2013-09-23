@@ -54,7 +54,7 @@ public class TestClient {
     List<String> strings = Arrays.asList(args);
 
     // get a handle to the remote service to which we want to send the strings
-    Registry registry = LocateRegistry.getRegistry(2013);
+    Registry registry = LocateRegistry.getRegistry(TestServer.REGISTRY_PORT);
     RemoteStringServer stub = (RemoteStringServer)
       registry.lookup("RemoteStringServer");
 

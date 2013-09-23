@@ -30,7 +30,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.rmi.Remote;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -44,6 +43,8 @@ import com.healthmarketscience.rmiio.RemoteInputStreamClient;
  * @author James Ahlborn
  */
 public class TestServer {
+
+  public static final int REGISTRY_PORT = Registry.REGISTRY_PORT;
 
   public static class FileServer
     implements RemoteFileServer
@@ -89,7 +90,7 @@ public class TestServer {
       UnicastRemoteObject.exportObject(server, 0);
 
     // bind to registry
-    Registry registry = LocateRegistry.getRegistry();
+    Registry registry = LocateRegistry.createRegistry(REGISTRY_PORT);
     registry.bind("RemoteFileServer", stub);
 
     System.out.println("Server ready");
