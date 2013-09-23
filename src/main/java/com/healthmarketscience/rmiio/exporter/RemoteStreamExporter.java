@@ -87,8 +87,24 @@ public abstract class RemoteStreamExporter
           EXPORTER_PROPERTY, DEFAULT_EXPORTER_CLASS_NAME);
       LOG.info("Using stream exporter " + exporterClassName);
       try {
-        _INSTANCE = (RemoteStreamExporter)
-          Class.forName(exporterClassName).newInstance();
+        // first attempt to load from this class' classloader
+        Class<?> clazz = null;
+        Exception e = null;
+        try {
+          clazz = Class.forName(exporterClassName);
+        } catch(ClassNotFoundException cnfe) {
+          // if not found, try context classloader if available
+          e = cnfe;
+          ClassLoader ccl = Thread.currentThread().getContextClassLoader();
+          if(ccl != null) {
+            clazz = Class.forName(exporterClassName, true, ccl);
+          }
+        }
+        if(clazz != null) {
+          _INSTANCE = (RemoteStreamExporter)clazz.newInstance();
+        } else {
+          throw e;
+        } 
       } catch(Exception e) {
         throw new IllegalArgumentException(
             "could not instantiate exporter " + exporterClassName, e);
