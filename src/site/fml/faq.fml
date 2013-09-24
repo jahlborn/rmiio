@@ -132,7 +132,7 @@
             RMI implementation.</dd>
             <dt><b>Glassfish:</b></dt>
             <dd>Glassfish uses RMI-IIOP (Corba) for the transport layer, thus a
-            a <a href="https://forums.oracle.com/forums/thread.jspa?threadID=1569360&start=15&tstart=0#6600090">custom RemoteStreamExporter</a> using
+            a <a href="https://forums.oracle.com/forums/thread.jspa?threadID=1569360&amp;start=15&amp;tstart=0#6600090">custom RemoteStreamExporter</a> using
             PortableRemoteObject is necessary.  This should work for any
             Application Server using RMI-IIOP.  And, since glassfish supports
             dynamic stub generation, no additional work is necessary.  For
