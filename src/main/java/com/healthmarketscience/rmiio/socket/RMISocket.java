@@ -44,7 +44,7 @@ import com.healthmarketscience.rmiio.SimpleRemoteOutputStream;
  * take place, each system must have an instance of RMISocket and the relevant
  * Sources should be exchanged, in which case <i>both</i> systems will be
  * acting as RMI servers.
- * <p>
+ * <p/>
  * In general, simulating a socket connection over RMI is probably not the
  * best idea, and should not be pursued for a <i>new</i> project.  However,
  * when revamping an existing project, it may be desirable to layer an

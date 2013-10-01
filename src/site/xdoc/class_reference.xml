@@ -79,6 +79,12 @@
             <li><a href="#RPC_Robustness_Utilities"><code>RemoteRetry</code></a></li>
           </ul>
         </ul>
+        <li><a href="#RMI_Socket"><b>Pseudo Socket over RMI</b></a></li>
+        <ul>
+          <ul>
+            <li><a href="#RMI_Socket"><code>RMISocket</code></a></li>
+          </ul>
+        </ul>
       </ul>
     </section>
     
@@ -499,6 +505,29 @@
         system.
       </p>
     </section>
-      
+
+    <section name="Pseudo Socket over RMI"
+             id="RMI_Socket">
+      <p>
+        The <a href="apidocs/com/healthmarketscience/rmiio/socket/RMISocket.html">RMISocket</a>
+        utility class can be used to simulate a socket-like connection over
+        RMI.  A single RMISocket instance enables only a <i>single
+        direction</i> of communication (from the remote system to this
+        system), in which case the instantiator of the RMISocket is an RMI
+        server (essentially serving a RemoteOutputStream).  In order
+        for bi-directional communication to take place, each system must have
+        an instance of RMISocket and the relevant Sources should be exchanged,
+        in which case <i>both</i> systems will be acting as RMI servers.
+      </p>
+      <p>
+        In general, simulating a socket connection over RMI is probably not
+        the best idea, and should not be pursued for a <i>new</i> project.
+        However, when revamping an existing project, it may be desirable to
+        layer an existing socket-based protocol over a separately established
+        RMI connection.  In such a situation, this utility could be very
+        useful.
+      </p>
+    </section>
+    
   </body>
 </document>

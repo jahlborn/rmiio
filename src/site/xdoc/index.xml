@@ -124,9 +124,9 @@ service.uploadFile("MyFile", remoteFileData.export());
       <ul>
         <li>Introduction to the major classes in the <a href="class_reference.html">Class Reference</a></li>
         <li>Extended code examples in the <a href="apidocs/overview-summary.html#overview_description">rmiio overview javadocs</a></li>
-        <li>Working stream and iterator examples (see the
-        <code>examples.stream</code> and <code>examples.iterator</code>
-        packages in the <a href="xref-test/index.html">test source cross references</a>)</li>
+        <li>Working stream, iterator, and socket examples (see the
+        <code>examples.stream</code>, <code>examples.iterator</code>, and
+        <code>examples.socket</code> packages in the <a href="xref-test/index.html">test source cross references</a>)</li>
         <li><a href="apidocs/overview-summary.html#Usage_Notes">Usage Notes</a>
           <ul>
             <li><a href="apidocs/overview-summary.html#general">General</a></li>
