@@ -385,7 +385,7 @@ if used correctly.  Included below are some recommendations learned through
 the shedding of much blood, sweat, and many tears.
 </p>
 
-<h4>General</h4>
+<a name="general"><!-- --></a><h4>General</h4>
 <ul>
 <li>As the examples above show, you should treat all your remote stream (and
     iterator) objects like JDBC resources (or other important resources) and
@@ -419,7 +419,7 @@ the shedding of much blood, sweat, and many tears.
 </li>
 </ul>
 
-<h4>JDBC</h4>
+<a name="jdbc"><!-- --></a><h4>JDBC</h4>
 <ul>
 <li>As noted in some of the examples above, these utilities can be used to
     stream data directly out of a database.  While this can be really useful,
@@ -435,7 +435,7 @@ the shedding of much blood, sweat, and many tears.
 </li>
 </ul>
 
-<h4>EJB</h4>
+<a name="ejb"><!-- --></a><h4>EJB</h4>
 <ul>
 <li>Related to the first point in the JDBC section, any EJB methods which
     return a remote stream object which uses transacted resources <b>must</b>
@@ -444,6 +444,13 @@ the shedding of much blood, sweat, and many tears.
     type <tt>"Never"</tt>, and any necessary transactional code must be
     handled when the remote stream server closes, <em>not</em> when the method
     call returns.  (See first point in the JDBC section).
+</li>
+<li>Depending on the application server (this behavior was observed on
+    glassfish), the lifecycle of an exported RemoteStreamServer <i>may be tied
+    to the lifecycle of the EJB which created it</i>.  This means that the
+    RemoteStreamServer must be served from a <u>stateful</u> session bean.
+    Symptoms which may indicate this problem are a large number of retries,
+    spurious NoSuchObjectException, and very slow transfer speeds.
 </li>
 <li>A particularly insidious gotcha can result from using remote streams
     returned from a "local" interface.  While this might seem like a

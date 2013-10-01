@@ -58,8 +58,11 @@
           code, so the server instance gets cleaned up soon after creation.
           Basically, you should never use a RemoteStreamServer reference
           locally (you should just use a regular Input/OutputStream in this
-          case).  For more information, see the EJB section of the
-          <a href="apidocs/overview-summary.html#Usage_Notes">Usage Notes</a>.
+          case).
+        </p>
+        <p>
+          In certain application servers, not using stateful session beans can
+          also cause this exception.  For more information, see the <a href="apidocs/overview-summary.html#ejb">EJB section of the Usage Notes</a>.
         </p>
       </answer>
     </faq>
@@ -132,12 +135,18 @@
             RMI implementation.</dd>
             <dt><b>Glassfish:</b></dt>
             <dd>Glassfish uses RMI-IIOP (Corba) for the transport layer, thus a
-            a <a href="https://forums.oracle.com/forums/thread.jspa?threadID=1569360&amp;start=15&amp;tstart=0#6600090">custom RemoteStreamExporter</a> using
+            a <a href="https://forums.oracle.com/message/6602090#6602090">custom RemoteStreamExporter</a> using
             PortableRemoteObject is necessary.  This should work for any
             Application Server using RMI-IIOP.  And, since glassfish supports
             dynamic stub generation, no additional work is necessary.  For
             situations where stubs need to be statically generated, the
-            <a href="http://java.sun.com/j2se/1.5.0/docs/guide/rmi-iiop/rmi_iiop_pg.html">RMI-IIOP Programmer's Guide</a> is a good place to start.</dd>
+            <a href="http://java.sun.com/j2se/1.5.0/docs/guide/rmi-iiop/rmi_iiop_pg.html">RMI-IIOP Programmer's Guide</a> is a good place to start. 
+            </dd>
+            <dd>Additionally, glassfish seems to tie the lifecyle of the
+            exported RemoteStreams to the lifecycle of the EJB which created
+            it, and therefore requires the use of stateful session beans in
+            order for the streams to work correctly.  <a href="apidocs/overview-summary.html#ejb">EJB section of the Usage Notes</a> for more details.
+            </dd>
             <dt><b>Spring (2.5)</b></dt>
             <dd>Works as-is with the RMI invoker.  To use with the
             HttpInvoker, you need to setup a singleton service which manages
@@ -179,9 +188,6 @@
           Using proprietary matching and consolidation software,
           HMS scientifically manufactures the most comprehensive
           and accurate healthcare data sets in the market today.
-          <a href="http://www.healthmarketscience.com/abouthms/careers.php">We're hiring!</a>
-          HMS is always looking for talented individuals, especially Java
-          developers.
         </p>
       </answer>
     </faq>

@@ -127,7 +127,13 @@ service.uploadFile("MyFile", remoteFileData.export());
         <li>Working stream and iterator examples (see the
         <code>examples.stream</code> and <code>examples.iterator</code>
         packages in the <a href="xref-test/index.html">test source cross references</a>)</li>
-        <li><a href="apidocs/overview-summary.html#Usage_Notes">Usage Notes</a></li>
+        <li><a href="apidocs/overview-summary.html#Usage_Notes">Usage Notes</a>
+          <ul>
+            <li><a href="apidocs/overview-summary.html#general">General</a></li>
+            <li><a href="apidocs/overview-summary.html#jdbc">JDBC</a></li>
+            <li><a href="apidocs/overview-summary.html#ejb">EJB</a></li>
+          </ul>
+        </li>
         <li><a href="faq.html">FAQ</a></li>
         <li><a href="apidocs/index.html">Javadoc API documentation</a></li>
         <li><a href="xref/index.html">Complete source code (with cross references)</a></li>
