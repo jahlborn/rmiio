@@ -203,6 +203,9 @@ public class SerialRemoteIteratorServer<DataType>
     throws IOException
   {
     super(useCompression, noDelay, monitor, chunkSize);
+    if(localIterator == null) {
+      throw new IllegalArgumentException("Iterator cannot be null");
+    }
     _localIterator = localIterator;
     _resetNumObjects = resetNumObjects;
   }

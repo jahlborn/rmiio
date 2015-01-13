@@ -139,6 +139,23 @@ public class DirectRemoteInputStreamTest extends TestCase {
     }
   }
   
+  public void testNullStreams() throws Exception
+  {
+    try {
+      new DirectRemoteInputStream(null);
+      fail("IllegalArgumentException should have been thrown");
+    } catch(IllegalArgumentException e) {
+      // success
+    }
+
+    try {
+      new SimpleRemoteOutputStream(null);
+      fail("IllegalArgumentException should have been thrown");
+    } catch(IllegalArgumentException e) {
+      // success
+    }
+  }
+
 
   private File serializeToTempFile(RemoteInputStream remoteStream)
     throws Exception

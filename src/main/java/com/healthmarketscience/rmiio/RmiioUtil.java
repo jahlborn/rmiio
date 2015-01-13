@@ -55,6 +55,9 @@ public class RmiioUtil
    */
   public static <T> CloseableIOIterator<T> adapt(Iterator<? extends T> iter)
   {
+    if(iter == null) {
+      return null;
+    }
     return new IOIteratorAdapter<T>(iter);
   }
 

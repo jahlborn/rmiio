@@ -44,7 +44,7 @@
     <connection>scm:svn:svn://svn.code.sf.net/p/openhms/code/rmiio/trunk/</connection>
     <!-- read/write svn connection -->
     <developerConnection>scm:svn:svn+ssh://jahlborn@svn.code.sf.net/p/openhms/code/rmiio/trunk/</developerConnection>
-    <url>http://sourceforge.net/p/openhms/code/HEAD/tree/rmiio/trunk/</url>
+    <url>http://svn.code.sf.net/p/openhms/code/rmiio/trunk/</url>
   </scm>
   <build>
     <pluginManagement>

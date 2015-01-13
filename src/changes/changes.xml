@@ -4,6 +4,11 @@
     <author email="jahlborn@users.sf.net">James Ahlborn</author>
   </properties>
   <body>
+    <release version="2.0.5" date="TBD">
+      <action dev="jahlborn" type="fix" system="SourceForge2" issue="14">
+        Add preemptive null checks to avoid remote NPEs.
+      </action>
+    </release>
     <release version="2.0.4" date="2013-09-23">
       <action dev="jahlborn" type="add">
         Added the RMISocket utility for simulating a socket-like connection

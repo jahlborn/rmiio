@@ -68,6 +68,9 @@ public abstract class RemoteOutputStreamServer
     RemoteStreamMonitor<RemoteOutputStreamServer> monitor)
   {
     super(monitor);
+    if(out == null) {
+      throw new IllegalArgumentException("OutputStream cannot be null");
+    }
     _out = out;
   }
 

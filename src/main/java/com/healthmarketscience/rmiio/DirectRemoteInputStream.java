@@ -156,6 +156,9 @@ public class DirectRemoteInputStream
       InputStream in, boolean compress,
       RemoteStreamMonitor<RemoteInputStreamServer> monitor)
   {
+    if(in == null) {
+      throw new IllegalArgumentException("InputStream cannot be null");
+    }
     _in = in;
     _compress = compress;
     _monitor = monitor;

@@ -91,6 +91,9 @@ public abstract class RemoteInputStreamServer
     int chunkSize)
   {
     super(monitor);
+    if(in == null) {
+      throw new IllegalArgumentException("InputStream cannot be null");
+    }
     _in = in;
     _chunkSize = chunkSize;
   }

@@ -67,6 +67,9 @@ public class RemoteWrapper<RemoteType>
   protected final Log _log;
   
   public RemoteWrapper(RemoteType stub, RemoteRetry retry, Log log) {
+    if(stub == null) {
+      throw new IllegalArgumentException("Remote stub cannot be null");
+    }
     _stub = stub;
     _retry = retry;
     _log = log;

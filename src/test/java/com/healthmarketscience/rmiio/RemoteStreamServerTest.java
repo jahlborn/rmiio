@@ -223,6 +223,38 @@ public class RemoteStreamServerTest extends BaseRemoteStreamTest {
     istream.close();
   }
 
+  public void testNullStreams() throws Exception
+  {
+    try {
+      new GZIPRemoteInputStream(null);
+      fail("IllegalArgumentException should have been thrown");
+    } catch(IllegalArgumentException e) {
+      // success
+    }
+
+    try {
+      new SimpleRemoteOutputStream(null);
+      fail("IllegalArgumentException should have been thrown");
+    } catch(IllegalArgumentException e) {
+      // success
+    }
+
+    try {
+      new SerializableInputStream((RemoteInputStream)null);
+      fail("IllegalArgumentException should have been thrown");
+    } catch(IllegalArgumentException e) {
+      // success
+    }
+
+    try {
+      new SerializableOutputStream((RemoteOutputStream)null);
+      fail("IllegalArgumentException should have been thrown");
+    } catch(IllegalArgumentException e) {
+      // success
+    }
+
+  }
+
   private void checkFiles(File srcFile, List<List<File>> tempFiles)
     throws IOException
   {

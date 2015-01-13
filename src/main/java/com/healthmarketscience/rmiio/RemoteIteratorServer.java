@@ -82,6 +82,9 @@ public class RemoteIteratorServer<DataType> implements Closeable
       int chunkSize)
     throws IOException
   {
+    if(localIStream == null) {
+      throw new IllegalArgumentException("InputStream cannot be null");
+    }
     _localIStream = localIStream;
     if(useCompression) {
       _remoteIStream = new GZIPRemoteInputStream(_localIStream, monitor,

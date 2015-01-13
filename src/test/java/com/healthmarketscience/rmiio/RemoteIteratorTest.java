@@ -31,13 +31,14 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import java.util.ArrayList;
 
 
 /**
@@ -140,6 +141,22 @@ public class RemoteIteratorTest extends BaseRemoteStreamTest {
     }
     
     assertEquals(srcList, dstList);
+  }
+
+  public void testNullIterator() throws Exception
+  {
+    try {
+      new SimpleRemoteIterator<TestObject>(null);
+      fail("IllegalArgumentException should have been thrown");
+    } catch(IllegalArgumentException e) {
+      // success
+    }
+    try {
+      new SerialRemoteIteratorServer<TestObject>((IOIterator<TestObject>)null);
+      fail("IllegalArgumentException should have been thrown");
+    } catch(IllegalArgumentException e) {
+      // success
+    }
   }
 
   public static List<List<TestObject>> mainTest(

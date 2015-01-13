@@ -48,6 +48,9 @@ public class SimpleRemoteIterator<DataType>
 
   public SimpleRemoteIterator(Iterable<DataType> iterable)
   {
+    if(iterable == null) {
+      throw new IllegalArgumentException("Iterable cannot be null");
+    }
     _iterable = iterable;
   }
 

@@ -67,6 +67,9 @@ public class SerializableOutputStream extends OutputStream
   }
 
   public SerializableOutputStream(RemoteOutputStream remoteOut) {
+    if(remoteOut == null) {
+      throw new IllegalArgumentException("OutputStream cannot be null");
+    }
     _remoteOut = remoteOut;
   }
 
