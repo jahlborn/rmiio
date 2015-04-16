@@ -4,7 +4,8 @@
     <author email="jahlborn@users.sf.net">James Ahlborn</author>
   </properties>
   <body>
-    <release version="2.1.0" date="2015-04-15">
+    <release version="2.1.0" date="2015-04-15" 
+             description="Relicense to Apache License">
       <action dev="jahlborn" type="add">
         OpenHMS relicenses to Apache License, 2.0!
       </action>
