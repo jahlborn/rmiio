@@ -114,7 +114,7 @@ service.uploadFile("MyFile", remoteFileData.export());
           This example just touches on the powerful functionality provided by
           the RMIIO library.  See the <a href="#Features">Features</a> section
           below for more details.  The RMIIO library is licensed under the
-          <a href="license.html">GNU Lesser General Public License</a>
+          <a href="license.html">Apache License, Version 2.0</a>
           and is part of the <a href="http://openhms.sourceforge.net/">OpenHMS</a> project.
         </p>
       </subsection>
