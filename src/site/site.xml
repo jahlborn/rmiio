@@ -7,6 +7,7 @@
       <item name="SourceForge Project" href="http://sourceforge.net/projects/openhms/"/>
       <item name="Class Reference" href="class_reference.html"/>
       <item name="FAQ" href="faq.html"/>
+      <item name="GitHub Mirror" href="https://github.com/jahlborn/rmiio"/>
     </menu>
 
     <menu ref="reports"/>
