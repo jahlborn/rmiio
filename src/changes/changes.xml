@@ -4,6 +4,11 @@
     <author email="jahlborn@users.sf.net">James Ahlborn</author>
   </properties>
   <body>
+    <release version="2.1.1" date="TBD">
+      <action dev="jahlborn" type="update">
+        New site style!
+      </action>
+    </release>
     <release version="2.1.0" date="2015-04-15" 
              description="Relicense to Apache License">
       <action dev="jahlborn" type="add">
