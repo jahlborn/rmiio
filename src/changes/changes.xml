@@ -4,7 +4,7 @@
     <author email="jahlborn@users.sf.net">James Ahlborn</author>
   </properties>
   <body>
-    <release version="2.1.1" date="TBD">
+    <release version="2.1.1" date="2016-03-15">
       <action dev="jahlborn" type="update">
         New site style!
       </action>
