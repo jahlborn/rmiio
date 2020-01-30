@@ -56,8 +56,8 @@
             <forkMode>once</forkMode>
             <systemProperties>
               <property>
-                <name>log4j.configuration</name>
-                <value>log4j.properties</value>
+                <name>java.util.logging.config.file</name>
+                <value>logging_test.properties</value>
               </property>
               <property>
                 <name>rmiio.fastTest</name>
@@ -116,21 +116,14 @@
     <dependency>
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
-      <version>1.1.3</version>
+      <version>1.2</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.11</version>
+      <version>4.12</version>
       <scope>test</scope>
     </dependency>    
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>1.2.17</version>
-      <scope>runtime</scope>
-      <optional>true</optional>
-    </dependency>
   </dependencies>
   <reporting>
     <plugins>
