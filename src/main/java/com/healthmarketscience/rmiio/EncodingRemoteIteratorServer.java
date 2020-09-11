@@ -55,13 +55,13 @@ public abstract class EncodingRemoteIteratorServer<DataType>
   {
     this(true, RemoteInputStreamServer.DUMMY_MONITOR);
   }
-  
+
   public EncodingRemoteIteratorServer(boolean useCompression)
     throws IOException
   {
     this(useCompression, false, RemoteInputStreamServer.DUMMY_MONITOR);
   }
-  
+
   public EncodingRemoteIteratorServer(boolean useCompression,
                                       boolean noDelay)
     throws IOException
@@ -76,7 +76,7 @@ public abstract class EncodingRemoteIteratorServer<DataType>
   {
     this(useCompression, false, monitor);
   }
-  
+
   public EncodingRemoteIteratorServer(
       boolean useCompression,
       boolean noDelay,
@@ -87,6 +87,7 @@ public abstract class EncodingRemoteIteratorServer<DataType>
          RemoteInputStreamServer.DEFAULT_CHUNK_SIZE);
   }
 
+  @SuppressWarnings("unchecked")
   public EncodingRemoteIteratorServer(
       boolean useCompression,
       boolean noDelay,
@@ -97,10 +98,10 @@ public abstract class EncodingRemoteIteratorServer<DataType>
     // note, noDelay makes no sense if we are using compression, so just
     // disable in that case (this is not techically incorrect, compression
     // just overrides noDelay)
-    super(new EncodingInputStreamImpl(chunkSize, (noDelay && !useCompression)),
+    super(new EncodingInputStreamImpl<DataType>(chunkSize, (noDelay && !useCompression)),
           useCompression, monitor, chunkSize);
-    ((EncodingInputStreamImpl)_localIStream).setOuter(this);
-    _localOStream = ((EncodingInputStreamImpl)_localIStream).getOutputStream();
+    ((EncodingInputStreamImpl<DataType>)_localIStream).setOuter(this);
+    _localOStream = ((EncodingInputStreamImpl<DataType>)_localIStream).getOutputStream();
   }
 
   /**
@@ -112,7 +113,7 @@ public abstract class EncodingRemoteIteratorServer<DataType>
   {
     _localOStream.close();
   }
-  
+
   /**
    * If there are more objects in the iteration, writes an object to the
    * _localOStream and returns <code>true</code>, otherwise returns
@@ -121,7 +122,7 @@ public abstract class EncodingRemoteIteratorServer<DataType>
   protected abstract boolean writeNextObject()
     throws IOException;
 
-  
+
   /**
    * InputStream which lies under the RemoteInputStream and "reads" objects as
    * necessary when data is requested by the client.  the _localOStream used
@@ -129,18 +130,18 @@ public abstract class EncodingRemoteIteratorServer<DataType>
    * forwards data to this class, which fills a buffer passed in during a
    * read() call (and possibly an overflow buffer if necessary).
    */
-  private static class EncodingInputStreamImpl extends EncodingInputStream
+  private static class EncodingInputStreamImpl<DTypeOuter> extends EncodingInputStream
   {
     /** because of the way things are created, this class cannot be an inner
         class.  instead, we get a reference to our outer class after initial
         construction. */
-    private EncodingRemoteIteratorServer _outer;
-    
+    private EncodingRemoteIteratorServer<DTypeOuter> _outer;
+
     private EncodingInputStreamImpl(int chunkSize, boolean noDelay) {
       super(chunkSize, noDelay);
     }
 
-    private void setOuter(EncodingRemoteIteratorServer outer) {
+    private void setOuter(EncodingRemoteIteratorServer<DTypeOuter> outer) {
       _outer = outer;
     }
 
@@ -157,7 +158,7 @@ public abstract class EncodingRemoteIteratorServer<DataType>
         _outer.closeIterator();
       }
     }
-    
+
   }
-  
+
 }
