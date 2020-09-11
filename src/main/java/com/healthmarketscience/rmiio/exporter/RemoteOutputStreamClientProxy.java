@@ -36,27 +36,28 @@ public abstract class RemoteOutputStreamClientProxy
   implements RemoteOutputStream
 {
 
-  public RemoteOutputStreamClientProxy() {
-  }
-
+  @Override
   public boolean usingGZIPCompression()
     throws IOException
   {
     return (Boolean)invoke(OUT_USING_COMPRESSION_METHOD);
   }
-  
+
+  @Override
   public void close(boolean readSuccess)
     throws IOException
   {
     invoke(OUT_CLOSE_METHOD, readSuccess);
   }
 
+  @Override
   public void flush()
     throws IOException
   {
     invoke(OUT_FLUSH_METHOD);
   }
-  
+
+  @Override
   public void writePacket(byte[] packet, int packetId)
     throws IOException
   {
@@ -77,5 +78,5 @@ public abstract class RemoteOutputStreamClientProxy
    */
   protected abstract Object invoke(int methodCode, Object... parameters)
     throws IOException;
-  
+
 }

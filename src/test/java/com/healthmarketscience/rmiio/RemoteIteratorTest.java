@@ -23,7 +23,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -198,7 +197,7 @@ public class RemoteIteratorTest extends BaseRemoteStreamTest {
   {
 
     private List<List<TestObject>> _recvdObjectLists =
-      new LinkedList<List<TestObject>>();
+      new ArrayList<List<TestObject>>();
 
     public ObjectServer() {
     }
@@ -207,7 +206,7 @@ public class RemoteIteratorTest extends BaseRemoteStreamTest {
                             boolean doPartial)
       throws IOException
     {
-      List<TestObject> recvdObjectList = new LinkedList<TestObject>();
+      List<TestObject> recvdObjectList = new ArrayList<TestObject>();
       if(!doPartial) {
         _recvdObjectLists.add(recvdObjectList);
       }
@@ -234,7 +233,7 @@ public class RemoteIteratorTest extends BaseRemoteStreamTest {
   {
 
     private static final List<TestObject> SEND_OBJECTS =
-      new LinkedList<TestObject>();
+      new ArrayList<TestObject>();
     private static final int PARTIAL_SIZE = 100;
 
     static {

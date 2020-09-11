@@ -44,7 +44,7 @@ public class DefaultRemoteStreamExporter extends RemoteStreamExporter
 
   /** port number to use when exporting streams */
   private final int _port;
-  
+
   public DefaultRemoteStreamExporter() {
     this(getDefaultPort());
   }
@@ -63,7 +63,7 @@ public class DefaultRemoteStreamExporter extends RemoteStreamExporter
   {
     return UnicastRemoteObject.exportObject(server, getPort());
   }
-  
+
   @Override
   protected void unexportImpl(RemoteStreamServer<?,?> server)
     throws Exception
@@ -81,5 +81,5 @@ public class DefaultRemoteStreamExporter extends RemoteStreamExporter
   {
     return Integer.getInteger(PORT_PROPERTY, ANY_PORT);
   }
-  
+
 }

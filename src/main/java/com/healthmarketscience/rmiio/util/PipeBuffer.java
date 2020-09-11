@@ -18,7 +18,8 @@ package com.healthmarketscience.rmiio.util;
 
 import java.io.IOException;
 import java.nio.BufferUnderflowException;
-import java.util.LinkedList;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 import com.healthmarketscience.rmiio.PacketInputStream;
 import com.healthmarketscience.rmiio.PacketOutputStream;
@@ -50,14 +51,13 @@ public class PipeBuffer {
     /** the total number of written bytes currently held by this object */
   private long _totalBytes;
   /** the current List of ByteWrappers */
-  private final LinkedList<ByteWrapper> _buffers =
-    new LinkedList<ByteWrapper>();
+  private final Deque<ByteWrapper> _buffers = new ArrayDeque<ByteWrapper>();
   /** convenience flag for communicating reader close */
   private boolean _gotReadEOF;
   /** convenience flag for communicating writer close */
   private boolean _gotWriteEOF;
 
-  
+
   public PipeBuffer() {
     this(DEFAULT_PACKET_SIZE);
   }
@@ -82,10 +82,10 @@ public class PipeBuffer {
    * for coordinating between reader and writer of the PipeBuffer.
    */
   public void closeRead() { _gotReadEOF = true; }
-  
+
   /** @return if {@link #closeWrite} has been called */
   public boolean isWriteClosed() { return _gotWriteEOF; }
-  
+
   /**
    * Indicates that the "writer" of this PipeBuffer is finished.  Calling this
    * method does not affect the operation of this PipeBuffer, it merely causes
@@ -93,7 +93,7 @@ public class PipeBuffer {
    * for coordinating between reader and writer of the PipeBuffer.
    */
   public void closeWrite() { _gotWriteEOF = true; }
-  
+
   public int getPacketSize() { return _packetSize; }
 
   /** @return <code>true</code> if there are bytes to read in the buffer,
@@ -101,7 +101,7 @@ public class PipeBuffer {
   public boolean hasRemaining() {
     return(_totalBytes > 0);
   }
-  
+
   /** @return the number of bytes which can be read from this buffer */
   public long remaining() {
     return _totalBytes;
@@ -110,7 +110,7 @@ public class PipeBuffer {
   private void addLast(ByteWrapper bb) {
     _buffers.addLast(bb);
   }
-    
+
   private void removeFirst(boolean canKeep) {
     // ditch the first buffer unless it is the only one left, we are allowed
     // to keep it, and it is at least as big as our packetSize
@@ -152,7 +152,7 @@ public class PipeBuffer {
     removeFirst(canKeep);
 
     _totalBytes -= (long)packet.length;
-    
+
     return packet;
   }
 
@@ -198,7 +198,7 @@ public class PipeBuffer {
     if(len < 0) {
       throw new IllegalArgumentException("bogus length given");
     }
-    
+
     long origLen = len;
     while(len > 0) {
       ByteWrapper bb = _buffers.getFirst();
@@ -213,7 +213,7 @@ public class PipeBuffer {
 
     _totalBytes -= origLen;
   }
-  
+
   /**
    * Writes a packet of data to this buffer, where the initial data in the
    * packet will start at the given position and have the given length.
@@ -226,17 +226,17 @@ public class PipeBuffer {
     checkPositionAndLength(pos, len, buf);
 
     if(len > 0) {
-      
+
       if((_totalBytes == 0) && (_buffers.size() > 0)) {
         // we have some empty buffers stashed away, but since we are writing a
         // packet, just ditch them
         _buffers.clear();
       }
-        
+
       // just slap it onto the end (should i copy small buffers?)
       addLast(new ByteWrapper(buf, pos, pos + len));
       _totalBytes += (long)len;
-    }    
+    }
   }
 
   /**
@@ -260,7 +260,7 @@ public class PipeBuffer {
       pos += numBytes;
       len -= numBytes;
     }
-    
+
     _totalBytes += (long)origLen;
   }
 
@@ -300,7 +300,7 @@ public class PipeBuffer {
       throw new IllegalArgumentException("bogus position or length given");
     }
   }
-  
+
 
   /**
    * Utility class which sort of mimics a java.nio.ByteBuffer but doesn't suck
@@ -319,7 +319,7 @@ public class PipeBuffer {
     private ByteWrapper(int size) {
       this(new byte[size], 0, 0);
     }
-    
+
     private ByteWrapper(byte[] buf, int readPosition, int writePosition) {
       _buf = buf;
       _readPosition = readPosition;
@@ -327,7 +327,7 @@ public class PipeBuffer {
     }
 
     public int capacity() { return _buf.length; }
-    
+
     public byte[] array() { return _buf; }
 
     public int write(byte[] b, int pos, int len) {
@@ -341,7 +341,7 @@ public class PipeBuffer {
       long numBytes = Math.min((long)readRemaining(), len);
       _readPosition += (int)numBytes;
       return numBytes;
-    }    
+    }
 
     public int read(byte[] b, int pos, int len) {
       int numBytes = Math.min(readRemaining(), len);
@@ -353,7 +353,7 @@ public class PipeBuffer {
     public boolean hasWriteRemaining() {
       return(writeRemaining() > 0);
     }
-    
+
     public int writeRemaining() {
       return(_buf.length - _writePosition);
     }
@@ -361,7 +361,7 @@ public class PipeBuffer {
     public boolean hasReadRemaining() {
       return(readRemaining() > 0);
     }
-    
+
     public int readRemaining() {
       return(_writePosition - _readPosition);
     }
@@ -378,11 +378,11 @@ public class PipeBuffer {
     public boolean isFullPacket(int packetSize) {
       return(!hasWriteRemaining() || (readRemaining() >= packetSize));
     }
-    
+
     public void clear() {
       _readPosition = _writePosition = 0;
     }
-    
+
   }
 
   /**
@@ -407,7 +407,7 @@ public class PipeBuffer {
     public InputStreamAdapter(int packetSize) {
       super(packetSize);
     }
-          
+
     public PipeBuffer getBuffer() {
       return _buffer;
     }
@@ -415,7 +415,6 @@ public class PipeBuffer {
     public void setBuffer(PipeBuffer newBuffer) {
       _buffer = newBuffer;
     }
-
 
     /**
      * Returns the PipeBuffer of this InputStreamAdapter, creating if
@@ -456,12 +455,12 @@ public class PipeBuffer {
       ostream.setBuffer(pipeBuffer);
       setBuffer(pipeBuffer);
     }
-    
+
     @Override
     public void close() {
       _buffer.closeRead();
     }
-    
+
     @Override
     public int available()
       throws IOException
@@ -496,7 +495,7 @@ public class PipeBuffer {
         return -1;
       }
       int numBytes = Math.min(len, (int)_buffer.remaining());
-      
+
       _buffer.read(buf, pos, numBytes);
       return numBytes;
     }
@@ -509,7 +508,7 @@ public class PipeBuffer {
         // all done
         return null;
       }
-      
+
       // readPartial is irrelevant because the PipeBuffer will automagically
       // do a partial read, and has no facility for blocking until an entire
       // packet is available
@@ -561,11 +560,11 @@ public class PipeBuffer {
     public OutputStreamAdapter() {
       this(false);
     }
-    
+
     public OutputStreamAdapter(boolean throwOnReadClose) {
       _throwOnReadClose = throwOnReadClose;
     }
-    
+
     public PipeBuffer getBuffer() {
       return _buffer;
     }
@@ -587,7 +586,7 @@ public class PipeBuffer {
     public void setThrowOnReadClose(boolean newThrowOnReadClose) {
       _throwOnReadClose = newThrowOnReadClose;
     }
-    
+
     /**
      * Calls {@link PipeBuffer.InputStreamAdapter#connect} on the given
      * InputStreamAdapter with this OutputStreamAdapter as the parameter.
@@ -595,12 +594,12 @@ public class PipeBuffer {
     public void connect(InputStreamAdapter istream) throws IOException {
       istream.connect(this);
     }
-    
+
     @Override
     public void close() {
       _buffer.closeWrite();
     }
-    
+
     @Override
     public void write(int b) throws IOException {
       _singleByteAdapter.write(b, this);
@@ -618,7 +617,7 @@ public class PipeBuffer {
         // don't write if reader is finished (waste of resources)
         return;
       }
-      
+
       _buffer.write(b, pos, len);
     }
 
@@ -629,7 +628,7 @@ public class PipeBuffer {
         // don't write if reader is finished (waste of resources)
         return;
       }
-      
+
       _buffer.writePacket(packet, 0, packet.length);
     }
 
@@ -641,7 +640,7 @@ public class PipeBuffer {
         throw new IOException("Reader is no longer reading");
       }
     }
-    
+
   }
 
 }

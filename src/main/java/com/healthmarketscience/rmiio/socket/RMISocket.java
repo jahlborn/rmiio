@@ -106,6 +106,7 @@ public class RMISocket implements Closeable
    * Closes the local InputStream and the remote Source if one has been
    * associated with this socket.
    */
+  @Override
   public void close() throws IOException {
     try {
       if(_remoteSource != null) {
@@ -164,6 +165,7 @@ public class RMISocket implements Closeable
       return _localOut;
     }
 
+    @Override
     public void setRemoteRetry(RemoteRetry retry) {
       _retry = retry;
     }
@@ -183,6 +185,7 @@ public class RMISocket implements Closeable
       _chunkSize = chunkSize;
     }
 
+    @Override
     public void close() throws IOException {
       getOutputStream().close();
     }

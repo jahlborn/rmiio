@@ -36,33 +36,35 @@ public abstract class RemoteInputStreamClientProxy
   implements RemoteInputStream
 {
 
-  public RemoteInputStreamClientProxy() {
-  }
-
+  @Override
   public boolean usingGZIPCompression()
     throws IOException
   {
     return (Boolean)invoke(IN_USING_COMPRESSION_METHOD);
   }
-  
+
+  @Override
   public int available()
     throws IOException
   {
     return (Integer)invoke(IN_AVAILABLE_METHOD);
   }
 
+  @Override
   public void close(boolean readSuccess)
     throws IOException
   {
     invoke(IN_CLOSE_METHOD, readSuccess);
   }
 
+  @Override
   public byte[] readPacket(int packetId)
     throws IOException
   {
     return (byte[])invoke(IN_READ_PACKET_METHOD, packetId);
   }
 
+  @Override
   public long skip(long n, int skipId)
     throws IOException
   {
@@ -83,5 +85,5 @@ public abstract class RemoteInputStreamClientProxy
    */
   protected abstract Object invoke(int methodCode, Object... parameters)
     throws IOException;
-  
+
 }
