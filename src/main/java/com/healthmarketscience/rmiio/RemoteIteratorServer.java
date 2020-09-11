@@ -47,13 +47,13 @@ public class RemoteIteratorServer<DataType> implements Closeable
   {
     this(localIStream, true, RemoteInputStreamServer.DUMMY_MONITOR);
   }
-  
+
   public RemoteIteratorServer(InputStream localIStream, boolean useCompression)
     throws IOException
   {
     this(localIStream, useCompression, RemoteInputStreamServer.DUMMY_MONITOR);
   }
-  
+
   public RemoteIteratorServer(
       InputStream localIStream,
       boolean useCompression,
@@ -90,7 +90,7 @@ public class RemoteIteratorServer<DataType> implements Closeable
             }
           }
         };
-          
+
     } else {
       _remoteIStream = new SimpleRemoteInputStream(_localIStream, monitor,
                                                    chunkSize) {
@@ -138,6 +138,7 @@ public class RemoteIteratorServer<DataType> implements Closeable
    * <code>unreferenced</code> method if the server object must live beyond
    * the creation method call).
    */
+  @Override
   public final void close() {
     // note, this will eventually call our closeImpl method below due to the
     // override on creation.  this method is final because we do not want to
@@ -145,7 +146,7 @@ public class RemoteIteratorServer<DataType> implements Closeable
     // close (whereas closeImpl will get invoked on remote close).
     _remoteIStream.close();
   }
-  
+
   /**
    * Aborts the current transfer without closing this RemoteIteratorServer.
    * This method is thread safe.  This will usually shutdown a currently
@@ -159,7 +160,7 @@ public class RemoteIteratorServer<DataType> implements Closeable
   {
     _remoteIStream.abort();
   }
-  
+
   /**
    * Cleans up any local resources after the underlying stream server is
    * closed.  Since this method is called by the close() method on the
@@ -174,5 +175,5 @@ public class RemoteIteratorServer<DataType> implements Closeable
   {
     // base class does nothing
   }
-  
+
 }

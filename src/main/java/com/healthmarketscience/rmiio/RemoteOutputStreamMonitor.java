@@ -27,31 +27,35 @@ package com.healthmarketscience.rmiio;
 public class RemoteOutputStreamMonitor
   implements RemoteStreamMonitor<RemoteOutputStreamServer>
 {
-  public RemoteOutputStreamMonitor() {
-    
-  }
+  public RemoteOutputStreamMonitor() {}
 
+  @Override
   public void failure(RemoteOutputStreamServer stream, Exception e) {}
 
+  @Override
   public void bytesMoved(RemoteOutputStreamServer stream,
                          int numBytes, boolean isReattempt) {}
 
+  @Override
   public void bytesSkipped(RemoteOutputStreamServer stream,
                            long numBytes, boolean isReattempt) {
     // should never be called for output streams
     throw new UnsupportedOperationException();
   }
 
+  @Override
   public void localBytesMoved(RemoteOutputStreamServer stream,
                               int numBytes) {}
 
+  @Override
   public void localBytesSkipped(RemoteOutputStreamServer stream,
                                 long numBytes) {
     // should never be called for output streams
     throw new UnsupportedOperationException();
   }
-  
+
+  @Override
   public void closed(RemoteOutputStreamServer stream,
                      boolean clean) {}
-  
+
 }

@@ -32,11 +32,12 @@ public abstract class ConverterIOIterator<InType, OutType>
 {
   /** input iterator */
   private final CloseableIOIterator<? extends InType> _iter;
-  
+
   public ConverterIOIterator(CloseableIOIterator<? extends InType> iter) {
     _iter = iter;
   }
 
+  @Override
   public boolean hasNext() throws IOException {
     return _iter.hasNext();
   }
@@ -58,5 +59,5 @@ public abstract class ConverterIOIterator<InType, OutType>
    * @return the input value converted to the output type
    */
   protected abstract OutType convert(InType in) throws IOException;
-  
+
 }

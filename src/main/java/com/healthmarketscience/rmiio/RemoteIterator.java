@@ -50,6 +50,7 @@ public interface RemoteIterator<DataType>
    * after this call (depending on the implementation), so clients should not
    * attempt to use this iterator after making this call.
    */
+  @Override
   public void close() throws IOException;
 
 }

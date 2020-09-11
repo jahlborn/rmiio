@@ -33,11 +33,11 @@ import com.healthmarketscience.rmiio.util.InputStreamAdapter;
  */
 public class SimpleRemoteInputStream extends RemoteInputStreamServer
 {
-  private static final long serialVersionUID = 20080212L;  
+  private static final long serialVersionUID = 20080212L;
 
   /** manages reading from the given stream in a packet-like manner */
   private transient final InputStreamAdapter _inAdapter;
-  
+
   public SimpleRemoteInputStream(InputStream in) {
     this(in, DUMMY_MONITOR, DEFAULT_CHUNK_SIZE);
   }
@@ -56,7 +56,8 @@ public class SimpleRemoteInputStream extends RemoteInputStreamServer
     super(in, monitor, chunkSize);
     _inAdapter = InputStreamAdapter.create(in, _chunkSize);
   }
-  
+
+  @Override
   public boolean usingGZIPCompression()
   {
     // no compression
@@ -77,12 +78,12 @@ public class SimpleRemoteInputStream extends RemoteInputStreamServer
     throws IOException
   {
     // will be called synchronized
-    
+
     // read another packet of data
     byte[] packet = _inAdapter.readPacket();
     if(packet != null) {
       _monitor.localBytesMoved(this, packet.length);
-    }      
+    }
     return packet;
   }
 
@@ -95,5 +96,5 @@ public class SimpleRemoteInputStream extends RemoteInputStreamServer
     _monitor.localBytesSkipped(this, numSkipped);
     return numSkipped;
   }
-  
+
 }

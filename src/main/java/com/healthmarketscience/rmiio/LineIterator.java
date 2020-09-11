@@ -21,14 +21,14 @@ import java.io.IOException;
 import static com.healthmarketscience.rmiio.RmiioUtil.closeQuietly;
 
 /**
- * CloseableIOIterator that reads lines from a BufferedReader, 
+ * CloseableIOIterator that reads lines from a BufferedReader,
  * optionally trimming whitespace and/or skipping blank lines.
  *
  * @author James Ahlborn
  */
 public class LineIterator extends AbstractCloseableIOIterator<String> {
 
-  /** 
+  /**
    * We'll read lines from this reader
    */
   private final BufferedReader _reader;
@@ -58,7 +58,7 @@ public class LineIterator extends AbstractCloseableIOIterator<String> {
    *                       trimmed from each line
    * @param skipBlankLines if true, empty lines will be skipped
    */
-  public LineIterator(BufferedReader reader, 
+  public LineIterator(BufferedReader reader,
                       boolean trimWhitespace,
                       boolean skipBlankLines)
     throws IOException
@@ -85,6 +85,7 @@ public class LineIterator extends AbstractCloseableIOIterator<String> {
     }
   }
 
+  @Override
   public boolean hasNext() throws IOException
   {
     return(_next != null);

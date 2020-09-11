@@ -42,5 +42,5 @@ public abstract class PacketOutputStream extends OutputStream
    */
   public abstract void writePacket(byte[] packet)
     throws IOException;
-  
+
 }

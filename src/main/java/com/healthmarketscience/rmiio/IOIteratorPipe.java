@@ -37,7 +37,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class IOIteratorPipe<DataType> {
 
   public static final int DEFAULT_QUEUE_SIZE = 100;
-  
+
   /** placeholder object for <code>null</code> values in the queue
       (BlockingQueues cannot handle <code>null</code>) */
   private static final Object NULL_OBJECT = new Object();
@@ -76,7 +76,7 @@ public class IOIteratorPipe<DataType> {
     _sink = new Sink();
     _source = new Source();
   }
-  
+
   /**
    * @return the Sink for pushing data into this pipe.
    */
@@ -137,7 +137,7 @@ public class IOIteratorPipe<DataType> {
         if((data != FINAL_OBJECT) && _sourceClosed) {
           throw new IOException("Source closed abnormally");
         }
-        
+
       } catch(InterruptedException e) {
         // pass the interrupt along
         Thread.currentThread().interrupt();
@@ -154,7 +154,7 @@ public class IOIteratorPipe<DataType> {
     {
       addNextImpl(data);
     }
-    
+
     /**
      * Indicates that all objects have been successfully added to the pipe.
      * May block if pipe's internal queue size is at maximum capacity.
@@ -167,7 +167,7 @@ public class IOIteratorPipe<DataType> {
       _sinkFinished = true;
       addNextImpl(FINAL_OBJECT);
     }
-  
+
     /**
      * Must be called regardless whether or not all data was added.  Calling
      * this method before the setFinished method is called (indicating
@@ -175,6 +175,7 @@ public class IOIteratorPipe<DataType> {
      * of the Source.  May block if pipe's internal queue size is at maximum
      * capacity.
      */
+    @Override
     public void close()
       throws IOException
     {
@@ -233,7 +234,7 @@ public class IOIteratorPipe<DataType> {
     private Object _next;
 
     private Source() {}
-    
+
     private void getNext() throws IOException {
       try {
         _next = _queue.take();
@@ -248,7 +249,8 @@ public class IOIteratorPipe<DataType> {
         throw (IOException)(new InterruptedIOException()).initCause(e);
       }
     }
-    
+
+    @Override
     public boolean hasNext() throws IOException {
       if(_next == null) {
         // this object is not initialized yet
@@ -278,7 +280,7 @@ public class IOIteratorPipe<DataType> {
       // _sourceClosed variable is correctly synchronized
       _sourceClosed = true;
       _queue.clear();
-    }    
+    }
   }
-  
+
 }

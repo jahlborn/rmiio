@@ -36,7 +36,7 @@ public class SerializableOutputStream extends OutputStream
   implements Serializable, RemoteClient
 {
   private static final long serialVersionUID = 2752774698731338838L;
-  
+
   /** the handle to the actual remote interface */
   private final RemoteOutputStream _remoteOut;
   /** optional client-side RemoteRetry policy */
@@ -47,7 +47,7 @@ public class SerializableOutputStream extends OutputStream
   /** optional client-side target value for the byte size of the packets of
       data sent over the wire */
   private transient Integer _chunkSize;
-  
+
   public SerializableOutputStream(OutputStream localIn) {
     // note, we do not need to export here, as it will be handled
     // automagically when the _remoteOut field is serialized.  this makes it
@@ -78,6 +78,7 @@ public class SerializableOutputStream extends OutputStream
     return _localOut;
   }
 
+  @Override
   public synchronized void setRemoteRetry(RemoteRetry retry) {
     _retry = retry;
   }
@@ -103,7 +104,7 @@ public class SerializableOutputStream extends OutputStream
   {
     getLocalOut().flush();
   }
-    
+
   @Override
   public void write(int b)
     throws IOException
@@ -124,12 +125,12 @@ public class SerializableOutputStream extends OutputStream
   {
     getLocalOut().write(b, off, len);
   }
-  
+
   @Override
   public void close()
     throws IOException
   {
     getLocalOut().close();
   }
-  
+
 }

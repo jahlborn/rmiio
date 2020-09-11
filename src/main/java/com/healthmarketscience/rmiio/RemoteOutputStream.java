@@ -50,7 +50,7 @@ public interface RemoteOutputStream extends Remote, Flushable
    */
   public boolean usingGZIPCompression()
     throws IOException, RemoteException;
-  
+
   /**
    * Closes the output stream and releases the resources for this server
    * object.  Note that the remote object <i>may no longer be accessible</i>
@@ -70,6 +70,7 @@ public interface RemoteOutputStream extends Remote, Flushable
    * The close() method will do any final flushing necessary (and can be
    * depended upon).
    */
+  @Override
   public void flush()
     throws IOException, RemoteException;
 
@@ -92,5 +93,5 @@ public interface RemoteOutputStream extends Remote, Flushable
    */
   public void writePacket(byte[] packet, int packetId)
     throws IOException, RemoteException;
-  
+
 }

@@ -50,32 +50,23 @@ import org.apache.commons.logging.Log;
  * // use simple retry mechanism
  * RemoteRetry retry = RemoteRetry.SIMPLE;
  *
- * // since we are using anonymous inner classes, these must be final
- * final MyRemoteObject myRemoteObject;
- * final int myArgument;
+ * MyRemoteObject myRemoteObject;
+ * int myArgument;
  *
  * // make a call with a return value
- * Result res = retry.call(new RemoteRetry.Caller&lt;Result&gt;()
- *   {
- *     public Result call() throws RemoteException, MyException {
- *       return myRemoteObject.getResult(myArgument);
- *     }
- *   }, LOG, MyException.class, RemoteException.class);
+ * Result res = retry.call(() -&gt; myRemoteObject.getResult(myArgument),
+ *   LOG, MyException.class, RemoteException.class);
  *
- * // make a call with no return value (use VoidCaller)
- * retry.call(new RemoteRetry.VoidCaller()
- *   {
- *     public void call() throws RemoteException, MyException {
- *       return myRemoteObject.setValue(myArgument);
- *     }
- *   }, LOG, MyException.class, RemoteException.class);
+ * // make a call with no return value (use IVoidCaller)
+ * retry.call((RemoteRetry.IVoidCaller)() -&gt; myRemoteObject.setValue(myArgument),
+ *   LOG, MyException.class, RemoteException.class);
  *
  * </pre>
  * <p>
  * Note that the various call() methods use generics to create methods with
  * custom Exception signatures in addition to the custom return types.
  *
- * 
+ *
  * @author James Ahlborn
  */
 public abstract class RemoteRetry
@@ -85,7 +76,7 @@ public abstract class RemoteRetry
   /** RuntimeException class for overloading of exception types */
   protected static final Class<RuntimeException> RUNTIME_CLASS =
     RuntimeException.class;
-  
+
   /** instance of the {@link Never} retry strategy for general use. */
   public static final RemoteRetry NEVER = new Never();
 
@@ -98,14 +89,14 @@ public abstract class RemoteRetry
 
   protected RemoteRetry() {}
 
-  
+
   /**
    * Implementation of a simple backoff strategy:
    * <ol>
    * <li> First retry returns immediately
    * <li> Retries 1 - 30 wait that many seconds each time before returning
    *      (after 1st retry wait 1 second, after 2nd retry wait 2 seconds...)
-   * <li> Retries > 30 wait 30 seconds each time before returning
+   * <li> Retries &gt; 30 wait 30 seconds each time before returning
    * </ol>
    *
    * @param numRetries number of retries which have happended thus far
@@ -134,7 +125,7 @@ public abstract class RemoteRetry
 
   /**
    * Implementation of the actual retry logic.  Calls the call() method of the
-   * given Caller, returning results.  All Throwables will be caught and
+   * given ICaller, returning results.  All Throwables will be caught and
    * shouldRetry() will be queried to see if the call should be reattempted.
    * Iff shouldRetry() returns <code>true</code>, backoff() is called in order
    * to allow the other end of the connection to have a breather and then the
@@ -143,7 +134,7 @@ public abstract class RemoteRetry
    *
    * @param caller implementation of the actual remote method call
    */
-  protected final <RetType> RetType callImpl(Caller<RetType> caller, Log log)
+  protected final <RetType> RetType callImpl(ICaller<RetType> caller, Log log)
     throws Throwable
   {
     int numTries = 0;
@@ -176,14 +167,32 @@ public abstract class RemoteRetry
   /**
    * Wrapper for {@link #callImpl} which only throws RuntimeException.
    */
+  public <RetType> RetType call(ICaller<RetType> caller)
+  {
+    return call(caller, LOG, RUNTIME_CLASS, RUNTIME_CLASS, RUNTIME_CLASS);
+  }
+
+  /**
+   * For backwards compatibility.
+   */
+  @Deprecated
   public <RetType> RetType call(Caller<RetType> caller)
   {
     return call(caller, LOG, RUNTIME_CLASS, RUNTIME_CLASS, RUNTIME_CLASS);
   }
-  
+
   /**
    * Wrapper for {@link #callImpl} which only throws RuntimeException.
    */
+  public <RetType> RetType call(ICaller<RetType> caller, Log log)
+  {
+    return call(caller, log, RUNTIME_CLASS, RUNTIME_CLASS, RUNTIME_CLASS);
+  }
+
+  /**
+   * For backwards compatibility.
+   */
+  @Deprecated
   public <RetType> RetType call(Caller<RetType> caller, Log log)
   {
     return call(caller, log, RUNTIME_CLASS, RUNTIME_CLASS, RUNTIME_CLASS);
@@ -194,17 +203,42 @@ public abstract class RemoteRetry
    * defined Exception.
    */
   public <RetType, ExType1 extends Throwable>
+  RetType call(ICaller<RetType> caller,
+               Class<ExType1> throwType1)
+    throws ExType1
+  {
+    return call(caller, LOG, throwType1, RUNTIME_CLASS, RUNTIME_CLASS);
+  }
+
+  /**
+   * For backwards compatibility.
+   */
+  @Deprecated
+  public <RetType, ExType1 extends Throwable>
   RetType call(Caller<RetType> caller,
                Class<ExType1> throwType1)
     throws ExType1
   {
     return call(caller, LOG, throwType1, RUNTIME_CLASS, RUNTIME_CLASS);
   }
-  
+
   /**
    * Wrapper for {@link #callImpl} which throws RuntimeException and one user
    * defined Exception.
    */
+  public <RetType, ExType1 extends Throwable>
+  RetType call(ICaller<RetType> caller,
+               Log log,
+               Class<ExType1> throwType1)
+    throws ExType1
+  {
+    return call(caller, log, throwType1, RUNTIME_CLASS, RUNTIME_CLASS);
+  }
+
+  /**
+   * For backwards compatibility.
+   */
+  @Deprecated
   public <RetType, ExType1 extends Throwable>
   RetType call(Caller<RetType> caller,
                Log log,
@@ -219,6 +253,19 @@ public abstract class RemoteRetry
    * defined Exceptions.
    */
   public <RetType, ExType1 extends Throwable, ExType2 extends Throwable>
+  RetType call(ICaller<RetType> caller,
+               Class<ExType1> throwType1,
+               Class<ExType2> throwType2)
+    throws ExType1, ExType2
+  {
+    return call(caller, LOG, throwType1, throwType2, RUNTIME_CLASS);
+  }
+
+  /**
+   * For backwards compatibility.
+   */
+  @Deprecated
+  public <RetType, ExType1 extends Throwable, ExType2 extends Throwable>
   RetType call(Caller<RetType> caller,
                Class<ExType1> throwType1,
                Class<ExType2> throwType2)
@@ -226,11 +273,25 @@ public abstract class RemoteRetry
   {
     return call(caller, LOG, throwType1, throwType2, RUNTIME_CLASS);
   }
-  
+
   /**
    * Wrapper for {@link #callImpl} which throws RuntimeException and two user
    * defined Exceptions.
    */
+  public <RetType, ExType1 extends Throwable, ExType2 extends Throwable>
+  RetType call(ICaller<RetType> caller,
+               Log log,
+               Class<ExType1> throwType1,
+               Class<ExType2> throwType2)
+    throws ExType1, ExType2
+  {
+    return call(caller, log, throwType1, throwType2, RUNTIME_CLASS);
+  }
+
+  /**
+   * For backwards compatibility.
+   */
+  @Deprecated
   public <RetType, ExType1 extends Throwable, ExType2 extends Throwable>
   RetType call(Caller<RetType> caller,
                Log log,
@@ -247,6 +308,21 @@ public abstract class RemoteRetry
    */
   public <RetType, ExType1 extends Throwable, ExType2 extends Throwable,
           ExType3 extends Throwable>
+  RetType call(ICaller<RetType> caller,
+               Class<ExType1> throwType1,
+               Class<ExType2> throwType2,
+               Class<ExType3> throwType3)
+    throws ExType1, ExType2, ExType3
+  {
+    return call(caller, LOG, throwType1, throwType2, throwType3);
+  }
+
+  /**
+   * For backwards compatibility.
+   */
+  @Deprecated
+  public <RetType, ExType1 extends Throwable, ExType2 extends Throwable,
+          ExType3 extends Throwable>
   RetType call(Caller<RetType> caller,
                Class<ExType1> throwType1,
                Class<ExType2> throwType2,
@@ -255,14 +331,14 @@ public abstract class RemoteRetry
   {
     return call(caller, LOG, throwType1, throwType2, throwType3);
   }
-  
+
   /**
    * Wrapper for {@link #callImpl} which throws RuntimeException and three
    * user defined Exceptions.
    */
   public <RetType, ExType1 extends Throwable, ExType2 extends Throwable,
           ExType3 extends Throwable>
-  RetType call(Caller<RetType> caller,
+  RetType call(ICaller<RetType> caller,
                Log log,
                Class<ExType1> throwType1,
                Class<ExType2> throwType2,
@@ -279,8 +355,24 @@ public abstract class RemoteRetry
       throw handleNoMatches(e);
     }
   }
-  
-  
+
+  /**
+   * For backwards compatibility.
+   */
+  @Deprecated
+  public <RetType, ExType1 extends Throwable, ExType2 extends Throwable,
+          ExType3 extends Throwable>
+  RetType call(Caller<RetType> caller,
+               Log log,
+               Class<ExType1> throwType1,
+               Class<ExType2> throwType2,
+               Class<ExType3> throwType3)
+    throws ExType1, ExType2, ExType3
+  {
+    return call((ICaller<RetType>)caller, log, throwType1, throwType2, throwType3);
+  }
+
+
   /**
    * Checks the given exception against the given Exception type, throwing if
    * the given exception is an instanceof the given type.  Otherwise, returns.
@@ -342,38 +434,57 @@ public abstract class RemoteRetry
    */
   public abstract void backOff(int numRetries, Log log);
 
-  
+
+  /**
+   * @see ICaller
+   */
+  @Deprecated
+  public static abstract class Caller<RetType> implements ICaller<RetType>
+  {
+  }
+
+  /**
+   * @see IVoidCaller
+   */
+  @Deprecated
+  public static abstract class VoidCaller extends Caller<Object>
+    implements IVoidCaller
+  {
+  }
+
   /**
    * Utility type implemented by those atttempting to make remote method calls
    * using this retry mechanism.  The call() method should implement the
-   * desired remote call.  Easiest implementation is using an anonymous inner
-   * class instantiated on the fly, per call (see main example above).
+   * desired remote call.  Easiest implementation is using a lambda
+   * instantiated on the fly, per call (see main example above).
    */
-  public static abstract class Caller<RetType>
+  @FunctionalInterface
+  public interface ICaller<RetType>
   {
     /**
      * Makes a remote method call which returns a value.  Users should change
      * the exception signature to be that of the actual method call.
      */
-    public abstract RetType call()
+    public RetType call()
       throws Exception;
   }
 
   /**
-   * Simple subclass of Caller for use by remote method calls which do not
-   * need to return values.  User should implement voidCall() instead of
+   * Simple subinterface of ICaller for use by remote method calls which do
+   * not need to return values.  User should implement voidCall() instead of
    * call().
    */
-  public static abstract class VoidCaller extends Caller<Object>
+  @FunctionalInterface
+  public interface IVoidCaller extends ICaller<Object>
   {
     @Override
-    public final Object call()
+    default public Object call()
       throws Exception
     {
       voidCall();
       return null;
     }
-    
+
     /**
      * Makes a remote method call which returns no value.  Users should change
      * the exception signature to be that of the actual method call.
@@ -381,6 +492,7 @@ public abstract class RemoteRetry
     public abstract void voidCall()
       throws Exception;
   }
+
 
 
   /**
@@ -408,7 +520,7 @@ public abstract class RemoteRetry
     public int getMaxNumRetries() {
       return _maxNumRetries;
     }
-    
+
     @Override
     public boolean shouldRetry(Throwable t, int numRetries)
     {
@@ -423,7 +535,7 @@ public abstract class RemoteRetry
     {
       simpleBackOff(numRetries, log);
     }
-    
+
   }
 
   /**
@@ -445,9 +557,9 @@ public abstract class RemoteRetry
     public final boolean shouldRetry(Throwable t, int numRetries)
     {
       return(t instanceof RemoteException);
-    }    
+    }
   }
-  
+
   /**
    * Simple implementation of Always retry strategy which uses the backoff
    * strategy from {@link RemoteRetry#simpleBackOff}.  Please read warning in
@@ -461,7 +573,7 @@ public abstract class RemoteRetry
     public void backOff(int numRetries, Log log)
     {
       simpleBackOff(numRetries, log);
-    }    
+    }
   }
 
   /**
@@ -478,12 +590,12 @@ public abstract class RemoteRetry
     {
       return false;
     }
-    
+
     @Override
     public void backOff(int numRetries, Log log)
     {
       throw new UnsupportedOperationException("Should never be called");
-    }    
+    }
   }
-  
+
 }

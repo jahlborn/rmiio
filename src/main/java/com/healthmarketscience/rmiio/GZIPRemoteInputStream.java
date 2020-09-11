@@ -36,7 +36,7 @@ import com.healthmarketscience.rmiio.util.EncodingInputStream;
  */
 public class GZIPRemoteInputStream extends RemoteInputStreamServer
 {
-  private static final long serialVersionUID = 20080212L;  
+  private static final long serialVersionUID = 20080212L;
 
   /** input stream from which this class retrieves the gzip compressed data
       written to _packetOStream.  The OutputStream linked to this object will
@@ -47,7 +47,7 @@ public class GZIPRemoteInputStream extends RemoteInputStreamServer
   private transient GZIPOutputStream _gzipOStream;
   /** manages reading from the underlying stream in a packet-like manner */
   private transient final InputStreamAdapter _inAdapter;
-  
+
   public GZIPRemoteInputStream(InputStream in)
     throws IOException
   {
@@ -73,6 +73,7 @@ public class GZIPRemoteInputStream extends RemoteInputStreamServer
     _inAdapter = InputStreamAdapter.create(in, _chunkSize);
   }
 
+  @Override
   public boolean usingGZIPCompression()
   {
     return true;
@@ -99,7 +100,7 @@ public class GZIPRemoteInputStream extends RemoteInputStreamServer
     // completely, the _gzipOStream will already be closed.  so, we'll just
     // let the stream die a natural death later whenever the garbage collector
     // gets to it
-    
+
     // now close super
     super.closeImpl(readSuccess);
   }
@@ -141,15 +142,15 @@ public class GZIPRemoteInputStream extends RemoteInputStreamServer
         _gzipOStream = new GZIPOutputStream(createOutputStream(),
                                             _chunkSize);
       }
-        
+
       int numRead = _inAdapter.readTemp();
       if(numRead > 0) {
 
         _monitor.localBytesMoved(GZIPRemoteInputStream.this, numRead);
-        
+
         // push data into the gzipper
         _gzipOStream.write(_inAdapter.getTempBuffer(), 0, numRead);
-        
+
       } else {
 
         if(_gzipOStream != null) {
@@ -159,6 +160,6 @@ public class GZIPRemoteInputStream extends RemoteInputStreamServer
       }
     }
   }
-  
-  
+
+
 }

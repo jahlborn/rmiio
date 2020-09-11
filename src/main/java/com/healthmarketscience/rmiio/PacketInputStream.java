@@ -34,14 +34,14 @@ public abstract class PacketInputStream extends InputStream
   /** empty packet.  useful for returns from partial reads where no data is
       currently available, but it's not EOF. */
   protected static final byte[] EMPTY_PACKET = new byte[0];
-  
+
   /** the packet size for buffers created in the overflow buffer list */
   private final int _packetSize;
   /** whether or not packet reading should accept partial packets by default.
       allowing partial packet reads will generally cause more remote calls, but
       should reduce latency per-object */
   private final boolean _noDelay;
-  
+
   public PacketInputStream() {
     this(DEFAULT_PACKET_SIZE);
   }
@@ -62,7 +62,7 @@ public abstract class PacketInputStream extends InputStream
   public boolean getNoDelay() {
     return _noDelay;
   }
-  
+
   /**
    * Gets the next "packet" from the internal buffer and returns it (if any).
    * By default, this method will block until a fully filled packet is created
@@ -94,20 +94,20 @@ public abstract class PacketInputStream extends InputStream
   public abstract byte[] readPacket(boolean readPartial)
     throws IOException;
 
-  
+
   /**
    * Returns the number of full packets which can be read without blocking.
    */
   public abstract int packetsAvailable()
     throws IOException;
 
-  
+
   /**
    * Reads a packet of data from the given input stream.  The given packet is
    * filled and returned if possible.  If not enough bytes are available, a
    * new packet will be created and returned.  If the stream is empty, {@code
    * null} will be returned.
-   * 
+   *
    * @param in the InputStream from which to read data
    * @param packet the potential output packet (if enough data is available)
    * @return a filled packet of data if any available, {@code null} if the
@@ -118,7 +118,7 @@ public abstract class PacketInputStream extends InputStream
   {
     int readLen = in.read(packet, 0, packet.length);
     if(readLen > 0) {
-      
+
       if(readLen < packet.length) {
         // shrink buffer for output
         byte[] tmpPacket = new byte[readLen];
@@ -126,12 +126,12 @@ public abstract class PacketInputStream extends InputStream
         packet = tmpPacket;
       }
       return packet;
-      
+
     } else if(readLen == 0) {
-      
+
       return PacketInputStream.EMPTY_PACKET;
     }
     return null;
   }
-  
+
 }

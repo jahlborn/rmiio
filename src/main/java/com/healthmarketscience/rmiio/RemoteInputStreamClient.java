@@ -56,7 +56,7 @@ public class RemoteInputStreamClient
   {
     return wrap(remoteIn, RemoteClient.DEFAULT_RETRY);
   }
-  
+
   /**
    * Wraps a RemoteInputStream as an InputStream using the given retry
    * strategy.
@@ -83,11 +83,11 @@ public class RemoteInputStreamClient
         new SaferGZIPInputStream(retStream,
                                  RemoteInputStreamServer.DEFAULT_CHUNK_SIZE);
     }
-    
+
     return retStream;
   }
 
-  
+
   /**
    * InputStream implementation which reads data from a RemoteInputStream
    * server.
@@ -166,7 +166,7 @@ public class RemoteInputStreamClient
     {
       return super.packetsAvailable();
     }
-    
+
     @Override
     public void close()
       throws IOException
@@ -223,7 +223,7 @@ public class RemoteInputStreamClient
         }
       }
     }
-    
+
   }
 
   /**
@@ -262,5 +262,5 @@ public class RemoteInputStreamClient
       }
     }
   }
-  
+
 }

@@ -19,7 +19,6 @@ package com.healthmarketscience.rmiio;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
-import java.io.Serializable;
 
 import com.healthmarketscience.rmiio.exporter.RemoteStreamExporter;
 
@@ -43,10 +42,9 @@ import com.healthmarketscience.rmiio.exporter.RemoteStreamExporter;
  */
 public class SerialRemoteIteratorClient<DataType>
   extends RemoteIteratorClient<DataType>
-  implements Serializable
 {
   private static final long serialVersionUID = 3979308768398733924L;
-  
+
   /** the output stream which does the java serialization work */
   private transient ObjectInputStream _objIStream;
 
@@ -56,7 +54,7 @@ public class SerialRemoteIteratorClient<DataType>
   {
     this(server, null);
   }
-  
+
   public SerialRemoteIteratorClient(
     RemoteIteratorServer<DataType> server,
     RemoteStreamExporter exporter)
@@ -113,5 +111,5 @@ public class SerialRemoteIteratorClient<DataType>
   {
     return istream.readUnshared();
   }
-  
+
 }

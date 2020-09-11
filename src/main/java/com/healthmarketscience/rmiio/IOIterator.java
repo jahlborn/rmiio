@@ -59,10 +59,12 @@ public interface IOIterator<DataType>
       _iter = iter;
     }
 
+    @Override
     public boolean hasNext() { return _iter.hasNext(); }
 
+    @Override
     public DataType next() { return _iter.next(); }
 
   }
-  
+
 }

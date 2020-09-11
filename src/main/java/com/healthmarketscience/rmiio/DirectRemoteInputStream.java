@@ -36,6 +36,7 @@ import org.apache.commons.logging.LogFactory;
 
 
 /**
+ * <p>
  * RemoteInputStream implementation which mimics the RemoteInputStream
  * functionality while not actually causing any additional RMI invocations.
  * This class is <i>not recommended for general use</i>, but may be useful (or
@@ -43,17 +44,17 @@ import org.apache.commons.logging.LogFactory;
  * stream data directly into the ObjectOutputStream during serialization.
  * There are a variety of implications to this approach, so please read the
  * pros and cons list carefully before deciding to use this class.
- * <p>
+ * </p>
  * <ul>
- * <li><b>Pros:</b></li>
+ * <li><b>Pros:</b>
  * <ul>
  *   <li>No extra RMI invocations are needed, so this implementation will not
- *       have problems with firewalls.</li>
+ *       have problems with firewalls.
  *   <li>Since this implementation is not an RMI server, no extra RMI related
  *       objects are instantiated (servers, stubs, etc.) and no export is
- *       needed.</li>
+ *       needed.
  * </ul>
- * <li><b>Cons:</b></li>
+ * <li><b>Cons:</b>
  * <ul>
  *   <li>Send operations cannot be retried automatically.  Once the underlying
  *       stream has begun serialization, it can no longer be reserialized.
@@ -62,20 +63,20 @@ import org.apache.commons.logging.LogFactory;
  *       implementation is much more fragile in the face of network
  *       failures</i>.  Note, however, that the application layer may be able
  *       to manually handle retries if the underlying stream is "restartable",
- *       such as a stream based on a File.</li>
+ *       such as a stream based on a File.
  *   <li>If the RPC implementation keeps the entire invocation in memory, you
  *       will have memory consumption problems again.  This should not be a
  *       problem with vanilla RMI, which should write the data directly to an
- *       underlying socket.</li>
+ *       underlying socket.
  *   <li>The server side process cannot start processing the data until the
  *       entire stream is sent (whereas with the other implementations, the
- *       data can be processed as it is received).</li>
+ *       data can be processed as it is received).
  *   <li>The stream data is temporarily stored on the server's local
  *       filesystem.  This can have any number of implications including
  *       slower performance, excess disk consumption, and/or exposure of
- *       sensitive data if temp file attributes are incorrect.</li>
+ *       sensitive data if temp file attributes are incorrect.
  *   <li>This implementation is RMI specific, so it cannot be used with any
- *       non-RMI compatible RPC frameworks (e.g. CORBA).</li>
+ *       non-RMI compatible RPC frameworks (e.g. CORBA).
  * </ul>
  * </ul>
  * <p>
@@ -84,15 +85,15 @@ import org.apache.commons.logging.LogFactory;
  * impact the server</i>.  If the need arises in the future, client code which
  * uses this class may switch over to using one of the more robust
  * RemoteInputStream implementations without any changes to the server.
- * 
+ *
  * @author James Ahlborn
  */
 public class DirectRemoteInputStream
   implements RemoteInputStream, Closeable, Serializable
 {
-  private static final Log LOG = LogFactory.getLog(DirectRemoteInputStream.class);  
+  private static final Log LOG = LogFactory.getLog(DirectRemoteInputStream.class);
 
-  private static final long serialVersionUID = 20080125L;  
+  private static final long serialVersionUID = 20080125L;
 
   /** status of the consumption of the underlying stream */
   private enum ConsumptionState {
@@ -103,7 +104,7 @@ public class DirectRemoteInputStream
     /** the underlying stream is being consumed by serialization */
     SERIAL;
   }
-  
+
   /** chunk code which indicates that the next chunk of data is the default
       length */
   private static final int DEFAULT_CHUNK_CODE = 0;
@@ -136,11 +137,11 @@ public class DirectRemoteInputStream
   public DirectRemoteInputStream(InputStream in) {
     this(in, true, RemoteInputStreamServer.DUMMY_MONITOR);
   }
-  
+
   public DirectRemoteInputStream(InputStream in, boolean compress) {
     this(in, compress, RemoteInputStreamServer.DUMMY_MONITOR);
   }
-  
+
   public DirectRemoteInputStream(
       InputStream in, boolean compress,
       RemoteStreamMonitor<RemoteInputStreamServer> monitor)
@@ -166,13 +167,15 @@ public class DirectRemoteInputStream
     }
     _consumptionState = ConsumptionState.LOCAL;
   }
-  
+
+  @Override
   public boolean usingGZIPCompression()
     throws IOException, RemoteException
   {
     return _compress;
   }
 
+  @Override
   public int available()
     throws IOException, RemoteException
   {
@@ -180,39 +183,43 @@ public class DirectRemoteInputStream
     return _in.available();
   }
 
+  @Override
   public void close(boolean readSuccess)
     throws IOException, RemoteException
   {
     close();
   }
-  
+
+  @Override
   public byte[] readPacket(int packetId)
     throws IOException, RemoteException
   {
     // note, this code should always be used locally, so the incoming packetId
     // can be safely ignored
-    
+
     if(_gotEOF) {
       return null;
     }
-    
+
     markLocalConsumption();
     byte[] packet = PacketInputStream.readPacket(
         _in, new byte[RemoteInputStreamServer.DEFAULT_CHUNK_SIZE]);
     _gotEOF = (packet == null);
     return packet;
   }
-  
+
+  @Override
   public long skip(long n, int skipId)
     throws IOException, RemoteException
   {
     // note, this code should always be used locally, so the incoming skipId
     // can be safely ignored
-    
+
     markLocalConsumption();
     return _in.skip(n);
   }
-  
+
+  @Override
   public void close()
     throws IOException
   {
@@ -322,7 +329,7 @@ public class DirectRemoteInputStream
           LOG.debug("Failed closing server", e);
         }
       }
-      
+
     } finally {
       RmiioUtil.closeQuietly(server);
       RmiioUtil.closeQuietly(this);
@@ -343,7 +350,7 @@ public class DirectRemoteInputStream
     // read the default chunk size from the incoming file
     final int defaultChunkSize = in.readInt();
     checkChunkSize(defaultChunkSize);
-    
+
     // setup a temp file for the incoming data (make sure it gets cleaned up
     // somehow)
     _tmpFile = File.createTempFile("stream_", ".dat");
@@ -363,7 +370,7 @@ public class DirectRemoteInputStream
           // all done
           break;
         }
-        
+
         int readLen = defaultChunkSize;
         if(chunkCode != DEFAULT_CHUNK_CODE) {
           readLen = in.readInt();
@@ -385,24 +392,24 @@ public class DirectRemoteInputStream
       // the underlying stream is now in it's initial state
       _consumptionState = ConsumptionState.NONE;
       _gotEOF = false;
-      
+
     } finally {
       RmiioUtil.closeQuietly(out);
     }
-    
+
   }
 
   /**
    * Throws an InvalidObjectException if the given chunkSize is invalid.
    */
-  private static void checkChunkSize(int chunkSize) 
+  private static void checkChunkSize(int chunkSize)
     throws IOException
   {
     if(chunkSize <= 0) {
       throw new InvalidObjectException("invalid chunk size " + chunkSize);
     }
   }
-  
+
   /**
    * Copies the given number of bytes from the given InputStream to the given
    * OutputStream using the given buffer for transfer.  The given InputStream
@@ -422,6 +429,6 @@ public class DirectRemoteInputStream
       length -= readLen;
     }
   }
-  
-  
+
+
 }

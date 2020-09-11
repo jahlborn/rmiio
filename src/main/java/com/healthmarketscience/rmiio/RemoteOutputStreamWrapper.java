@@ -40,6 +40,7 @@ public class RemoteOutputStreamWrapper
     super(stub, retry, log);
   }
 
+  @Override
   public boolean usingGZIPCompression()
     throws IOException
   {
@@ -49,15 +50,10 @@ public class RemoteOutputStreamWrapper
   public boolean usingGZIPCompression(RemoteRetry retry)
     throws IOException
   {
-    return retry.call(new RemoteRetry.Caller<Boolean>()
-      {
-        @Override
-        public Boolean call() throws IOException {
-          return _stub.usingGZIPCompression();
-        }
-      }, _log, RemoteException.class);
+    return retry.call(_stub::usingGZIPCompression, _log, RemoteException.class);
   }
 
+  @Override
   public void close(boolean writeSuccess)
     throws IOException
   {
@@ -67,15 +63,11 @@ public class RemoteOutputStreamWrapper
   public void close(final boolean writeSuccess, RemoteRetry retry)
     throws IOException
   {
-    retry.call(new RemoteRetry.VoidCaller()
-      {
-        @Override
-        public void voidCall() throws IOException {
-          _stub.close(writeSuccess);
-        }
-      }, _log, IOException.class);
+    retry.call((RemoteRetry.IVoidCaller)() -> _stub.close(writeSuccess),
+               _log, IOException.class);
   }
 
+  @Override
   public void flush()
     throws IOException
   {
@@ -85,15 +77,10 @@ public class RemoteOutputStreamWrapper
   public void flush(RemoteRetry retry)
     throws IOException
   {
-    retry.call(new RemoteRetry.VoidCaller()
-      {
-        @Override
-        public void voidCall() throws IOException {
-          _stub.flush();
-        }
-      }, _log, IOException.class);
+    retry.call((RemoteRetry.IVoidCaller)_stub::flush, _log, IOException.class);
   }
 
+  @Override
   public void writePacket(byte[] packet, int packetId)
     throws IOException
   {
@@ -104,13 +91,8 @@ public class RemoteOutputStreamWrapper
                           RemoteRetry retry)
     throws IOException
   {
-    retry.call(new RemoteRetry.VoidCaller()
-      {
-        @Override
-        public void voidCall() throws IOException {
-          _stub.writePacket(packet, packetId);
-        }
-      }, _log, IOException.class);
+    retry.call((RemoteRetry.IVoidCaller)() -> _stub.writePacket(packet, packetId),
+               _log, IOException.class);
   }
 
 }

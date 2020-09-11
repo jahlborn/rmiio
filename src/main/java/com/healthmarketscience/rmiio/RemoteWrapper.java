@@ -54,7 +54,7 @@ public class RemoteWrapper<RemoteType>
   /** the log which will be used by the retry facility when making the remote
       calls */
   protected final Log _log;
-  
+
   public RemoteWrapper(RemoteType stub, RemoteRetry retry, Log log) {
     if(stub == null) {
       throw new IllegalArgumentException("Remote stub cannot be null");
@@ -69,7 +69,7 @@ public class RemoteWrapper<RemoteType>
    * interface.  This proxy will make all the remote calls through the
    * {@link #invoke} method which makes the actual method calls on the
    * underlying stub within the retry logic.
-   * 
+   *
    * @param iface the remote interface to be implemented
    * @param stub the underlying implementation of the remote interface which
    *             will actually make the remote calls
@@ -102,7 +102,7 @@ public class RemoteWrapper<RemoteType>
   public Log getLog() {
     return _log;
   }
-  
+
   public RemoteRetry getRemoteRetry() {
     return _retry;
   }
@@ -118,21 +118,18 @@ public class RemoteWrapper<RemoteType>
    * wrapper for which the caller has exclusive ownership (the retry policy
    * will be changed for all users of the wrapper).
    */
+  @Override
   public void setRemoteRetry(RemoteRetry retry) {
     _retry = ((retry != null) ? retry : DEFAULT_RETRY);
   }
 
+  @Override
   public Object invoke(Object proxy, final Method method, final Object[] args)
     throws Throwable
   {
     // make the method call on the actual remote stub within the retry handler
-    return _retry.call(new RemoteRetry.Caller<Object>()
-      {
-        @Override
-        public Object call() throws Exception {
-          return method.invoke(_stub, method, args);
-        }
-      }, _log, Exception.class);
+    return _retry.call(
+        () -> method.invoke(_stub, method, args), _log, Exception.class);
   }
-  
+
 }

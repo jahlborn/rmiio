@@ -49,7 +49,7 @@ public interface RemoteInputStream extends Remote
    */
   public boolean usingGZIPCompression()
     throws IOException, RemoteException;
-  
+
   /**
    * Returns the number of bytes that can be read from this stream without
    * blocking.  Note that this is an <b>approximate</b> number and should be
@@ -117,5 +117,5 @@ public interface RemoteInputStream extends Remote
    */
   public long skip(long n, int skipId)
     throws IOException, RemoteException;
-  
+
 }

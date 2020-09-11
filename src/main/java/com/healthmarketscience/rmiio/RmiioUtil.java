@@ -31,7 +31,7 @@ import org.apache.commons.logging.LogFactory;
 public class RmiioUtil
 {
   private static final Log LOG = LogFactory.getLog(RmiioUtil.class);
-  
+
   private RmiioUtil() {
   }
 
@@ -69,7 +69,7 @@ public class RmiioUtil
       }
     }
   }
-  
+
   /**
    * Adapts an Iterator to the CloseableIOIterator interface.
    */
@@ -82,6 +82,7 @@ public class RmiioUtil
       _iter = iter;
     }
 
+    @Override
     public boolean hasNext() {
       return _iter.hasNext();
     }
@@ -97,7 +98,7 @@ public class RmiioUtil
         closeQuietly((Closeable)_iter);
       }
     }
-    
+
   }
-  
+
 }

@@ -19,7 +19,6 @@ package com.healthmarketscience.rmiio;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Serializable;
 import java.util.NoSuchElementException;
 
 import com.healthmarketscience.rmiio.exporter.RemoteStreamExporter;
@@ -42,10 +41,10 @@ import com.healthmarketscience.rmiio.exporter.RemoteStreamExporter;
  * @author James Ahlborn
  */
 public abstract class RemoteIteratorClient<DataType>
-  implements RemoteIterator<DataType>, Serializable
+  implements RemoteIterator<DataType>
 {
   private static final long serialVersionUID = -7068967719628663585L;
-  
+
   /** handle to the remote pipe linking this class to the server */
   private final RemoteInputStream _remoteIStream;
   /** handle to the local wrapper around the remote input stream */
@@ -66,7 +65,7 @@ public abstract class RemoteIteratorClient<DataType>
   {
     this(server, null);
   }
-  
+
   protected RemoteIteratorClient(RemoteIteratorServer<DataType> server,
                                  RemoteStreamExporter exporter)
     throws IOException
@@ -74,11 +73,12 @@ public abstract class RemoteIteratorClient<DataType>
     _remoteIStream = server.getRemoteInputStream(exporter);
   }
 
+  @Override
   public void setRemoteRetry(RemoteRetry newRemoteRetry)
   {
     _remoteRetry = newRemoteRetry;
   }
-  
+
   /**
    * Sets up the communication pipeline and determines the initial state of
    * the iteration.
@@ -98,7 +98,7 @@ public abstract class RemoteIteratorClient<DataType>
 
         // read initial object
         doRead();
-      
+
       } catch(EOFException e) {
         // empty iterator
         closeImpl();
@@ -142,7 +142,8 @@ public abstract class RemoteIteratorClient<DataType>
       }
     }
   }
-    
+
+  @Override
   public boolean hasNext()
     throws IOException
   {
@@ -150,6 +151,7 @@ public abstract class RemoteIteratorClient<DataType>
     return _hasNext;
   }
 
+  @Override
   public DataType next()
     throws IOException
   {
@@ -167,6 +169,7 @@ public abstract class RemoteIteratorClient<DataType>
     return curObj;
   }
 
+  @Override
   public void close()
     throws IOException
   {

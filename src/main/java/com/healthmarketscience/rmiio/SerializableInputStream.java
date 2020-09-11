@@ -44,7 +44,7 @@ public class SerializableInputStream extends InputStream
   /** the actual client-side InputStream implementation, initialized on demand
       by a call to any one of the InputStream methods. */
   private transient InputStream _localIn;
-  
+
   public SerializableInputStream(InputStream localIn)
     throws IOException
   {
@@ -76,6 +76,7 @@ public class SerializableInputStream extends InputStream
     return _localIn;
   }
 
+  @Override
   public synchronized void setRemoteRetry(RemoteRetry retry) {
     _retry = retry;
   }
@@ -121,5 +122,5 @@ public class SerializableInputStream extends InputStream
   {
     getLocalIn().close();
   }
-  
+
 }

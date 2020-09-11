@@ -27,24 +27,28 @@ package com.healthmarketscience.rmiio;
 public class RemoteInputStreamMonitor
   implements RemoteStreamMonitor<RemoteInputStreamServer>
 {
-  public RemoteInputStreamMonitor() {
-    
-  }
+  public RemoteInputStreamMonitor() {}
 
+  @Override
   public void failure(RemoteInputStreamServer stream, Exception e) {}
 
+  @Override
   public void bytesMoved(RemoteInputStreamServer stream,
                          int numBytes, boolean isReattempt) {}
 
+  @Override
   public void bytesSkipped(RemoteInputStreamServer stream,
                            long numBytes, boolean isReattempt) {}
 
+  @Override
   public void localBytesMoved(RemoteInputStreamServer stream, int numBytes) {}
 
+  @Override
   public void localBytesSkipped(RemoteInputStreamServer stream,
                                 long numBytes) {}
-  
+
+  @Override
   public void closed(RemoteInputStreamServer stream,
                      boolean clean) {}
-  
+
 }

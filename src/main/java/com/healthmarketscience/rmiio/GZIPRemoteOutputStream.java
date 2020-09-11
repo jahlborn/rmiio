@@ -32,7 +32,7 @@ import com.healthmarketscience.rmiio.util.PipeBuffer;
  *
  * @author James Ahlborn
  */
-public class GZIPRemoteOutputStream extends RemoteOutputStreamServer 
+public class GZIPRemoteOutputStream extends RemoteOutputStreamServer
 {
   private static final long serialVersionUID = 20080212L;
 
@@ -48,11 +48,11 @@ public class GZIPRemoteOutputStream extends RemoteOutputStreamServer
       <code>false</code> otherwise. */
   private transient boolean _outEOF = false;
 
-  
+
   public GZIPRemoteOutputStream(OutputStream out) {
     this(out, DUMMY_MONITOR);
   }
-  
+
   public GZIPRemoteOutputStream(
     OutputStream out,
     RemoteStreamMonitor<RemoteOutputStreamServer> monitor)
@@ -69,6 +69,7 @@ public class GZIPRemoteOutputStream extends RemoteOutputStreamServer
     _transferBuf = new byte[RemoteOutputStreamClient.DEFAULT_CHUNK_SIZE * 2];
   }
 
+  @Override
   public boolean usingGZIPCompression()
   {
     return true;
@@ -84,7 +85,7 @@ public class GZIPRemoteOutputStream extends RemoteOutputStreamServer
     throws IOException
   {
     // will be called synchronized
-    
+
     // now, force data to be read from packet buffer
     int totRead = 0;
     int readLen = maxReadLen;
@@ -98,7 +99,7 @@ public class GZIPRemoteOutputStream extends RemoteOutputStreamServer
       int numRead = _gzipIStream.read(_transferBuf, totRead, readLen);
 
       if(numRead > 0) {
-        
+
         totRead += numRead;
 
         if(totRead == _transferBuf.length) {
@@ -108,13 +109,13 @@ public class GZIPRemoteOutputStream extends RemoteOutputStreamServer
           _out.write(_transferBuf, 0, _transferBuf.length);
           _monitor.localBytesMoved(this, _transferBuf.length);
         }
-        
+
       } else {
-        
+
         // all done
         _outEOF = true;
-      }        
-        
+      }
+
     }
 
     // write out any remaining bytes in the transfer buffer
@@ -148,7 +149,7 @@ public class GZIPRemoteOutputStream extends RemoteOutputStreamServer
         }
       }
     }
-    
+
     // now, let super class close
     super.closeImpl(writeSuccess);
   }
@@ -182,12 +183,12 @@ public class GZIPRemoteOutputStream extends RemoteOutputStreamServer
         new GZIPInputStream(_packetIStream,
                             RemoteOutputStreamClient.DEFAULT_CHUNK_SIZE);
     }
-      
+
     // we have to be careful here or we will deadlock.  we want to read
     // byte-by-byte from the gzip stream until the data is consumed from the
     // _packetIStream, and then stop (even though there will probably still be
     // data buffered in the gzip stream).
     flushPacket(1, false);
   }
-  
+
 }

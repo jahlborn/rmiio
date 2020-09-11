@@ -32,13 +32,13 @@ import com.healthmarketscience.rmiio.util.OutputStreamAdapter;
  *
  * @author James Ahlborn
  */
-public class SimpleRemoteOutputStream extends RemoteOutputStreamServer 
+public class SimpleRemoteOutputStream extends RemoteOutputStreamServer
 {
   private static final long serialVersionUID = 20080212L;
 
   /** manages writing to the given stream in a packet-like manner */
   private transient final OutputStreamAdapter _outAdapter;
-  
+
   public SimpleRemoteOutputStream(OutputStream out) {
     this(out, DUMMY_MONITOR);
   }
@@ -49,7 +49,8 @@ public class SimpleRemoteOutputStream extends RemoteOutputStreamServer
     super(out, monitor);
     _outAdapter = OutputStreamAdapter.create(out);
   }
-  
+
+  @Override
   public boolean usingGZIPCompression()
   {
     // no compression
@@ -74,5 +75,5 @@ public class SimpleRemoteOutputStream extends RemoteOutputStreamServer
     _outAdapter.writePacket(packet);
     _monitor.localBytesMoved(this, packet.length);
   }
-  
+
 }

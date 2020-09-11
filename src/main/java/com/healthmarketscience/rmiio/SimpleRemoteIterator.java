@@ -16,7 +16,6 @@ limitations under the License.
 
 package com.healthmarketscience.rmiio;
 
-import java.io.Serializable;
 import java.util.Iterator;
 
 /**
@@ -26,7 +25,7 @@ import java.util.Iterator;
  * @author James Ahlborn
  */
 public class SimpleRemoteIterator<DataType>
-  implements RemoteIterator<DataType>, Serializable
+  implements RemoteIterator<DataType>
 {
   private static final long serialVersionUID = -4737864032220987188L;
 
@@ -49,25 +48,29 @@ public class SimpleRemoteIterator<DataType>
       _iter = _iterable.iterator();
     }
   }
-  
+
+  @Override
   public boolean hasNext()
   {
     init();
     return _iter.hasNext();
   }
 
+  @Override
   public DataType next()
   {
     init();
     return _iter.next();
   }
-  
+
+  @Override
   public void close() {
     // nothing to do
   }
 
+  @Override
   public void setRemoteRetry(RemoteRetry newRemoteRetry) {
     // ignored
   }
-  
+
 }

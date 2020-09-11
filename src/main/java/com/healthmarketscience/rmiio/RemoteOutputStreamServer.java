@@ -26,7 +26,7 @@ import java.io.OutputStream;
  * server.  Subclasses must implement the actual data handling methods.
  *
  * @see #writeReplace
- * 
+ *
  * @author James Ahlborn
  */
 public abstract class RemoteOutputStreamServer
@@ -47,7 +47,7 @@ public abstract class RemoteOutputStreamServer
   public RemoteOutputStreamServer(OutputStream out) {
     this(out, DUMMY_MONITOR);
   }
-  
+
   /**
    * @param out the real output stream from which the data will be read
    * @param monitor monitor for tracking the progress of the stream usage
@@ -65,13 +65,13 @@ public abstract class RemoteOutputStreamServer
 
   /** Returns the real OutputStream to which this stream is writing data */
   public OutputStream getOutputStream() { return _out; }
-  
+
   @Override
   protected final Object getLock() { return _out; }
 
   @Override
   protected RemoteOutputStreamServer getAsSub() { return this; }
-    
+
   @Override
   public Class<RemoteOutputStream> getRemoteClass() {
     return RemoteOutputStream.class;
@@ -86,7 +86,8 @@ public abstract class RemoteOutputStreamServer
       _out.close();
     }
   }
-  
+
+  @Override
   public final void close(boolean writeSuccess)
     throws IOException
   {
@@ -94,6 +95,7 @@ public abstract class RemoteOutputStreamServer
     finish(true, writeSuccess);
   }
 
+  @Override
   public final void flush()
     throws IOException
   {
@@ -101,7 +103,8 @@ public abstract class RemoteOutputStreamServer
 
     flushImpl();
   }
-  
+
+  @Override
   public final void writePacket(byte[] packet, int packetId)
     throws IOException
   {
@@ -132,9 +135,9 @@ public abstract class RemoteOutputStreamServer
 
         // update packetId
         _lastPacketId = packetId;
-        
+
       } else {
-        
+
         // try again!
         isReattempt = true;
       }
@@ -149,12 +152,12 @@ public abstract class RemoteOutputStreamServer
    */
   protected abstract void flushImpl()
     throws IOException;
-  
+
   /**
    * Writes the given packet to the underlying stream.  If this stream is
    * using compression, this packet should contain compressed data.
    */
   protected abstract void writePacket(byte[] packet)
     throws IOException;
-  
+
 }

@@ -40,6 +40,7 @@ public class RemoteInputStreamWrapper
     super(stub, retry, log);
   }
 
+  @Override
   public boolean usingGZIPCompression()
     throws IOException
   {
@@ -49,15 +50,11 @@ public class RemoteInputStreamWrapper
   public boolean usingGZIPCompression(RemoteRetry retry)
     throws IOException
   {
-    return retry.call(new RemoteRetry.Caller<Boolean>()
-      {
-        @Override
-        public Boolean call() throws IOException {
-          return _stub.usingGZIPCompression();
-        }
-      }, _log, RemoteException.class);
+    return retry.call(
+        _stub::usingGZIPCompression, _log, RemoteException.class);
   }
 
+  @Override
   public int available()
     throws IOException
   {
@@ -67,15 +64,10 @@ public class RemoteInputStreamWrapper
   public int available(RemoteRetry retry)
     throws IOException
   {
-    return retry.call(new RemoteRetry.Caller<Integer>()
-      {
-        @Override
-        public Integer call() throws IOException {
-          return _stub.available();
-        }
-      }, _log, IOException.class);
+    return retry.call(_stub::available, _log, IOException.class);
   }
 
+  @Override
   public void close(boolean readSuccess)
     throws IOException
   {
@@ -85,15 +77,11 @@ public class RemoteInputStreamWrapper
   public void close(final boolean readSuccess, RemoteRetry retry)
     throws IOException
   {
-    retry.call(new RemoteRetry.VoidCaller()
-      {
-        @Override
-        public void voidCall() throws IOException {
-          _stub.close(readSuccess);
-        }
-      }, _log, IOException.class);
+    retry.call((RemoteRetry.IVoidCaller)() -> _stub.close(readSuccess),
+               _log, IOException.class);
   }
 
+  @Override
   public byte[] readPacket(int packetId)
     throws IOException
   {
@@ -103,31 +91,21 @@ public class RemoteInputStreamWrapper
   public byte[] readPacket(final int packetId, RemoteRetry retry)
     throws IOException
   {
-    return retry.call(new RemoteRetry.Caller<byte[]>()
-      {
-        @Override
-        public byte[] call() throws IOException {
-          return _stub.readPacket(packetId);
-        }
-      }, _log, IOException.class);
+    return retry.call(() -> _stub.readPacket(packetId),
+                      _log, IOException.class);
   }
 
+  @Override
   public long skip(long n, int skipId)
     throws IOException
   {
     return skip(n, skipId, _retry);
   }
-  
+
   public long skip(final long n, final int skipId, RemoteRetry retry)
     throws IOException
   {
-    return retry.call(new RemoteRetry.Caller<Long>()
-      {
-        @Override
-        public Long call() throws IOException {
-          return _stub.skip(n, skipId);
-        }
-      }, _log, IOException.class);
+    return retry.call(() -> _stub.skip(n, skipId), _log, IOException.class);
   }
-  
+
 }

@@ -75,12 +75,12 @@ exceptions), making them very easy to work with.
 <p>
 The examples below assume that the reader has knowledge of how RMI works.
 </p>
-<pre>
+<div class="source"><pre class="prettyprint linenums">
 
   //////
   // The "server" is reading a file from the "client"
   //
-  
+
   // "server" implementation
 
   public void sendFile(RemoteInputStream inFile) {
@@ -111,7 +111,7 @@ The examples below assume that the reader has knowledge of how RMI works.
   //////
   // The "client" is reading a file from the "server"
   //
-  
+
   // "server" implementation
 
   public RemoteInputStream getFile(String fileName) {
@@ -190,7 +190,7 @@ The examples below assume that the reader has knowledge of how RMI works.
       Blob fileBlob = null;
 
       // ... do db work to get handle to a Blob ...
-      
+
       // create RemoteInputStreamMonitor to close db connection when stream is
       // done
       final Connection streamConn = conn;
@@ -231,7 +231,7 @@ The examples below assume that the reader has knowledge of how RMI works.
     if(istream != null) istream.close();
   }
 
-</pre>
+</pre></div>
 
 <h3>Remote Iterators</h3>
 
@@ -255,7 +255,7 @@ RemoteInputStream, from which it reads the objects being transferred.
 The examples below assume that the reader has knowledge of how RMI works (as
 well as how the remote streams above work).
 </p>
-<pre>
+<div class="source"><pre class="prettyprint linenums">
 
   //
   // The "server" returns a RemoteIterator of Strings from a database to the
@@ -273,7 +273,7 @@ well as how the remote streams above work).
     try {
 
       // ... create ResultSet with relevant results ...
-      
+
       // note, this is an *example* ResultSet iterator implementation, not the
       // cleanest in the world (doesn't handle all close scenarios, left as an
       // exercise to the reader)...
@@ -329,7 +329,7 @@ well as how the remote streams above work).
       rs = null;
       stmt = null;
       conn = null;
-        
+
       return stringClient;
 
     } finally {
@@ -358,8 +358,8 @@ well as how the remote streams above work).
     // do all we can to close the iterator when finished
     if(resultIter != null) resultIter.close();
   }
-  
-</pre>
+
+</pre></div>
 
 
 <h3>RemoteStreamExporter</h3>

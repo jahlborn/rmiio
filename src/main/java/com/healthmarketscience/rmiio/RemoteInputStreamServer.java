@@ -26,7 +26,7 @@ import java.io.InputStream;
  * server.  Subclasses must implement the actual data handling methods.
  *
  * @see #writeReplace
- * 
+ *
  * @author James Ahlborn
  */
 public abstract class RemoteInputStreamServer
@@ -55,7 +55,7 @@ public abstract class RemoteInputStreamServer
   /** the results of the last skip() call, corresponds to _lastSkipId */
   private transient long _lastSkip;
 
-  
+
   protected RemoteInputStreamServer(InputStream in) {
     this(in, DUMMY_MONITOR, DEFAULT_CHUNK_SIZE);
   }
@@ -100,7 +100,7 @@ public abstract class RemoteInputStreamServer
   public Class<RemoteInputStream> getRemoteClass() {
     return RemoteInputStream.class;
   }
-      
+
   @Override
   protected void closeImpl(boolean readSuccess)
     throws IOException
@@ -110,7 +110,8 @@ public abstract class RemoteInputStreamServer
       _in.close();
     }
   }
-  
+
+  @Override
   public final void close(boolean readSuccess)
     throws IOException
   {
@@ -118,14 +119,16 @@ public abstract class RemoteInputStreamServer
     finish(true, readSuccess);
   }
 
+  @Override
   public final int available()
     throws IOException
   {
     checkAborted();
-    
+
     return availableImpl();
   }
-  
+
+  @Override
   public final byte[] readPacket(int packetId)
     throws IOException
   {
@@ -134,7 +137,7 @@ public abstract class RemoteInputStreamServer
     }
 
     checkAborted();
-    
+
     synchronized(getLock()) {
       if(packetId < _lastPacketId) {
         throw new IllegalArgumentException("packetId must increase.");
@@ -154,12 +157,12 @@ public abstract class RemoteInputStreamServer
           _monitor.failure(this, e);
           throw e;
         }
-        
+
         // update packetId
         _lastPacketId = packetId;
 
       } else {
-        
+
         // try again!
         isReattempt = true;
       }
@@ -168,11 +171,12 @@ public abstract class RemoteInputStreamServer
         // update the monitor
         _monitor.bytesMoved(this, _lastPacket.length, isReattempt);
       }
-      
+
       return _lastPacket;
     }
   }
-  
+
+  @Override
   public final long skip(long n, int skipId)
     throws IOException
   {
@@ -181,12 +185,12 @@ public abstract class RemoteInputStreamServer
     }
 
     checkAborted();
-    
+
     synchronized(getLock()) {
       if(skipId < _lastSkipId) {
         throw new IllegalArgumentException("skipId must increase.");
       }
-      
+
       boolean isReattempt = false;
       if(skipId != _lastSkipId) {
 
@@ -204,21 +208,21 @@ public abstract class RemoteInputStreamServer
 
         // update skipId
         _lastSkipId = skipId;
-        
+
       } else {
-        
+
         // try again!
         isReattempt = true;
       }
 
       // update the monitor (return actual bytes skipped)
       _monitor.bytesSkipped(this, _lastSkip, isReattempt);
-      
+
       return _lastSkip;
     }
   }
 
-  
+
   /**
    * Returns the number of bytes that can be read from this stream without
    * blocking.
@@ -227,7 +231,7 @@ public abstract class RemoteInputStreamServer
    */
   protected abstract int availableImpl()
     throws IOException;
-  
+
   /**
    * Reads the next packet of approximately {@link #_chunkSize} from the
    * underlying stream and returns it.  If this stream is using compression,
@@ -246,5 +250,5 @@ public abstract class RemoteInputStreamServer
    */
   protected abstract long skip(long n)
     throws IOException;
-  
+
 }

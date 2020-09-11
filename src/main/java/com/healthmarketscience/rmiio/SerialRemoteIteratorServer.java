@@ -50,7 +50,7 @@ import java.util.Iterator;
  * Closeable in order to close local resources, this implementation will
  * automatically close a Closeable local iterator after the underlying server
  * is shutdown.
- * 
+ *
  * @see <a href="{@docRoot}/overview-summary.html#Usage_Notes">Usage Notes</a>
  *
  * @author James Ahlborn
@@ -62,7 +62,7 @@ public class SerialRemoteIteratorServer<DataType>
   /** Default value for the setting indicating how often the
       ObjectOutputStream should be reset */
   public static final int DEFAULT_RESET_NUM_OBJECTS = 1000;
-  
+
   /** the output stream which does the java serialization work */
   private ObjectOutputStream _objOStream;
   /** local iterator from which we are getting Serializable objects */
@@ -103,7 +103,7 @@ public class SerialRemoteIteratorServer<DataType>
   {
     this(useCompression, false, monitor, localIterator);
   }
-  
+
   public SerialRemoteIteratorServer(
       boolean useCompression,
       boolean noDelay,
@@ -114,7 +114,7 @@ public class SerialRemoteIteratorServer<DataType>
     this(useCompression, noDelay, monitor,
          RemoteInputStreamServer.DEFAULT_CHUNK_SIZE, localIterator);
   }
-  
+
   public SerialRemoteIteratorServer(
       boolean useCompression,
       boolean noDelay,
@@ -126,7 +126,7 @@ public class SerialRemoteIteratorServer<DataType>
     this(useCompression, noDelay, monitor, chunkSize,
          RmiioUtil.adapt(localIterator));
   }
-  
+
   public SerialRemoteIteratorServer(IOIterator<DataType> localIterator)
     throws IOException
   {
@@ -198,7 +198,7 @@ public class SerialRemoteIteratorServer<DataType>
     _localIterator = localIterator;
     _resetNumObjects = resetNumObjects;
   }
-  
+
   @Override
   protected boolean writeNextObject()
     throws IOException
@@ -208,7 +208,7 @@ public class SerialRemoteIteratorServer<DataType>
     if(_objOStream == null) {
       _objOStream = new ObjectOutputStream(_localOStream);
     }
-      
+
     if(_localIterator.hasNext()) {
       // write out next object
       serializeObject(_objOStream, _localIterator.next());
@@ -242,7 +242,7 @@ public class SerialRemoteIteratorServer<DataType>
     }
     super.closeImpl(readSuccess);
   }
-  
+
   /**
    * Writes the given object to the given output stream.  The default
    * implementation uses {@link java.io.ObjectOutputStream#writeUnshared} as
@@ -263,5 +263,5 @@ public class SerialRemoteIteratorServer<DataType>
       _numObjectsWrittenSinceLastReset = 0;
     }
   }
-  
+
 }

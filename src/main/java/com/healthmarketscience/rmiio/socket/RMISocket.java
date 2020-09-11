@@ -41,7 +41,7 @@ import com.healthmarketscience.rmiio.SimpleRemoteOutputStream;
  * take place, each system must have an instance of RMISocket and the relevant
  * Sources should be exchanged, in which case <i>both</i> systems will be
  * acting as RMI servers.
- * <p/>
+ * <p>
  * In general, simulating a socket connection over RMI is probably not the
  * best idea, and should not be pursued for a <i>new</i> project.  However,
  * when revamping an existing project, it may be desirable to layer an
@@ -113,7 +113,7 @@ public class RMISocket implements Closeable
       }
     } finally {
       RmiioUtil.closeQuietly(_in);
-    }   
+    }
   }
 
   /**
@@ -139,7 +139,7 @@ public class RMISocket implements Closeable
    */
   public static class Source implements Serializable, RemoteClient, Closeable
   {
-    private static final long serialVersionUID = 20120625L;    
+    private static final long serialVersionUID = 20120625L;
 
     /** the handle to the actual remote interface */
     private final RemoteOutputStream _remoteOut;
@@ -167,7 +167,7 @@ public class RMISocket implements Closeable
     public void setRemoteRetry(RemoteRetry retry) {
       _retry = retry;
     }
-    
+
     /**
      * May be called on the client-side in order to set the target chunk size
      * used by the underlying implementation.  <b>Must</b> be called prior to

@@ -47,10 +47,11 @@ public abstract class AbstractCloseableIOIterator<DataType>
   /** value which guarantees that the {@link #closeImpl} method is called at
       most once */
   private final AtomicBoolean _closed = new AtomicBoolean();
-  
+
   public AbstractCloseableIOIterator() {
   }
 
+  @Override
   public final DataType next()
     throws IOException
   {
@@ -66,7 +67,8 @@ public abstract class AbstractCloseableIOIterator<DataType>
     // return current element
     return next;
   }
-  
+
+  @Override
   public final void close()
   {
     // only close once
@@ -92,5 +94,5 @@ public abstract class AbstractCloseableIOIterator<DataType>
    * nuisance, not a cause for failure).
    */
   protected abstract void closeImpl();
-  
+
 }

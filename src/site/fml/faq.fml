@@ -34,12 +34,8 @@
       <question>What version of the JDK does this require?</question>
       <answer>
         <p>
-          Requires JDK 1.5 or higher.  However, the only new feature used is
-          generics, so a simple filter on the source code (removing all
-          generics constructs) should make the source JDK 1.4 compatible (most
-          likely, although I have not personally tested this, so YMMV).  One
-          option here may be the
-          <a href="http://labs.jboss.com/jbossretro/">JBoss Retro project</a>.
+          Requires JDK 1.8 or higher as of the 3.0.0 release.  Versions before
+          that require JDK 1.5 or higher.
         </p>
       </answer>
     </faq>
@@ -179,20 +175,6 @@
         </p>
       </answer>
     </faq>
-
-    <faq id="hms">
-      <question>Who is Health Market Science?</question>
-      <answer>
-        <p>
-          HMS is a small company located in suburban Philadelphia.
-          Using proprietary matching and consolidation software,
-          HMS scientifically manufactures the most comprehensive
-          and accurate healthcare data sets in the market today.
-        </p>
-      </answer>
-    </faq>
-
-    
 
   </part>
 
