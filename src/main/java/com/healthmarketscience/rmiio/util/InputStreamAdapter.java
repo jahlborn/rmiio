@@ -61,11 +61,11 @@ public abstract class InputStreamAdapter
   /**
    * Reads some number of bytes from the underlying stream and puts them in a
    * buffer available from the {@link #getTempBuffer} call.
-   * 
+   *
    * @return the number of bytes read, or -1 if end of stream was reached
    */
   public abstract int readTemp() throws IOException;
-  
+
   /**
    * @param istream stream to wrap and for which the implementation is
    *                optimized
@@ -88,14 +88,14 @@ public abstract class InputStreamAdapter
     private final PacketInputStream _pistream;
     /** the last packet returned during a readTemp call */
     private byte[] _temp;
-    
+
     private PacketAdapter(PacketInputStream pistream) {
       _pistream = pistream;
     }
 
     @Override
     public PacketInputStream getInputStream() { return _pistream; }
-    
+
     @Override
     public byte[] readPacket() throws IOException {
       return _pistream.readPacket();
@@ -105,15 +105,15 @@ public abstract class InputStreamAdapter
     public byte[] getTempBuffer() {
       return _temp;
     }
-  
+
     @Override
     public int readTemp() throws IOException {
       _temp = _pistream.readPacket();
       return((_temp != null) ? _temp.length : -1);
     }
-    
+
   }
-  
+
   /**
    * InputStreamAdapter implementation for normal InputStreams.
    */
@@ -130,7 +130,7 @@ public abstract class InputStreamAdapter
 
     @Override
     public InputStream getInputStream() { return _istream; }
-    
+
     @Override
     public byte[] readPacket() throws IOException {
       return PacketInputStream.readPacket(_istream, _temp);
@@ -140,12 +140,12 @@ public abstract class InputStreamAdapter
     public byte[] getTempBuffer() {
       return _temp;
     }
-  
+
     @Override
     public int readTemp() throws IOException {
       return _istream.read(_temp, 0, _temp.length);
     }
-    
-  }  
+
+  }
 
 }

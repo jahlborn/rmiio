@@ -32,7 +32,7 @@ public final class SingleByteAdapter {
 
   /** buffer for single byte read/write calls */
   private final byte[] _tmpBuf = new byte[1];
-  
+
   /**
    * Calls {@link OutputStream#write(byte[],int,int)} on the given
    * OutputStream using an internal buffer with the given byte written to it.
@@ -54,11 +54,11 @@ public final class SingleByteAdapter {
     if(numRead < 0) {
       return numRead;
     }
-      
+
     // we have to use the 'bitwise and' here so that the byte doesn't get
     // sign extended into an int, thus changing the actual value returned to
     // the caller.
     return _tmpBuf[0] & 0xff;
   }
-  
+
 }

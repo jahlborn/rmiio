@@ -151,7 +151,7 @@ public class PipeBuffer {
     }
     removeFirst(canKeep);
 
-    _totalBytes -= (long)packet.length;
+    _totalBytes -= packet.length;
 
     return packet;
   }
@@ -163,7 +163,7 @@ public class PipeBuffer {
    */
   public void read(byte[] buf, int pos, int len)
   {
-    if(_totalBytes < (long)len) {
+    if(_totalBytes < len) {
       throw new BufferUnderflowException();
     }
     checkPositionAndLength(pos, len, buf);
@@ -181,7 +181,7 @@ public class PipeBuffer {
       }
     }
 
-    _totalBytes -= (long)origLen;
+    _totalBytes -= origLen;
   }
 
   /**
@@ -235,7 +235,7 @@ public class PipeBuffer {
 
       // just slap it onto the end (should i copy small buffers?)
       addLast(new ByteWrapper(buf, pos, pos + len));
-      _totalBytes += (long)len;
+      _totalBytes += len;
     }
   }
 
@@ -261,7 +261,7 @@ public class PipeBuffer {
       len -= numBytes;
     }
 
-    _totalBytes += (long)origLen;
+    _totalBytes += origLen;
   }
 
   /**
@@ -338,7 +338,7 @@ public class PipeBuffer {
     }
 
     public long skip(long len) {
-      long numBytes = Math.min((long)readRemaining(), len);
+      long numBytes = Math.min(readRemaining(), len);
       _readPosition += (int)numBytes;
       return numBytes;
     }

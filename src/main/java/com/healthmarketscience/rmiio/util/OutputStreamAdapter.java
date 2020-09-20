@@ -69,19 +69,19 @@ public abstract class OutputStreamAdapter
   private static class PacketAdapter extends OutputStreamAdapter
   {
     private final PacketOutputStream _postream;
-    
+
     private PacketAdapter(PacketOutputStream postream) {
       _postream = postream;
     }
 
     @Override
     public PacketOutputStream getOutputStream() { return _postream; }
-    
+
     @Override
     public void writePacket(byte[] packet) throws IOException {
       _postream.writePacket(packet);
     }
-    
+
   }
 
   /**
@@ -90,20 +90,20 @@ public abstract class OutputStreamAdapter
   private static class DefaultAdapter extends OutputStreamAdapter
   {
     private final OutputStream _ostream;
-    
+
     private DefaultAdapter(OutputStream ostream) {
       _ostream = ostream;
     }
 
     @Override
     public OutputStream getOutputStream() { return _ostream; }
-    
+
     @Override
     public void writePacket(byte[] packet) throws IOException {
       _ostream.write(packet, 0, packet.length);
     }
-    
+
   }
-  
-  
+
+
 }

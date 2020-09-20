@@ -39,7 +39,7 @@ import com.healthmarketscience.rmiio.PacketOutputStream;
  * <p>
  * Note, this class has no synchronization except that the <code>close</code>
  * method supports asynchronous closing.
- * 
+ *
  * @author James Ahlborn
  */
 public abstract class EncodingInputStream extends PacketInputStream
@@ -53,7 +53,7 @@ public abstract class EncodingInputStream extends PacketInputStream
       this "full" buffer instead. */
   private static final ByteBuffer DUMMY_FULL_BUFFER =
     ByteBuffer.wrap(EMPTY_PACKET);
-  
+
   /** buffer for single byte read calls */
   private final SingleByteAdapter _singleByteAdapter = new SingleByteAdapter();
   /** wrapped byte array which was passed into a read() method. */
@@ -69,7 +69,7 @@ public abstract class EncodingInputStream extends PacketInputStream
       that we can support asynchronous closing. */
   private volatile boolean _closed = false;
 
-  
+
   protected EncodingInputStream() {
     this(DEFAULT_CHUNK_SIZE);
   }
@@ -77,12 +77,12 @@ public abstract class EncodingInputStream extends PacketInputStream
   protected EncodingInputStream(int chunkSize) {
     this(chunkSize, false);
   }
-  
+
   protected EncodingInputStream(int chunkSize, boolean noDelay) {
     super(chunkSize, noDelay);
     _overflowBuf = new PipeBuffer(getPacketSize());
   }
-  
+
   /**
    * Creates an OutputStream linked to this InputStream which can be used to
    * write data as requested.  This method creates a new instance, and
@@ -112,13 +112,13 @@ public abstract class EncodingInputStream extends PacketInputStream
       throw new IOException("stream closed");
     }
   }
-  
+
   @Override
   public int available()
     throws IOException
   {
     throwIfClosed();
-    
+
     // we need to make sure we have made at least one encode call or else we
     // won't know the initial state (there could be no data at all).  we can
     // use refillPacket to put the initial bytes into the _overflowBuf even if
@@ -148,9 +148,9 @@ public abstract class EncodingInputStream extends PacketInputStream
     throws IOException
   {
     throwIfClosed();
-    
+
     int numBytesRead = 0;
-      
+
     // first, grab any bytes left in the overflow buffer
     if(_overflowBuf.hasRemaining()) {
       int numBytes = Math.min((int)_overflowBuf.remaining(), len);
@@ -162,7 +162,7 @@ public abstract class EncodingInputStream extends PacketInputStream
 
     // any room left for more data?
     if(len > 0) {
-          
+
       // wrap the read buffer
       _curBuf = ByteBuffer.wrap(buf, pos, len);
 
@@ -173,7 +173,7 @@ public abstract class EncodingInputStream extends PacketInputStream
 
       // determine how many bytes were read
       numBytesRead += (len - _curBuf.remaining());
-        
+
       // discard wrapper
       _curBuf = null;
 
@@ -193,13 +193,13 @@ public abstract class EncodingInputStream extends PacketInputStream
     throws IOException
   {
     throwIfClosed();
-    
+
     if(len <= 0) {
       return 0;
     }
-    
+
     long numBytesSkipped = 0;
-      
+
     // first, skip any bytes left in the overflow buffer
     if(_overflowBuf.hasRemaining()) {
       long numBytes = Math.min(_overflowBuf.remaining(), len);
@@ -240,7 +240,7 @@ public abstract class EncodingInputStream extends PacketInputStream
       // unset _curBuf
       _curBuf = null;
     }
-    
+
   }
 
   @Override
@@ -248,13 +248,13 @@ public abstract class EncodingInputStream extends PacketInputStream
     throws IOException
   {
     throwIfClosed();
-    
+
     // make sure we have an appropriate amount of data
     refillPacket(readPartial);
-    
+
     byte[] packet = null;
     if(_overflowBuf.hasRemaining()) {
-      // grab the next packet 
+      // grab the next packet
       packet = _overflowBuf.readPacket();
     } else if(!_gotEOF) {
       // we should only get here if readPartial is true
@@ -263,7 +263,7 @@ public abstract class EncodingInputStream extends PacketInputStream
       }
       packet = EMPTY_PACKET;
     }
-    
+
     // return the packet
     return packet;
   }
@@ -297,7 +297,7 @@ public abstract class EncodingInputStream extends PacketInputStream
     }
     return numBytesSkipped;
   }
-  
+
   /**
    * Called by the OutputStreamAdapter to forward bytes to this input
    * stream.
@@ -308,7 +308,7 @@ public abstract class EncodingInputStream extends PacketInputStream
       throw new IllegalStateException(
         "Encoder is writing outside of call to encode");
     }
-    
+
     // fit as much data as we can directly in _curBuf
     int numBytes = Math.min(_curBuf.remaining(), len);
     _curBuf.put(b, pos, numBytes);
@@ -333,7 +333,7 @@ public abstract class EncodingInputStream extends PacketInputStream
   {
     _gotEOF = true;
   }
-  
+
   /**
    * Writes some amount of data to the OutputStream linked to the
    * EncodingInputStream calling this method.  The implementation may
@@ -350,15 +350,15 @@ public abstract class EncodingInputStream extends PacketInputStream
   protected abstract void encode(int suggestedLength)
     throws IOException;
 
-  
+
   /**
    * OutputStream which forwards bytes to the InputStreamAdapter.
    */
   private class OutputStreamAdapter extends PacketOutputStream
   {
-    private final SingleByteAdapter _singleByteAdapter =
+    private final SingleByteAdapter _outSingleByteAdapter =
       new SingleByteAdapter();
-      
+
     private OutputStreamAdapter() {}
 
     @Override
@@ -371,7 +371,7 @@ public abstract class EncodingInputStream extends PacketInputStream
 
     @Override
     public void write(int b) throws IOException {
-      _singleByteAdapter.write(b, this);
+      _outSingleByteAdapter.write(b, this);
     }
 
     @Override
@@ -389,7 +389,7 @@ public abstract class EncodingInputStream extends PacketInputStream
     {
       writeBuf(packet, 0, packet.length, true);
     }
-    
+
   }
-  
+
 }
